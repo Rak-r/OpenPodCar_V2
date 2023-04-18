@@ -21,7 +21,7 @@ LIN_VEL_STEP_SIZE = 0.1
 ANG_VEL_STEP_SIZE = 0.1
 
 msg = """
-Control orange robot!
+Control  robot!
 ---------------------------
 Moving around:
         w
