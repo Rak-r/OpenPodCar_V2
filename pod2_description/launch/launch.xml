@@ -1,8 +1,0 @@
-<launch>
-
-  <arg name="config_file_path" default="$(find-pkg-share pod2_description)/rviz2/sample.rviz" />
-  <arg name="model" default=""/>
-  <!-- rviz2 -->
-  <node pkg="rviz2" exec="rviz2" args="-d $(var config_file_path)" />
-
-</launch>
