@@ -1,0 +1,54 @@
+cmake_minimum_required(VERSION 3.8)
+project(pod2_bringup)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+# find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+
+
+# install
+install(DIRECTORY launch config
+  DESTINATION share/${PROJECT_NAME}/
+)
+# Install Python modules
+ament_python_install_package(${PROJECT_NAME})
+install(PROGRAMS
+  scripts/joystick2speedms.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(PROGRAMS
+  scripts/joystick2wheelAngle.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(PROGRAMS
+  scripts/Odometry_publisher.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(PROGRAMS
+  scripts/odometry_handler.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(PROGRAMS
+  scripts/tf_broadcaster.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(PROGRAMS
+  scripts/teleop.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+install(PROGRAMS
+  scripts/cmd_velHandler.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+
+ament_package()
