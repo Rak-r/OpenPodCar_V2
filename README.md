@@ -23,7 +23,7 @@ To view active topics in gazebo, use `gz topic -l` in the terminal window.
 
 ### Scripts
 
-This directory in `pod2_description` package consists of intermediate nodes which are used to convert the incoming messages over te topics `/model/podcar/odometry`, `/lidar_scan` to publish on Wall time. This approach is employed to avid the time realetd issues, tf errors and with an assumption that the simulation and the physical vehicle should work on same time.
+This directory in `pod2_description` package consists of intermediate nodes which are used to convert the incoming messages over te topics `/model/podcar/odometry`, `/lidar_scan` to publish on Wall time. This approach is employed to avoid the time realetd issues, tf errors and with an assumption that the simulation and the physical vehicle should work on same time.
 1. `odometry_wall_timer.py` handles the ground truth odometry `/model/podcar/odometry` topic from GZ and publishes to ROS2 topic `/odom` with changing the time stamp to wall time.
 2. `laser_wall_timer.py` handles the `/lidar_scan` topic from GZ laser plugin and publishes to ROS2 topic `/scan` with changing the time stamp to wall time.
 3. `transform_broadcaster.py` subcribes to the `/odom` topic published by the odometry_wall_timer node. The transform message field is made to publish wall time.
@@ -52,7 +52,12 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
    * To run the slam_toolbox for localization, we have to turn off the AMCL and map server. For this, another launch file `navigation.launch.py` is there which launches the required nodes. Now run the slam_toolbox using the launch file.
      `ros2 launch pod2_navigation slam_toolbox_sync.launch.py`.
 4. If want to build the map using slam_toolbox, then change the mode to mapping in `mapper_params_online_sync.yaml`.
-5. The map can be saved either by command-line: ` ros2 run nav2_map_server map_saver_cli -f <name of the map>` or in rviz2 slam_toolbox plugin. More info could be found at: (https://github.com/SteveMacenski/slam_toolbox/tree/humble)
+5. The map can be saved either by command-line: ` ros2 run nav2_map_server map_saver_cli -f <name of the map>` or in rviz2 slam_toolbox plugin. More info could be found at: (https://github.com/SteveMacenski/slam_toolbox/tree/humble).
+6. In order to save the map with old format (.yaml and .pgm) hit the save map button in rviz2 slam_toolbox plugin and to save in the other format (serilaised), write the name of the map without any extension and  click the serial map button in the rviz2 slamtoolbox_plugin.
+
+# Simulation
+The new Gazebo Garden is used for the simulation of OpenPodCar_v2. The new gazebo features more functionalities with enhanced inetrface. As our robot behaves as car-like robot and features Ackermann-Steering kinematics. To maintain this behaviour in simulation the new gazebo now has an Ackermann system plugin which could be used according the robot configuartions. The plugin outputs standard `Twist` messages of field `linear.x` and `angular.z`. This also outputs the odometry information which might not be the correct odometry for the whole robot instead it is the odometry information for steering 
+Moreover, in order
 
 
    
