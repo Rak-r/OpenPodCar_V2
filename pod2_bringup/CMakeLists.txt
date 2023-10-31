@@ -22,31 +22,7 @@ install(DIRECTORY launch config
 # Install Python modules
 ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
-  scripts/joystick2speedms.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/joystick2wheelAngle.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/Odometry_publisher.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/odometry_handler.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/tf_broadcaster.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/teleop.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/cmd_velHandler.py
+  scripts/simple_pub.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

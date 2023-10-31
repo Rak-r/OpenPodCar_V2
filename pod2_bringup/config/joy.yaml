@@ -14,4 +14,4 @@ teleop_twist_joy_node:
 
     enable_button: 5   #L2 shoulder button
     enable_turbo_button: 4  #right button number 3
-    # use_sim_time: true
+    # use_sim_time: false  (All stack is working on ros2 time, so set sim time to false)

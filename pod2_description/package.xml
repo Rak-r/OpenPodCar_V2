@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>pod2_description</name>
+  <version>0.0.0</version>
+  <description>pod2_description package is a cmake build type package with python compatibilty. This package consists of robot meshes, urdf files for the PodCar used by the robot_state_publisher and joint_state_publisher
+  which can be viewed in rviz2. The package alspo contains world files to load the PodCar in gazebo garden. In ordrer to avoid the time synchronization, custom nodes has
+  been provided to publish incoming messages form gazebo at ros2/wall-time.
+  The package features ros_gz_bridge, (built form source) to communicate between gazebo and ROS2 humble</description>
+  <maintainer email="27339244@students.lincoln.ac.uk"></maintainer>
+  <license>TODO: License declaration</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <!-- add this for using bothh python and cpp files -->
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+  <!-- for ROS2 -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>xacro</exec_depend>
+ 
+  <!-- for gazebo garden-->
+  <exec_depend condition="$GZ_VERSION == garden or $IGNITION_VERSION == garden">gz-sim7</exec_depend>
+  <exec_depend>ros_gz_bridge</exec_depend>
+  <exec_depend>ros_gz_sim</exec_depend>
+  <exec_depend>ros_gz</exec_depend>
+  <exec_depend>sdformat_urdf</exec_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
