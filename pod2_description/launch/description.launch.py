@@ -27,7 +27,7 @@ def generate_launch_description():
 	rviz_config_path = PathJoinSubstitution([FindPackageShare("pod2_description"), "rviz2", "description.rviz"])
 	
 	robot_description = ParameterValue(
-        Command(['xacro ', str(get_package_share_path('pod2_description') / 'xacro/OpenPodcar_v2.urdf')]),
+        Command(['xacro ', str(get_package_share_path('pod2_description') / 'xacro/OpenPodcar_v2_Lidar.urdf')]),
         value_type=str)
     #get the package path for the above files
 	pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
