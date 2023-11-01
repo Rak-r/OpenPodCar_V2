@@ -1,4 +1,4 @@
-'''The launch file for starting the gazebo simulation including the robot urdf model and the world.
+'''The launch file for starting the gazebo simulation including the robot urdf model and the world.This launch file starts the PodCar with Lidar sensor.
 There is condition set for launching rviz to visualize the robot in ROS side as well to verify the model is loaded correctly.
 Make sure to turn the simulation play pause button to run the simulation.'''
 
@@ -22,7 +22,7 @@ def generate_launch_description():
     
     #provide the path for the world file, urdf, rviz
 	world_path = os.path.join(get_package_share_directory('pod2_description'))
-	path_to_urdf = PathJoinSubstitution([FindPackageShare("pod2_description"), "xacro", "OpenPodcar_v2.urdf"])
+	path_to_urdf = PathJoinSubstitution([FindPackageShare("pod2_description"), "xacro", "OpenPodcar_V2_Lidar.urdf"])
 	path_to_realtime_nodes = get_package_share_directory('pod2_description')
 	rviz_config_path = PathJoinSubstitution([FindPackageShare("pod2_description"), "rviz2", "description.rviz"])
 	
