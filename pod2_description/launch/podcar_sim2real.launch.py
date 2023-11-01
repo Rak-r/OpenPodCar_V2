@@ -23,6 +23,7 @@ def generate_launch_description():
         package='pod2_description',
         name='scan_publisher_node',
         executable='laser_sim2real.py',
+        condition = IfCondition(LaunchConfiguration("scan_node")),
         output = 'screen'
     )
     camera_node = Node(

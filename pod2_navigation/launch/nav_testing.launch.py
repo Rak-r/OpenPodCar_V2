@@ -1,5 +1,7 @@
-import os
+'''The navigation launch file is adapted from official nav2 bringup package for ROS2 Humble and modified to launch nodes suitable for our application
+(https://github.com/ros-planning/navigation2/tree/humble)'''
 
+import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable

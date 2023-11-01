@@ -266,11 +266,11 @@
     <!-- <limit effort="10" lower="-0.82393858467" upper="0.82393858467" velocity="1.0"/> -->
   </joint>
 
-  
-  <joint name="velodyne_joint" type="fixed">
+  <!--Add the rgbd depth camera-->
+  <joint name="camera_joint" type="fixed">
     <origin rpy="0 0 0" xyz="-0.34 0 1.75"/>
     <parent link="base_link"/>
-    <child link="velodyne_link"/>
+    <child link="camera_link"/>
   </joint>
   <link name="camera_link">
     <inertial>
@@ -289,10 +289,10 @@
     <sensor name="depth_camera" type="rgbd_camera">
       <gz_frame_id>camera_link</gz_frame_id>
       <!-- <pose>0 0 0 0 0 0</pose> -->
-      <topic>rgbd_image</topic>
+      <topic>rgbd_camera</topic>
       <always_on>true</always_on>
       <visualize>true</visualize>
-      <update_rate>10</update_rate>
+      <update_rate>20</update_rate>
       <camera>
         <horizontal_fov>1.05</horizontal_fov>
         <image>

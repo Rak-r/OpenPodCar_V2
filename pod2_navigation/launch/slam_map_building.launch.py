@@ -1,3 +1,6 @@
+'''This launch file has been adapted from official slam toolbox guide. In order to manipulate with parameters, can follow the guide
+https://github.com/SteveMacenski/slam_toolbox/tree/humble'''
+
 import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
