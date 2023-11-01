@@ -5,7 +5,48 @@ System (ROS) with the added support of newly released ROS2. The vehilce used for
 
 # ROS2 Humble & Gazebo Garden
 This project is the complete new port from ROS1of OpenPodCar1 to ROS2. The full software features the ROS2 Humble version and for simulation is done with new Gazebo Garden.
-The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `pod2_bringup`, `pod2_navigation`.
+The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `pod2_bringup`, `pod2_navigation`, `pod2_sensor_tools`, `pod2_yolo`, `pod2_msgs`.
+
+## System Requirements
+
+1. Ubuntu 22.04
+2. ROS2 Humble full desktop install: https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
+3. Gazebo Garden (Install): https://gazebosim.org/docs/garden/install
+4. To develop the communication between ROS2 Humble and Gazebo Garden, the comminity suggests to build the ros_gz package from source. To install the ros_gz package from source for the humble branch follow this guide step by step: https://github.com/gazebosim/ros_gz/tree/humble
+
+### Testing Installations
+
+1. To test that ROS2 is installed properly.
+* Open bashrc and add the folowing and save it. `source /opt/ros/humble/setup.bash`.
+* Open two terminals, in first run: `ros2 run demo_nodes_cpp talker`, you should see  `hello` in the console.
+* In other terminal, run: `ros2 run demo_nodes_py listener`, you should see `I Heard`.
+* In order to keep the nodes communication robust, set the `ROS_DOMAIN_ID` in your bashrc. For example: `export ROS_DOMAIN_ID=0`
+
+2. To test the Gazebo Garden is installed on the system, in the terminal run: `gz sim`.If it launches, you'll see the simulation software window.
+
+3. To test the ros_gz package, source the workspace of the package and try the following command:
+
+`ros2 run ros_gz_bridge parameter_bridge /chatter@std_msgs/msg/String@gz.msgs.StringMsg` and view the topic in other terminal using: `ros2 topic list -t`
+
+
+## Installation for OpenPodCar_V2
+
+To use this package for testing and running simulations using gazebo and ROS2 follow the below instructions:
+
+1. If using Gazebo garden, clone this repo fololowing below commands. 
+* Make the new workspace, with src directory. `mkdir -p ros2_gz_ws/src`.
+* Clone the repository using: `git clone https://github.com/Rak-r/OpenPodCar_.git`
+
+2. After cloning the repository, you should have `pod2_description`, `pod2_bringup`, `pod2_navigation`, `pod2_sensor_tools`, `pod2_yolo`, `pod2_msgs`in your `src` directory.
+
+3. Now, build the packages from the root of the workspace directory using ROS2 package building tool colcon.
+* Assuming you are in /src directory: run `cd ..`
+* `colcon build --symlink-install`. This will build the packages and the `--symlink-install` is used to make changes in the packages in src directory and also changes in the install dircetory without re-building the package.
+
+4. If everything works well, you will have three directories alomg with `src` named `install`, `build` ad `log`. If colcon build fails to build any packages and shows `stderr` in terminal console, make sure all the dependencies are install correctly.
+
+5. In case of Step 4, try running: `rosdep install --from-paths src -y --ignore-src`.
+
 
 ## Pod2_description
 
@@ -27,6 +68,7 @@ This directory in `pod2_description` package consists of intermediate nodes whic
 1. `odometry_wall_timer.py` handles the ground truth odometry `/model/podcar/odometry` topic from GZ and publishes to ROS2 topic `/odom` with changing the time stamp to wall time.
 2. `laser_wall_timer.py` handles the `/lidar_scan` topic from GZ laser plugin and publishes to ROS2 topic `/scan` with changing the time stamp to wall time.
 3. `transform_broadcaster.py` subcribes to the `/odom` topic published by the odometry_wall_timer node. The transform message field is made to publish wall time.
+4. `Depth_image_2_real.py` handles the `/rgbd_camera/depth` topic from GZ laser plugin and publishes to ROS2 topic `/scan` with changing the time stamp to wall time.
 
 ## Pod2_bringup
 
@@ -60,6 +102,8 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 # Simulation
 The new Gazebo Garden is used for the simulation of OpenPodCar_v2. The new gazebo features more functionalities with enhanced inetrface. As our robot behaves as car-like robot and features Ackermann-Steering kinematics. To maintain this behaviour in simulation the new gazebo now has an Ackermann system plugin which could be used according the robot configuartions. The plugin outputs standard `Twist` messages of field `linear.x` and `angular.z`. This also outputs the odometry information which might not be the correct odometry for the whole robot instead it is the odometry information for steering.
 [Podcar_V2_GZ_garden.webm](https://github.com/Rak-r/OpenPodCar_/assets/85680564/26ea85f9-a46d-4f53-b81a-1f23425ab1f7)
+
+The current repository features the ROS2 Humble with Gazebo garden. To use the ROS2 Humble packages with Gazebo Fortress, follow here.
 
 
 
