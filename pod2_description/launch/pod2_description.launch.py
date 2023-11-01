@@ -22,12 +22,12 @@ def generate_launch_description():
     
     #provide the path for the world file, urdf, rviz
 	world_path = os.path.join(get_package_share_directory('pod2_description'))
-	path_to_urdf = PathJoinSubstitution([FindPackageShare("pod2_description"), "xacro", "OpenPodcar_V2_Depth.urdf"])
+	path_to_urdf = PathJoinSubstitution([FindPackageShare("pod2_description"), "xacro", "OpenPodCar_V2_Depth.urdf"])
 	path_to_realtime_nodes = get_package_share_directory('pod2_description')
 	rviz_config_path = PathJoinSubstitution([FindPackageShare("pod2_description"), "rviz2", "description.rviz"])
 	
 	robot_description = ParameterValue(
-        Command(['xacro ', str(get_package_share_path('pod2_description') / 'xacro/OpenPodcar_V2_Depth.urdf')]),
+        Command(['xacro ', str(get_package_share_path('pod2_description') / 'xacro/OpenPodCar_V2_Depth.urdf')]),
         value_type=str)
     #get the package path for the above files
 	pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
