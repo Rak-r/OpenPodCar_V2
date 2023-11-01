@@ -65,12 +65,15 @@ def generate_launch_description():
 	     '/model/podcar/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
 	    '/model/podcar/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
 		 '/model/podcar/pose@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
-	 '/rgbd_image/image@sensor_msgs/msg/Image[gz.msgs.Image',
+	 '/rgbd_camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
+	 '/rgbd_camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Pose_V',
+	 'rgbd_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo'
 	 
      ],
      parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
-     remappings=[('/model/podcar/cmd_vel', 'cmd_vel',
-				  )
+     remappings=[('/model/podcar/cmd_vel', 'cmd_vel'),
+				  ('/rgbd_camera/depth_image', 'depth'),
+				  ('rgbd_camera/camera_info', 'depth_camera_info')
 				 ] 
     )
 	return LaunchDescription([
