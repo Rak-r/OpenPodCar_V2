@@ -287,7 +287,7 @@
   </link> 
   <gazebo reference="camera_link">
     <sensor name="depth_camera" type="rgbd_camera">
-      <gz_frame_id>camera_link</gz_frame_id>
+      <ignition_frame_id>camera_link</ignition_frame_id>
       <!-- <pose>0 0 0 0 0 0</pose> -->
       <topic>rgbd_camera</topic>
       <always_on>true</always_on>
@@ -305,14 +305,14 @@
           <far>10.0</far>
         </clip>
       </camera>
-      <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
         <render_engine>ogre2</render_engine>
       </plugin>
     </sensor>
   </gazebo> 
   <gazebo>
     <plugin
-      filename="gz-sim-ackermann-steering-system"
+      filename="ignition-gazebo-ackermann-steering-system"
       name="gz::sim::systems::AckermannSteering">
       <left_joint>front_left_wheel_joint</left_joint>
       <left_joint>back_left_wheel_joint</left_joint>
@@ -338,8 +338,8 @@
   </gazebo>
   <gazebo>
     <plugin
-      filename="gz-sim-odometry-publisher-system"
-      name="gz::sim::systems::OdometryPublisher">
+      filename="ignition-gazebo-odometry-publisher-system"
+      name="ignition::gazebo::systems::OdometryPublisher">
       <xyz_offset>0 0 0</xyz_offset>
       <rpy_offset>0 0 0</rpy_offset>
       <gaussian_noise>0</gaussian_noise>
