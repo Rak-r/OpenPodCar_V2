@@ -3,7 +3,7 @@
 OpenPodCar is a donor scooter vehicle which is transformed into autonomous vehicle with the integration of Robot Operating
 System (ROS) with the added support of newly released ROS2. The vehilce used for the implementation of our research and experiments can be found at Pihsiang TE-889XLSN hard-canopy scooter (branded in UK as ShopriderTraverso) (found here: https://www.smartscooters.co.uk/Traveso-Mobility-Scooter).
 
-# ROS2 Humble & Gazebo Garden
+# ROS2 Humble & Gazebo Fortress
 This project is the complete new port from ROS1of OpenPodCar1 to ROS2. The full software features the ROS2 Humble version and for simulation is done with new Gazebo Garden.
 The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `pod2_bringup`, `pod2_navigation`, `pod2_sensor_tools`, `pod2_yolo`, `pod2_msgs`.
 
@@ -22,11 +22,11 @@ The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `p
 * In other terminal, run: `ros2 run demo_nodes_py listener`, you should see `I Heard`.
 * In order to keep the nodes communication robust, set the `ROS_DOMAIN_ID` in your bashrc. For example: `export ROS_DOMAIN_ID=0`
 
-2. To test the Gazebo Garden is installed on the system, in the terminal run: `ign sim`.If it launches, you'll see the simulation software window.
+2. To test the Gazebo Fortress is installed on the system, in the terminal run: `ign sim`.If it launches, you'll see the simulation software window.
 
 3. To test the ros_gz package, source the workspace of the package and try the following command:
 
-`ros2 run ros_gz_bridge parameter_bridge /chatter@std_msgs/msg/String@gz.msgs.StringMsg` and view the topic in other terminal using: `ros2 topic list -t`
+* `ros2 run ros_gz_bridge parameter_bridge /chatter@std_msgs/msg/String@gz.msgs.StringMsg` and view the topic in other terminal using: `ros2 topic list -t`
 
 
 ## Installation for OpenPodCar_V2
@@ -60,6 +60,8 @@ GZ -> ROS is created for `/clock`, `/lidar_scan` topic which is coming from gaze
 * Launch without Rviz : `ros2 launch pod2_decsription description.launch.py`
 
 * Launch along with Rviz: `ros2 launch pod2_description description.launch.py rviz:=true`
+
+
 This launch will launch the simulation in gazebo and don't forget to turn on the play pause button to run the simulation. 
 To view the active topics in ros2, use `ros2 topic list -t` in the terminal window.
 To view active topics in gazebo, use `gz topic -l` in the terminal window.
