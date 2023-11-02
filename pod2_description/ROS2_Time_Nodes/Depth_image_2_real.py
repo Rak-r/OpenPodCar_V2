@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import Image,CameraInfo
 
 '''In order to avoid time related errors and tf errors this node is created to convert the messages coming from gazebo to wall time. 
 This makes sure that the whole system works on same clock. The node susbcribes the lidar scan topic from GZ laser plugin and publishes to ROS2 topic /scan
@@ -26,15 +26,27 @@ If having ananconda/miniconda installed in the system, try deactivating the envi
 class ImagePublisherNode(Node):
     def __init__(self):
         super().__init__('camera_node')
-        self.subscription = self.create_subscription(
-            Image, '/rgbd_image/image', self.image_callback, 1)
-        self.publisher_ = self.create_publisher(Image, '/rgbd_image_real', 1)
+        self.rgb_subscription = self.create_subscription(Image, '/rgbd_camera/image', self.image_callback, 1)          # subscribe to the rgb image topic
+        self.depth_subscription = self.create_subscription(Image, '/rgbd_camera/depth_image', self.depth_callback, 1)  # subscribe to depth image topic
+        self.info_sub = self.create_subscription(CameraInfo, 'rgbd_camera/camera_info', self.camera_info_callback, 1)  # subscribe to camera info topic
+        self.rgb_pub = self.create_publisher(Image, '/rgbd_image_real', 1)
+        self.depth_publisher = self.create_publisher(Image, '/depth', 1)
+        self.info_pub = self.create_publisher(CameraInfo, '/depth_camera_info', 1)
         self.get_logger().info('Camera Publisher Node started')
 
+    def depth_callback(self, msg):
+        # Convert to ROS2 timestamp
+        msg.header.stamp = self.get_clock().now().to_msg()
+        self.depth_publisher.publish(msg)
     def image_callback(self, msg):
         # Publish the received scan data with the current ROS 2 time stamp
         msg.header.stamp = self.get_clock().now().to_msg()
-        self.publisher_.publish(msg)
+        self.rgb_pub.publish(msg)
+    
+    def camera_info_callback(self, msg):
+        # Publish the camera info on ROS2 time
+        msg.header.stamp = self.get_clock().now().to_msg()
+        self.info_pub.publish(msg)
 
 def main(args=None):
     rclpy.init(args=args)

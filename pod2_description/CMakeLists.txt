@@ -54,7 +54,7 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/testing_tf.py
+  scripts/Depth_image_2_real.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
