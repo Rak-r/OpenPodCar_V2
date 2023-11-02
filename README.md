@@ -11,9 +11,9 @@ The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `p
 
 1. Ubuntu 22.04
 2. ROS2 Humble full desktop install: https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
-3. Gazebo Garden (Install): https://gazebosim.org/docs/garden/install
-4. To develop the communication between ROS2 Humble and Gazebo Garden, the comminity suggests to build the ros_gz package from source. To install the ros_gz package from source for the humble branch follow this guide step by step: https://github.com/gazebosim/ros_gz/tree/humble
-
+3. Gazebo Fortress (Install): https://gazebosim.org/docs/fortress/install
+4. The only difference between the Gazebo Fortress and Gazebo Garden is the ros-gz integration package is to build from source for Gazebo Garden while if you are using Gazebo Fortress, the ros_ign package will be installed with the binary installation of the sim. 
+5. Gazebo Fortress uses the ignition namepsace when dealing with plugins and setting frame ids for the robot in URDFs or SDFs.
 ### Testing Installations
 
 1. To test that ROS2 is installed properly.
@@ -22,7 +22,7 @@ The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `p
 * In other terminal, run: `ros2 run demo_nodes_py listener`, you should see `I Heard`.
 * In order to keep the nodes communication robust, set the `ROS_DOMAIN_ID` in your bashrc. For example: `export ROS_DOMAIN_ID=0`
 
-2. To test the Gazebo Garden is installed on the system, in the terminal run: `gz sim`.If it launches, you'll see the simulation software window.
+2. To test the Gazebo Garden is installed on the system, in the terminal run: `ign sim`.If it launches, you'll see the simulation software window.
 
 3. To test the ros_gz package, source the workspace of the package and try the following command:
 
@@ -55,6 +55,8 @@ The launch file also consists the `ros_gz_bridge` package which is used to estab
 GZ -> ROS is created for `/clock`, `/lidar_scan` topic which is coming from gazebo sensor system plugin, `/model/podcar/odometry` topic consists of ground-truth odometry data from Gazebo.
 ### Usage
 
+1. If you want to run the simulation with Lidar enabled, run the below launch file.
+
 * Launch without Rviz : `ros2 launch pod2_decsription description.launch.py`
 
 * Launch along with Rviz: `ros2 launch pod2_description description.launch.py rviz:=true`
@@ -62,13 +64,22 @@ This launch will launch the simulation in gazebo and don't forget to turn on the
 To view the active topics in ros2, use `ros2 topic list -t` in the terminal window.
 To view active topics in gazebo, use `gz topic -l` in the terminal window.
 
+2. If you want to run the simulation with depth camera enabled, run the below launch file.
+
+* Launch without Rviz : `ros2 launch pod2_decsription pod2_description.launch.py scan_node:=false`
+
+* Launch along with Rviz: `ros2 launch pod2_description pod2_description.launch.py rviz:=true scan_node:=false`
+This launch will launch the simulation in gazebo and don't forget to turn on the play pause button to run the simulation. 
+To view the active topics in ros2, use `ros2 topic list -t` in the terminal window.
+To view active topics in gazebo, use `gz topic -l` in the terminal window.
+
 ### Scripts
 
-This directory in `pod2_description` package consists of intermediate nodes which are used to convert the incoming messages over te topics `/model/podcar/odometry`, `/lidar_scan` to publish on Wall time. This approach is employed to avoid the time realetd issues, tf errors and with an assumption that the simulation and the physical vehicle should work on same time.
+This directory in `pod2_description` package consists of intermediate nodes which are used to convert the incoming messages over the topics `/model/podcar/odometry`, `/lidar_scan` , `/rgbd_camera/image`, `/rgbd_camera/depth` to publish on Wall time. This approach is employed to avoid the time realetd issues, tf errors and with an assumption that the simulation and the physical vehicle should work on same time.
 1. `odometry_wall_timer.py` handles the ground truth odometry `/model/podcar/odometry` topic from GZ and publishes to ROS2 topic `/odom` with changing the time stamp to wall time.
 2. `laser_wall_timer.py` handles the `/lidar_scan` topic from GZ laser plugin and publishes to ROS2 topic `/scan` with changing the time stamp to wall time.
 3. `transform_broadcaster.py` subcribes to the `/odom` topic published by the odometry_wall_timer node. The transform message field is made to publish wall time.
-4. `Depth_image_2_real.py` handles the `/rgbd_camera/depth` topic from GZ laser plugin and publishes to ROS2 topic `/scan` with changing the time stamp to wall time.
+4. `Depth_image_2_real.py` handles the `/rgbd_camera/depth` and  `/rgbd_camera/image` topic from GZ rgbd camera plugin and publishes to ROS2 topic `/depth` , `/depth_camera_info` and `/rgbd_image_real` with changing the time stamp to wall time.
 
 ## Pod2_bringup
 
@@ -83,15 +94,16 @@ For using any custom joystick, you might need to check which buttons and axis do
 Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` directories. 
 
 1. Config directory:
-   This includes the `nav2_params.yaml` file which includes the parametrers for AMCL, BT_Navigator, Controller server, PLanner server, Global and Local Costmaps, Behaviour servers, Map server.
-   `mapper_params_slam_sync.yaml` and `mapper_params_slam_async.yaml` are the params file which are used to launch the slam-toolbox either in synchronous/asynchronous mode.
+   This includes the `nav2_params_test.yaml` file which includes the parametrers for AMCL, BT_Navigator, Controller server, PLanner server, Global and Local Costmaps, Behaviour servers, Map server.
+2. `mapper_params_slam_sync.yaml` and `mapper_params_slam_async.yaml` are the params file which are used to launch the slam-toolbox either in synchronous/asynchronous mode.
 3. Launch directory:
    * The launch directory consists of nav2_launch.py which uses the default `nav2_bringup` package for launching all the nodes and takes the `nav2_params` from the config directory. It uses AMCL for localization which will also be started.
      Command:
-     `cd <workspace>
-     source install/setup.bash
-     ros2 launch pod2_navigation nav2_launch.py'
-   * To run the slam_toolbox for localization, we have to turn off the AMCL and map server. For this, another launch file `navigation.launch.py` is there which launches the required nodes. Now run the slam_toolbox using the launch file.
+     * `cd <workspace>`
+     * `source install/setup.bash`
+     * `ros2 launch pod2_navigation nav_testing.launch.py`
+
+   * To run the slam_toolbox for localization, we have to turn off the AMCL and map server. Run the slam_toolbox using the launch file.
      `ros2 launch pod2_navigation slam_toolbox_sync.launch.py`.
 4. If want to build the map using slam_toolbox, then change the mode to mapping in `mapper_params_online_sync.yaml`.
 5. The map can be saved either by command-line: ` ros2 run nav2_map_server map_saver_cli -f <name of the map>` or in rviz2 slam_toolbox plugin. More info could be found at: (https://github.com/SteveMacenski/slam_toolbox/tree/humble).
