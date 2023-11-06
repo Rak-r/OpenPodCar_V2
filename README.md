@@ -100,7 +100,7 @@ To test the joystick is connected to the system run `ls /dev/input`.
 In order to use specific joystick you might hav to create the `.yaml` config file which can be referenced from (https://github.com/ros2/teleop_twist_joy/tree/humble/config) and the `launch` directory contains the `joy.launch.py` file which launches the `Joy node` and  `teleop_twist_joy_node`.
 **For using any custom joystick, you might need to check which buttons and axis does what** 
 
-I recommend using `https://flathub.org/apps/io.gitlab.jstest_gtk.jstest_gtk`. The tool also provide calibertaion for the joystcik which mighht be helpful if deploying on the physical vehicle for teleoperation.
+I recommend using `https://flathub.org/apps/io.gitlab.jstest_gtk.jstest_gtk`. The tool also provide calibrataion for the joystick which mighht be helpful if deploying on the physical vehicle for teleoperation.
 
 ## Pod2_navigation
 
@@ -147,6 +147,27 @@ The new Gazebo Garden is used for the simulation of OpenPodCar_v2. The new gazeb
 [Podcar_V2_GZ_garden.webm](https://github.com/Rak-r/OpenPodCar_/assets/85680564/26ea85f9-a46d-4f53-b81a-1f23425ab1f7)
 
 The current repository features the ROS2 Humble with Gazebo garden. To use the ROS2 Humble packages with Gazebo Fortress, switch to the Fortress branch (https://github.com/Rak-r/OpenPodCar_V2/tree/Fortress).
+
+
+# Summary
+
+### After building and testing the individual packages for your choice, if want to visualize the robot in rviz, gazebo and running the NAV2 stack, follow the below commnads for ease of use;
+
+
+1. Make sure to source the ros2 setp and workspace.
+
+
+2. Open terminal 1 and run: `ros2 launch pod2_description description.launch.py`.
+
+3. In terminal 2, run: `ro2 launch pod2_navigation localization.launch.py`.
+
+
+4. In terminal 3, start the navigation stack: `ros2 launch pod2_navigation nav_testing.launch.py`.
+
+
+5. You can start rviz2 either in the same launch file for navigation by setting an argument, which I will be updating soon. For now, open terminal 4 and run:
+
+`rviz2 -d /opt/ros/humble/share/nav2_bringup/rviz/nav2_default_rviz`.
 
 
 
