@@ -45,17 +45,19 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 
 4. If everything works well, you will have three directories alomg with `src` named `install`, `build` ad `log`. If colcon build fails to build any packages and shows `stderr` in terminal console, make sure all the dependencies are install correctly.
 
-5. In case of Step 4, try running: `rosdep install --from-paths src -y --ignore-src`.
+5. In case of Step 4, try running: `rosdep update && rosdep install --from-paths src --ignore-src -y`.
 
+6. Once the package is build successfully, open bashrc and add : `source <your workspace path>/install/setup.bash`
+* **For example** : `source /home/ros2_ws/install/setup.bash` 
 
 ## Pod2_description
 
-This ROS2 package consists the robot's urdf files in the `xacro` directory, meshes of the robot model, sensors in the `meshes` and the `launch` directory contains the `description.launch.py` file which launches the robot model's URDF and the world file in the Gazebo garden with a condition to start along the rviz2 node.
+This ROS2 package consists the robot's urdf files in the `xacro` directory, meshes of the robot model, sensors in the `meshes` and the `launch` directory contains the `description.launch.py` and  `pod2_description` file which launches the robot model's URDF and the world file in the Gazebo with a condition to start along the rviz2 node.
 The launch file also consists the `ros_gz_bridge` package which is used to establish communication between Gazebo and ROS2. The parameter bridge is created for `/model/podcar/cmd_vel` topic from ROS -> GZ, on this topic the Ackermann system plugin publishes the twist messages.
 GZ -> ROS is created for `/clock`, `/lidar_scan` topic which is coming from gazebo sensor system plugin, `/model/podcar/odometry` topic consists of ground-truth odometry data from Gazebo.
 ### Usage
 
-1. If you want to run the simulation with Lidar enabled, run the below launch file.
+#### If you want to run the simulation with Lidar enabled, run the below launch file.
 
 * Launch without Rviz : `ros2 launch pod2_decsription description.launch.py`
 
@@ -66,7 +68,7 @@ This launch will launch the simulation in gazebo and don't forget to turn on the
 To view the active topics in ros2, use `ros2 topic list -t` in the terminal window.
 To view active topics in gazebo, use `gz topic -l` in the terminal window.
 
-2. If you want to run the simulation with depth camera enabled, run the below launch file.
+#### If you want to run the simulation with depth camera enabled, run the below launch file.
 
 * Launch without Rviz : `ros2 launch pod2_decsription pod2_description.launch.py scan_node:=false`
 
@@ -90,6 +92,15 @@ Different joystick are tested namely; Logotech Extreme3dPro, standard linux usb 
 To test the joystick is connected to the system run `ls /dev/input`.
 In order to use specific joystick you might hav to create the `.yaml` config file which can be referenced from (https://github.com/ros2/teleop_twist_joy/tree/humble/config) and the `launch` directory contains the `joy.launch.py` file which launches the `Joy node` and  `teleop_twist_joy_node`.
 For using any custom joystick, you might need to check which buttons and axis does what. I recommend using (https://flathub.org/apps/io.gitlab.jstest_gtk.jstest_gtk). The tool also provide calibertaion for the joystcik which mighht be helpful if deploying on the physical vehicle for teleoperation.
+
+## Pod2_sensor_tools
+
+This package is used in case of depth camera/stereo cameras integration instead of Lidar on the robot. This inherits the ROS2 pport of `depthimage_to_laserscan` package which is used to convert the depth images to laserscan data which can then be used for localization tasks. The package also consists of a yaml parameter file which can be set according to the sensor information. 
+**Note that you mention the correct frame id for the sensor data**. 
+
+#### In case of using depth camera
+
+After running the simulation, run the launch file: `ros2 launch pod2_sensor_tools depthmage_to_laserscan.launch.py`
 
 ## Pod2_navigation
 
@@ -117,7 +128,7 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 The new Gazebo Garden is used for the simulation of OpenPodCar_v2. The new gazebo features more functionalities with enhanced inetrface. As our robot behaves as car-like robot and features Ackermann-Steering kinematics. To maintain this behaviour in simulation the new gazebo now has an Ackermann system plugin which could be used according the robot configuartions. The plugin outputs standard `Twist` messages of field `linear.x` and `angular.z`. This also outputs the odometry information which might not be the correct odometry for the whole robot instead it is the odometry information for steering.
 [Podcar_V2_GZ_garden.webm](https://github.com/Rak-r/OpenPodCar_/assets/85680564/26ea85f9-a46d-4f53-b81a-1f23425ab1f7)
 
-The current repository features the ROS2 Humble with Gazebo garden. To use the ROS2 Humble packages with Gazebo Fortress, follow here.
+
 
 
 
