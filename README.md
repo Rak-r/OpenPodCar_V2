@@ -73,6 +73,8 @@ To view active topics in gazebo, use `gz topic -l` in the terminal window.
 * Launch without Rviz : `ros2 launch pod2_decsription pod2_description.launch.py scan_node:=false`
 
 * Launch along with Rviz: `ros2 launch pod2_description pod2_description.launch.py rviz:=true scan_node:=false`
+
+
 This launch will launch the simulation in gazebo and don't forget to turn on the play pause button to run the simulation. 
 To view the active topics in ros2, use `ros2 topic list -t` in the terminal window.
 To view active topics in gazebo, use `gz topic -l` in the terminal window.
@@ -96,6 +98,8 @@ For using any custom joystick, you might need to check which buttons and axis do
 ## Pod2_sensor_tools
 
 This package is used in case of depth camera/stereo cameras integration instead of Lidar on the robot. This inherits the ROS2 pport of `depthimage_to_laserscan` package which is used to convert the depth images to laserscan data which can then be used for localization tasks. The package also consists of a yaml parameter file which can be set according to the sensor information. 
+
+
 **Note that you mention the correct frame id for the sensor data**. 
 
 #### In case of using depth camera
@@ -108,7 +112,11 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 
 1. Config directory:
    This includes the `nav2_params_test.yaml` file which includes the parametrers for AMCL, BT_Navigator, Controller server, PLanner server, Global and Local Costmaps, Behaviour servers, Map server.
+
+
 2. `mapper_params_slam_sync.yaml` and `mapper_params_slam_async.yaml` are the params file which are used to launch the slam-toolbox either in synchronous/asynchronous mode.
+
+
 3. Launch directory:
    * The launch directory consists of nav2_launch.py which uses the default `nav2_bringup` package for launching all the nodes and takes the `nav2_params` from the config directory. It uses AMCL for localization which will also be started.
      Command:
@@ -118,10 +126,22 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 
    * To run the slam_toolbox for localization, we have to turn off the AMCL and map server. Run the slam_toolbox using the launch file.
      `ros2 launch pod2_navigation slam_toolbox_sync.launch.py`.
-4. If want to build the map using slam_toolbox, then change the mode to mapping in `mapper_params_online_sync.yaml`.
-5. The map can be saved either by command-line: ` ros2 run nav2_map_server map_saver_cli -f <name of the map>` or in rviz2 slam_toolbox plugin. More info could be found at: (https://github.com/SteveMacenski/slam_toolbox/tree/humble).
+4. If want to build the map using slam_toolbox, then change the mode to mapping in `mapper_params_online_async.yaml`.
+
+
+5. The map can be saved either by command-line: 
+
+
+` ros2 run nav2_map_server map_saver_cli -f <name of the map>` or in rviz2 slam_toolbox plugin. 
+More info could be found at: (https://github.com/SteveMacenski/slam_toolbox/tree/humble).
+
+
 6. In order to save the map with old format (.yaml and .pgm) hit the save map button in rviz2 slam_toolbox plugin and to save in the other format (serilaised), write the name of the map without any extension and  click the serial map button in the rviz2 slamtoolbox_plugin.
+
+
 7. The package has been tested with the `Tight_env.yaml`, `Tight_env.pgm`. It also features different map enviornments named `Warehouse.yaml`with corresponding `Warehouse.pgm` and also as rough test environment named as `test_map.yaml` with corresponding pgm file `test_map.pgm`.
+
+
 8. To use the localization with `slam_toolbox`, you have to provide the right path to the map which you are going to use. Currently, I have made the map for slam-toolbox for the tight environment, which is present in `maps` folder and named as `Tight_env_slam.posegraph` and `Tight_env_slam.data`. When using slam_toolbox for localization, you do not have to provide the map file extension in the `mapper_params_onlie_async.yaml` and just the name.
 
 # Simulation
