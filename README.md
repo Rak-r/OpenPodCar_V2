@@ -149,6 +149,25 @@ The new Gazebo Garden is used for the simulation of OpenPodCar_v2. The new gazeb
 [Podcar_V2_GZ_garden.webm](https://github.com/Rak-r/OpenPodCar_V2/assets/85680564/26ea85f9-a46d-4f53-b81a-1f23425ab1f7)
 
 
+# Summary
+
+### After building and testing the individual packages for your choice, if want to visualize the robot in rviz, gazebo and running the NAV2 stack, follow the below commnads for ease of use;
+
+
+1. Make sure to source the ros2 setp and workspace.
+
+
+2. Open terminal 1 and run: `ros2 launch pod2_description description.launch.py`.
+
+3. In terminal 2, run: `ro2 launch pod2_navigation localization.launch.py`.
+
+
+4. In terminal 3, start the navigation stack: `ros2 launch pod2_navigation nav_testing.launch.py`.
+
+
+5. You can start rviz2 either in the same launch file for navigation by setting an argument, which I will be updating soon. For now, open terminal 4 and run:
+
+`rviz2 -d /opt/ros/humble/share/nav2_bringup/rviz/nav2_default_rviz`.
 
 
 
