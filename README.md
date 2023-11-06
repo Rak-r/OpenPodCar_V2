@@ -33,9 +33,9 @@ The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `p
 
 To use this package for testing and running simulations using gazebo and ROS2 follow the below instructions:
 
-1. If using Gazebo garden, clone this repo fololowing below commands. 
+1. If using Gazebo Fortress, clone this repo fololowing below commands. 
 * Make the new workspace, with src directory. `mkdir -p ros2_gz_ws/src`.
-* Clone the repository using: `git clone https://github.com/Rak-r/OpenPodCar_.git`
+* Clone the repository using: `git clone https://github.com/Rak-r/OpenPodCar_V2.git`
 
 2. After cloning the repository, you should have `pod2_description`, `pod2_bringup`, `pod2_navigation`, `pod2_sensor_tools`, `pod2_yolo`, `pod2_msgs`in your `src` directory.
 
@@ -50,7 +50,7 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 
 ## Pod2_description
 
-This ROS2 package cosnists the robot's urdf files in the `xacro` directory, meshes of the robot model, sensors in the `meshes` and the `launch` directory contains the `description.launch.py` file which launches the robot model's URDF and the world file in the Gazebo garden with a condition to start along the rviz2 node.
+This ROS2 package consists the robot's urdf files in the `xacro` directory, meshes of the robot model, sensors in the `meshes` and the `launch` directory contains the `description.launch.py` file which launches the robot model's URDF and the world file in the Gazebo garden with a condition to start along the rviz2 node.
 The launch file also consists the `ros_gz_bridge` package which is used to establish communication between Gazebo and ROS2. The parameter bridge is created for `/model/podcar/cmd_vel` topic from ROS -> GZ, on this topic the Ackermann system plugin publishes the twist messages.
 GZ -> ROS is created for `/clock`, `/lidar_scan` topic which is coming from gazebo sensor system plugin, `/model/podcar/odometry` topic consists of ground-truth odometry data from Gazebo.
 ### Usage
