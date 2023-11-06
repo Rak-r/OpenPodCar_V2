@@ -136,7 +136,7 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 More info could be found at: (https://github.com/SteveMacenski/slam_toolbox/tree/humble).
 
 
-6. In order to save the map with old format (.yaml and .pgm) hit the save map button in rviz2 slam_toolbox plugin and to save in the other format (serilaised), write the name of the map without any extension and  click the serial map button in the rviz2 slamtoolbox_plugin.
+6. In order to save the map with old format `(.yaml and .pgm)`, hit the save map button in rviz2 slam_toolbox plugin and to save in the other format (serilaised), write the name of the map without any extension and  click the serial map button in the rviz2 slamtoolbox_plugin.
 
 
 7. The package has been tested with the `Tight_env.yaml`, `Tight_env.pgm`. It also features different map enviornments named `Warehouse.yaml`with corresponding `Warehouse.pgm` and also as rough test environment named as `test_map.yaml` with corresponding pgm file `test_map.pgm`.
@@ -146,7 +146,7 @@ More info could be found at: (https://github.com/SteveMacenski/slam_toolbox/tree
 
 # Simulation
 The new Gazebo Garden is used for the simulation of OpenPodCar_v2. The new gazebo features more functionalities with enhanced inetrface. As our robot behaves as car-like robot and features Ackermann-Steering kinematics. To maintain this behaviour in simulation the new gazebo now has an Ackermann system plugin which could be used according the robot configuartions. The plugin outputs standard `Twist` messages of field `linear.x` and `angular.z`. This also outputs the odometry information which might not be the correct odometry for the whole robot instead it is the odometry information for steering.
-[Podcar_V2_GZ_garden.webm](https://github.com/Rak-r/OpenPodCar_/assets/85680564/26ea85f9-a46d-4f53-b81a-1f23425ab1f7)
+[Podcar_V2_GZ_garden.webm](https://github.com/Rak-r/OpenPodCar_V2/assets/85680564/26ea85f9-a46d-4f53-b81a-1f23425ab1f7)
 
 
 
