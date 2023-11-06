@@ -35,7 +35,7 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 
 1. If using Gazebo garden, clone this repo fololowing below commands. 
 * Make the new workspace, with src directory. `mkdir -p ros2_gz_ws/src`.
-* Clone the repository using: `git clone https://github.com/Rak-r/OpenPodCar_.git`
+* Clone the repository using: `git clone https://github.com/Rak-r/OpenPodCar_V2.git`
 
 2. After cloning the repository, you should have `pod2_description`, `pod2_bringup`, `pod2_navigation`, `pod2_sensor_tools`, `pod2_yolo`, `pod2_msgs`in your `src` directory.
 
