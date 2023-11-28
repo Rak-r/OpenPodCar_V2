@@ -23,14 +23,15 @@ def generate_launch_description():
         package='pod2_description',
         name='scan_publisher_node',
         executable='laser_sim2real.py',
+        output = 'screen',
         condition = IfCondition(LaunchConfiguration("scan_node")),
-        output = 'screen'
     )
     camera_node = Node(
         package='pod2_description',
         name='camera_node',
-        executable='testing_tf.py',
-        output = 'screen'
+        executable='Depth_image_2_real.py',
+        output = 'screen',
+        condition = IfCondition(LaunchConfiguration("rgbd_node")),
     )
     
     tf_broadcaster = Node(
