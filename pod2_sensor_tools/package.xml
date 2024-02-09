@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>pod2_sensor_tools</name>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="computing@todo.todo">computing</maintainer>
+  <license>TODO: License declaration</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+
+  <!-- ros dependencies -->
+  <depend>depthimage_to_laserscan</depend>
+  <depend>pointcloud_to_laserscan</depend>
+  <depend>robot_localization</depend>
+  <depend>ros2_laser_scan_matcher</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>rclpy</depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
