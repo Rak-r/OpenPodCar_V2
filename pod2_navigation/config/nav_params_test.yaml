@@ -38,15 +38,15 @@ amcl:
     z_short: 0.05
     scan_topic: scan
     map_topic: map
-    set_initial_pose: false                                          # If want the AMCL to start with inital pose, set this param to true
+    set_initial_pose: false
     always_reset_initial_pose: false
     first_map_only: true
     initial_pose:
-      x: 0.339
-      y: 0.031
-      z: 0.008
+      x: 0.1
+      y: 0.0
+      z: 0.0
       yaw: 0.1
-amcl_map_client:                                                     # Made the system to run on wall time, no need to set use_sim_time to true
+amcl_map_client:
   ros__parameters:
     use_sim_time: false
 
@@ -54,7 +54,7 @@ amcl_rclcpp_node:
   ros__parameters:
     use_sim_time: false
     
-bt_navigator:                                                        # Launches the nodes responsible for executing the commnads from the navigation
+bt_navigator:
   ros__parameters:
     use_sim_time: false
     global_frame: map
@@ -117,25 +117,22 @@ bt_navigator_navigate_through_poses_rclcpp_node:
 bt_navigator_navigate_to_pose_rclcpp_node:
   ros__parameters:
     use_sim_time: False
-
-
-#Local planner in ROS1 are now renamed as Controllers in ROS2. 
-#Controllers are used to follow the global path and they publish to the velocity smoother which is used for collision avoidance. 
-#Setting up the configurations of local planner (ROS1)/ Controller (ROS2).
+#Local planner in ROS1 are now renamed as Controllers. Controllers are used to follow the global path and they publish to the velocity smoother which is used for collision avoidance. Setting up the configurations of local planner (ROS1)/ Controller (ROS2).
 
 
 controller_server:
   ros__parameters:
+    # controller server parameters (see Controller Server for more info)
     use_sim_time: False
-    controller_frequency: 5.0                                          # frequency (1/time in sec) at which the controller should operate and perform trajectory checking                                           
-    min_x_velocity_threshold:  0.01 #0.001                             #  velocity thresh in straight motion 
+    controller_frequency: 5.0
+    min_x_velocity_threshold:  0.01 #0.001
     min_y_velocity_threshold: 0.5
-    min_theta_velocity_threshold: 0.01 #0.001                          
+    min_theta_velocity_threshold: 0.01 #0.001
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"]
     controller_plugins: ["FollowPath"]
-
-    progress_checker:                                                  # progress checker parameters
+    #progress checker parameters
+    progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
       required_movement_radius: 0.5
       movement_time_allowance: 10.0
@@ -148,15 +145,15 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.4                                            # Tells at what distance the robot should be considered to reached at goal in linear and longitudnal dir
-      yaw_goal_tolerance: 6.28 #3.14                                    # For the angular dir.
+      xy_goal_tolerance: 0.4
+      yaw_goal_tolerance: 6.28 #3.14
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
-      min_vel_x: -0.5                                                   # velocity in the dir., parallel to robot's straight motion (negative means reverse)
-      min_vel_y: 0.0                                                    # velocity in perpendicular dir.,not taken into account for non-holonomic robots as Ackermann-steered
-      max_vel_x: 0.5                                                    # velocity for forward motion (positive)
+      min_vel_x: -0.5
+      min_vel_y: 0.0
+      max_vel_x: 0.5
       #max_vel_y: 0.26
       max_vel_theta: 1.0
       min_speed_xy: -0.5
@@ -173,7 +170,7 @@ controller_server:
       vx_samples: 20
       vy_samples: 0
       vtheta_samples: 20
-      sim_time: 1.7                                                     # Tells the time to controller server for running every critic and assign cost to them to select the best possible command velocity
+      sim_time: 1.7
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
@@ -231,7 +228,7 @@ local_costmap:
           data_type: "LaserScan"
           raytrace_max_range: 6.0
           raytrace_min_range: 0.0
-          obstacle_max_range: 1.0
+          obstacle_max_range: 3.0
           obstacle_min_range: 0.0
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -269,7 +266,7 @@ global_costmap:
           data_type: "LaserScan"
           raytrace_max_range: 6.0
           raytrace_min_range: 0.0
-          obstacle_max_range: 1.0
+          obstacle_max_range: 3.0
           obstacle_min_range: 0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
@@ -285,7 +282,6 @@ global_costmap:
   global_costmap_rclcpp_node:
     ros__parameters:
       use_sim_time: False
-
 #Planner server in ROS1 were Trajectory Rollout Planner and Dynamic Window Approach(DWA). Time elastic band plannar (TEB) implements a plugin to base_local_plannar in the 2D nav stack.
 # A global plannar generates a trajectroy which is optimized during runtime while reducing the trajectroy execution time.
 
@@ -296,28 +292,28 @@ planner_server:
 
     GridBased:
       plugin: "nav2_smac_planner/SmacPlannerHybrid"
-      downsample_costmap: false                                               # whether or not to downsample the map
-      downsampling_factor: 1                                                  # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
-      tolerance: 1.0 # 0.25                                                   # dist-to-goal heuristic cost (distance) for valid tolerance endpoints if exact goal cannot be found.
+      downsample_costmap: false           # whether or not to downsample the map
+      downsampling_factor: 1              # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
+      tolerance: 1.0 # 0.25                     # dist-to-goal heuristic cost (distance) for valid tolerance endpoints if exact goal cannot be found.
       allow_unknown: true
       cost_scaling_factor: 0.9
-      neutral_cost: 50                                                        # allow traveling in unknown space
-      max_iterations: 1000000                                                 # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
-      max_on_approach_iterations: 1000                                        # Maximum number of iterations after within tolerances to continue to try to find exact solution
-      max_planning_time: 10.0                                                 # max time in s for planner to plan, smooth
-      motion_model_for_search: "REEDS_SHEPP" #"DUBIN"                         # Hybrid-A* DUBIN, REEDS_SHEPP
-      angle_quantization_bins: 72                                             # Number of angle bins for search
-      analytic_expansion_ratio: 3.5                                           # The ratio to attempt analytic expansions during search for final approach.
-      analytic_expansion_max_length: 3.0                                      # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting
-      minimum_turning_radius: 0.8 #0.5                                        # minimum turning radius in m of path / vehicle
-      reverse_penalty: 1.4                                                    # Penalty to apply if motion is reversing, must be => 1
-      change_penalty: 0.3 # 0.1                                               # Penalty to apply if motion is changing directions (L to R), must be >= 0
-      non_straight_penalty: 1.2                                               # Penalty to apply if motion is non-straight, must be => 1
-      cost_penalty: 2.0                                                       # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
+      neutral_cost: 50                 # allow traveling in unknown space
+      max_iterations: 1000000             # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
+      max_on_approach_iterations: 1000    # Maximum number of iterations after within tolerances to continue to try to find exact solution
+      max_planning_time: 10.0              # max time in s for planner to plan, smooth
+      motion_model_for_search: "REEDS_SHEPP" #"DUBIN"    # Hybrid-A* DUBIN, REEDS_SHEPP
+      angle_quantization_bins: 72         # Number of angle bins for search
+      analytic_expansion_ratio: 3.5       # The ratio to attempt analytic expansions during search for final approach.
+      analytic_expansion_max_length: 3.0  # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting
+      minimum_turning_radius: 0.8 #0.5       # minimum turning radius in m of path / vehicle
+      reverse_penalty: 1.4                # Penalty to apply if motion is reversing, must be => 1
+      change_penalty: 0.3 # 0.1                 # Penalty to apply if motion is changing directions (L to R), must be >= 0
+      non_straight_penalty: 1.2           # Penalty to apply if motion is non-straight, must be => 1
+      cost_penalty: 2.0                   # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
       retrospective_penalty: 0.015
-      lookup_table_size: 20.0                                                 # Size of the dubin/reeds-sheep distance window to cache, in meters.
-      cache_obstacle_heuristic: false                                         # Cache the obstacle map dynamic programming distance expansion heuristic between subsiquent replannings of the same goal location. Dramatically speeds up replanning performance (40x) if costmap is largely static.
-      smooth_path: True                                                       # If true, does a simple and quick smoothing post-processing to the path
+      lookup_table_size: 20.0             # Size of the dubin/reeds-sheep distance window to cache, in meters.
+      cache_obstacle_heuristic: false     # Cache the obstacle map dynamic programming distance expansion heuristic between subsiquent replannings of the same goal location. Dramatically speeds up replanning performance (40x) if costmap is largely static.
+      smooth_path: True                   # If true, does a simple and quick smoothing post-processing to the path
       viz_expansions: True                   
 
       smoother:
@@ -333,14 +329,12 @@ planner_server_rclcpp_node:
     use_sim_time: False
     
     
-#The map_server package has been changed to nav2_map_server which implements a server to handle the map load request and host a map topic. 
-#It has a map saver server running in background which saves the maps according to the requests. There are numerous parameters for the nav2_map_server. 
-#Look at: https://navigation.ros.org/configuration/packages/configuring-map-server.html
+#the map_server package has been changed to nav2_map_server which implements a server to handle the map load request and host a map topic. It has a map saver server running in background which saves the maps according to the requests. There are numerous parameters for the nav2_map_server. look at: https://navigation.ros.org/configuration/packages/configuring-map-server.html
 
 map_server:
   ros__parameters:
     use_sim_time: False
-    yaml_filename: "maps/Tight_env.yaml"
+    yaml_filename: "maps/demo_map_save.yaml"
 
 map_saver:
   ros__parameters:
@@ -350,7 +344,7 @@ map_saver:
     occupied_thresh_default: 0.65
     map_subscribe_transient_local: True
 
-#behavior server configurations
+##behavior server configurations
 behavior_server:
   ros__parameters:
     use_sim_time: False

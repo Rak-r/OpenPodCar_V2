@@ -36,7 +36,7 @@ amcl:
     z_max: 0.05
     z_rand: 0.5
     z_short: 0.05
-    scan_topic: scan
+    scan_topic: /scan
     map_topic: map
     set_initial_pose: false
     always_reset_initial_pose: false
@@ -178,9 +178,8 @@ controller_server:
       trans_stopped_velocity: 0.1
       short_circuit_trajectory_evaluation: True
       stateful: True
-      critics: ["RotateToGoal", "Oscillation", "ObstacleFootprint", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      #BaseObstacle.scale: 0.02
-      ObstacleFootprint: 0.02
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      BaseObstacle.scale: 0.02
       PathAlign.scale: 32.0
       PathAlign.forward_point_distance: 0.1
       GoalAlign.scale: 24.0
@@ -207,16 +206,17 @@ local_costmap:
       robot_base_frame: base_link
       use_sim_time: False
       rolling_window: true
-      width: 5
-      height: 5
-      resolution: 0.05 #0.25
-      footprint: "[[-0.6, 0.285475], [-0.6, -0.285475], [0.6, -0.285475], [0.6, 0.285475]]"
+      width: 3
+      height: 3
+      resolution: 0.25
+      footprint: "[[-0.76, -0.4], [0.76, -0.4], [0.76, 0.4], [-0.76, 0.4]]"
+      #footprint: "[[-0.01, 0.01], [-0.01, -0.01], [0.01, 0.01], [0.01, -0.01]]"
       #robot_radius: 0.5
-      plugins: ["obstacle_layer", "inflation_layer"]
+      plugins: ["obstacle_layer","voxel_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 1.0
-        inflation_radius: 0.3 #0.55
+        cost_scaling_factor: 2.0
+        inflation_radius: 0.55
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -227,13 +227,38 @@ local_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          raytrace_max_range: 10.0
-          raytrace_min_range: 0.3 #1.0
-          obstacle_max_range: 10.0 #1.0
+          raytrace_max_range: 5.0 #10.0
+          raytrace_min_range: 1.0
+          obstacle_max_range: 5.0
           obstacle_min_range: 1.0
-        plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
-      always_send_full_costmap: True
+      voxel_layer:
+        plugin: "nav2_costmap_2d::VoxelLayer"
+        enabled: True
+        footprint_clearing_enabled: true
+        max_obstacle_height: 2.0
+        publish_voxel_map: True
+        origin_z: 0.0
+        z_resolution: 0.05
+        z_voxels: 16
+        max_obstacle_height: 2.0
+        unknown_threshold: 15
+        mark_threshold: 0
+        observation_sources: pointcloud
+        combination_method: 1
+        pointcloud:  # no frame set, uses frame from message
+          topic: /cloud_in
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.01
+          obstacle_max_range: 10.0
+          obstacle_min_range: 0.3
+          raytrace_max_range: 5.0
+          raytrace_min_range: 0.3
+          clearing: True
+          marking: True
+          data_type: "PointCloud2"
+      #   plugin: "nav2_costmap_2d::StaticLayer"
+      #   map_subscribe_transient_local: True
+      # always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
       use_sim_time: False
@@ -249,33 +274,47 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: false
-      footprint: "[[-0.6, 0.285475], [-0.6, -0.285475], [0.6, -0.285475], [0.6, 0.285475]]"
+      footprint: "[[-0.76, -0.4], [0.76, -0.4], [0.76, 0.4], [-0.76, 0.4]]"
+      #footprint: "[[-0.01, 0.01], [-0.01, -0.01], [0.01, 0.01], [0.01, -0.01]]"
       #robot_radius: 0.5
-      resolution: 0.05 #0.25 #0.05
+      resolution: 0.05
+      width: 5
+      height: 5
       track_unknown_space: true
-      unknown_cost_value: 120
-      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
-      obstacle_layer:
-        plugin: "nav2_costmap_2d::ObstacleLayer"
+      unknown_cost_value: 0
+      plugins: ["static_layer", "voxel_layer", "inflation_layer"]
+      voxel_layer:
+        plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
-        observation_sources: scan
-        scan:
-          topic: /scan
-          max_obstacle_height: 3.0
+        footprint_clearing_enabled: true
+        max_obstacle_height: 2.0
+        publish_voxel_map: True
+        origin_z: 0.0
+        z_resolution: 0.05
+        z_voxels: 16
+        max_obstacle_height: 2.0
+        unknown_threshold: 15
+        mark_threshold: 0
+        observation_sources: pointcloud
+        combination_method: 1
+        pointcloud:  # no frame set, uses frame from message
+          topic: /cloud_in
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.01
+          obstacle_max_range: 10.0
+          obstacle_min_range: 0.3
+          raytrace_max_range: 5.0
+          raytrace_min_range: 0.3
           clearing: True
           marking: True
-          data_type: "LaserScan"
-          raytrace_max_range: 10.0
-          raytrace_min_range: 0.3 #1.0
-          obstacle_max_range: 10.0 #1.0
-          obstacle_min_range: 1.0
+          data_type: "PointCloud2"
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 1.0
-        inflation_radius: 0.3 #0.55
+        cost_scaling_factor: 2.0
+        inflation_radius:  0.55
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -302,11 +341,11 @@ planner_server:
       max_iterations: 1000000             # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
       max_on_approach_iterations: 1000    # Maximum number of iterations after within tolerances to continue to try to find exact solution
       max_planning_time: 10.0              # max time in s for planner to plan, smooth
-      motion_model_for_search: "REEDS_SHEPP" #"DUBIN"    # Hybrid-A* DUBIN, REEDS_SHEPP
+      motion_model_for_search: "DUBIN" #"DUBIN"    # Hybrid-A* DUBIN, REEDS_SHEPP
       angle_quantization_bins: 72         # Number of angle bins for search
       analytic_expansion_ratio: 3.5       # The ratio to attempt analytic expansions during search for final approach.
       analytic_expansion_max_length: 3.0  # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting
-      minimum_turning_radius: 0.8 #0.5       # minimum turning radius in m of path / vehicle
+      minimum_turning_radius: 3.78 #0.8 #0.5       # minimum turning radius in m of path / vehicle
       reverse_penalty: 1.4                # Penalty to apply if motion is reversing, must be => 1
       change_penalty: 0.3 # 0.1                 # Penalty to apply if motion is changing directions (L to R), must be >= 0
       non_straight_penalty: 1.2           # Penalty to apply if motion is non-straight, must be => 1
@@ -372,16 +411,16 @@ behavior_server:
     rotational_acc_lim: 3.2
 robot_state_publisher:
   ros__parameters:
-    use_sim_time: False  
+    use_sim_time: False
 
-#add waypoint following parameters
+#add the waypoint follower params
 waypoint_follower:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: false
     loop_rate: 20
-    stop_on_failure: false
+    stop_on_failure: False
     waypoint_task_executor_plugin: "wait_at_waypoint"
     wait_at_waypoint:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
-      enabled: True
+      enabled: true
       waypoint_pause_duration: 200
