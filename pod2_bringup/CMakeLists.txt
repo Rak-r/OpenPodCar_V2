@@ -25,39 +25,6 @@ install(DIRECTORY launch config scripts
 ament_python_install_package(${PROJECT_NAME})
 
 # provide the paths of python scripts for install directory otherwise it will cause the error 'executable not found on libexec directory'
-install(PROGRAMS
-  scripts/joystick2speedms.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/joystick2wheelAngle.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/Odometry_publisher.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/odometry_handler.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/tf_broadcaster.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/teleop.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/cmd_velHandler.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/simple_pub.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-
 
 ########### R4 specific Nodes to communicate with ROS2################################################################ 
 ###########and Low level motor control ROS2 nodes which takes in cmd_vel and converts to R4_Protocol messages ########
@@ -90,7 +57,6 @@ install(PROGRAMS
   scripts/supportFunctions.py
   DESTINATION lib/${PROJECT_NAME}
 )
-
 
 ##### NAV2 simple commander based waypoint follower ##########
 install(PROGRAMS
