@@ -5,7 +5,7 @@ Make sure to turn the simulation play pause button to run the simulation.'''
 '''Usage:
 cd ros_ws
 source install/setup.bash
-ros2 launch pod2_description pod2_description.launch.py rviz:=true scan_node:= false(default value is false)
+ros2 launch pod2_description pod2_description.launch.py rviz:=true scan_node:= false rgbd_node:=true
 '''
 
 import os
