@@ -4,18 +4,22 @@ from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchD
 from launch.substitutions import LaunchConfiguration, Command, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch import LaunchDescription
+from launch.conditions import IfCondition
 import os
 from ament_index_python import get_package_share_directory
+'''This launch file uses the ros2 teleop-twist-joy pakcage node 
+and used to control the robot in simulation as well as the physical with joystick controller'''
 
 def generate_launch_description():
 
+    # specify the path for he custom defined joy stick parameters according to the joystick available
     joy_params = PathJoinSubstitution([FindPackageShare("pod2_bringup"), "config", "joy.yaml"])
 
     return LaunchDescription([
 
         DeclareLaunchArgument(
             name='use_sim_time', 
-            default_value='true',
+            default_value='false',
             description='Use simulation time'
         ),
         Node(
@@ -23,7 +27,7 @@ def generate_launch_description():
         executable='joy_node',
         name='joy_node',
         output='screen',
-        parameters=[{'deadzone': 0.3,
+        parameters=[{'deadzone': 0.01,
                 'autorepeat_rate': 20.0,
                 'use_sim_time': LaunchConfiguration('use_sim_time')}]
         ),
@@ -34,23 +38,10 @@ def generate_launch_description():
             name='teleop_twist_joy_node',
             output='screen',
             parameters=[joy_params],
-            remappings=[('cmd_vel', '/model/podcar/cmd_vel')]
+            condition = IfCondition(LaunchConfiguration("teleop_node")),
+            # remappings=[('cmd_vel', '/model/podcar/cmd_vel')]
         )
 
-        # Node(
-        #     package='teleop_twist_joy',
-        #     executable='teleop_node',
-        #     name='teleop_twist_joy_node',
-        #     output ='screen',
-        #     parameters=[{'enable_button':5 },
-        #         {'require_enable_button': True},
-        #         {'enable_turbo_button': 4},
-        #         {'axis_linear.x': 1},
-        #         {'axis_angular.yaw': 2},
-        #         {'scale_linear.x': 1.0},
-        #         {'scale_angular.yaw': 1.0},
-        #                 {'use_sim_time': LaunchConfiguration('use_sim_time')}],
-        #     remappings=[('/cmd_vel', '/model/podcar/cmd_vel')]
-        # )
+        
     ])
 
