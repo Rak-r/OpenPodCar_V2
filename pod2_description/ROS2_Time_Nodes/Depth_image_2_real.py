@@ -29,7 +29,7 @@ class ImagePublisherNode(Node):
         self.rgb_subscription = self.create_subscription(Image, '/rgbd_camera/image', self.image_callback, 1)          # subscribe to the rgb image topic
         self.depth_subscription = self.create_subscription(Image, '/rgbd_camera/depth_image', self.depth_callback, 1)  # subscribe to depth image topic
         self.info_sub = self.create_subscription(CameraInfo, 'rgbd_camera/camera_info', self.camera_info_callback, 1)  # subscribe to camera info topic
-        self.rgb_pub = self.create_publisher(Image, '/rgbd_image_real', 1)
+        self.rgb_pub = self.create_publisher(Image, '/camera/color/image_raw', 1)
         self.depth_publisher = self.create_publisher(Image, '/depth', 1)
         self.info_pub = self.create_publisher(CameraInfo, '/depth_camera_info', 1)
         self.get_logger().info('Camera Publisher Node started')
