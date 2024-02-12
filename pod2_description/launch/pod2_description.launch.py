@@ -60,7 +60,7 @@ def generate_launch_description():
     )
 	'''For using ROS2 with Gazebo garden, needed to create the ros_gz_bridge to transfer topics between the two systems
 	Making the bridge from ROS ->GZ for the twist message coming from Ackermann plugin of gazebo and
-    GZ -> ROS  for the messages namely; clock, groundtruth odometry, laserscan data coming from simulated sensor plugin from GZ'''
+    GZ -> ROS  for the messages namely; clock, groundtruth odometry, Depth and rgb data coming from simulated sensor plugin from GZ'''
 	ros_gz_bridge = Node(
 		package='ros_gz_bridge',
 		name = 'ros_gz_bridge',
