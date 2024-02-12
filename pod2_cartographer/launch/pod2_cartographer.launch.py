@@ -33,7 +33,7 @@ def generate_launch_description():
     configuration_basename = LaunchConfiguration('configuration_basename',
                                                  default='pod2_lds_2d.lua')
 
-    resolution = LaunchConfiguration('resolution', default='0.05')                               # Make sure that resolution is reasonable according to your system computation and requirement
+    resolution = LaunchConfiguration('resolution', default='0.05')
     publish_period_sec = LaunchConfiguration('publish_period_sec', default='1.0')
     path_to_realtime_nodes = get_package_share_directory('pod2_cartographer')
 
