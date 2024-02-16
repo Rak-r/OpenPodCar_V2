@@ -25,7 +25,7 @@ def generate_launch_description():
 	world_path = os.path.join(get_package_share_directory('pod2_description'))
 	path_to_urdf = PathJoinSubstitution([FindPackageShare("pod2_description"), "xacro", "OpenPodCar_V2_Depth.urdf"])
 	path_to_realtime_nodes = get_package_share_directory('pod2_description')
-	rviz_config_path = PathJoinSubstitution([FindPackageShare("pod2_description"), "rviz2", "description.rviz"])
+	rviz_config_path = PathJoinSubstitution([FindPackageShare("pod2_navigation"), "rviz2", "OpenPodCar.rviz"])
 	
 	robot_description = ParameterValue(
         Command(['xacro ', str(get_package_share_path('pod2_description') / 'xacro/OpenPodCar_V2_Depth.urdf')]),
@@ -60,7 +60,7 @@ def generate_launch_description():
     )
 	'''For using ROS2 with Gazebo garden, needed to create the ros_gz_bridge to transfer topics between the two systems
 	Making the bridge from ROS ->GZ for the twist message coming from Ackermann plugin of gazebo and
-    GZ -> ROS  for the messages namely; clock, groundtruth odometry, laserscan data coming from simulated sensor plugin from GZ'''
+    GZ -> ROS  for the messages namely; clock, groundtruth odometry, Depth and rgb data coming from simulated sensor plugin from GZ'''
 	ros_gz_bridge = Node(
 		package='ros_gz_bridge',
 		name = 'ros_gz_bridge',

@@ -3,10 +3,8 @@
 <package format="3">
   <name>pod2_navigation</name>
   <version>0.0.0</version>
-  <description>pod2_navigation package is built on top of the NAV2 stack for ROS2. This consist of configuration file for various sub-packages ; planner server
-  controller_servr, bt_navigator, behaviour_server, nav2_waypoint_follower, costmaps2D, AMCL. These parameters has been tuned for the specific PodCar NAV2 setup.
-  The package also provides the localization using slam_toolbox in asynchronous mode. The parameter file has been referenced from the official slam_toolbox guide.</description>
-  <maintainer email="27339244@students.lincoln.ac.uk"></maintainer>
+  <description>TODO: Package description</description>
+  <maintainer email="computing@todo.todo">computing</maintainer>
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

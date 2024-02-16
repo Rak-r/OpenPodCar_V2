@@ -55,13 +55,16 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
         # global old_accumulated_y_dist
         dx_m = (pixel_to_dist*dx_pix) #.round(3)                                   # This stores the value of distnace in x direction in mm or meters.
         dy_m = (pixel_to_dist*dy_pix) #.round(3)                                   # This stores the value of distnace in y direction in mm or meters.
-        vx_ms = dx_m / dt_sec
-        vy_ms = dy_m / dt_sec
-        # print(np.array((vx_ms, vy_ms)))
+        vx_ms = dx_m / dt_sec                                                      # Calculate the linear velocity in x 
+        vy_ms = dy_m / dt_sec                                                      # Calculate the linear velocity in y 
+        
 
-        return (vx_ms, vy_ms)                                                       # This stores the value of distnace in y direction in mm or meters.
+        return (vx_ms, vy_ms)                                                       
 
 
+    '''Function to take the average of calcluated velocities. Used to make the values near to what the robot actually behaves using gamepad.
+    To do this, take the average of vx and vy and caliberate the sensor output to match the actual robot velocity. Could be done by tuning the scaling factor'''
+    
     def averager(self, new_vels: np.array):
         
         if len(new_vels) > 1:
@@ -74,9 +77,10 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
             # print('avg' ,avg_vels[0])
             return avg_vels  
         else:
-            print(f' No incoming data to average {self.vels}')
+            print(f' Not much velocities to average {self.vels}')
 
     '''Function to extract the values from the incoming string and returns the dx and dy in pixels'''
+
     def extract_data(self,input_data):
         try:
 
@@ -110,7 +114,7 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
         dt_sec = current_time_sec - self.old_time
         self.old_time = current_time_sec
         
-        if self.ser.isOpen() == True:
+        if self.ser.isOpen() == True:                                                          # checks if serail port is open
             
             while self.ser.in_waiting != 0:                                                    # check for more incoming bytes
                 
@@ -123,8 +127,8 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
 
             if self.string_complete:
                 try:
-                    # self.get_logger().info(f"Input String: {self.input_data}")
-                    (dx_pix, dy_pix) = self.extract_data(self.input_data)                                          # Extract x and y values from input_data
+                    
+                    (dx_pix, dy_pix) = self.extract_data(self.input_data)                           # Extract x and y values from input_data
                     (self.vx_ms, self.vy_ms) = self.pix2speed(dx_pix, dy_pix, dt_sec)               # call the function for pixel to distance                                          
                     
                     print('Before Average values: ', self.vx_ms, self.vy_ms)
@@ -147,35 +151,14 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
                 odom_msg.child_frame_id = 'base_link'
 
                 # fill the pose field of the message
-                # odom_msg.pose.pose.position.x = self.vx_ms                                          #self.accumulated_distance_x
-                # odom_msg.pose.pose.position.y = self.vy_ms                                           #self.accumulated_distance_y
-                # odom_msg.pose.pose.position.z = h     
                           
                 odom_msg.twist.twist.linear.x = self.vx_ms
                 odom_msg.twist.twist.linear.y = self.vy_ms
                 covaraince  = np.diag([0.01, 0.01, 0, 0, 0, 0])
                
                 odom_msg.twist.covariance = list(covaraince.flatten())
+                self.odometry_publisher.publish(odom_msg)                                                 # publish the odometry data
                 
-             
-                # current_time = time()
-                # delta_t = current_time - self.old_time
-             
-                # linear_x = self.old_x_dist - self.x_dist
-                # linear_y = self.old_y_dist - self.y_dist 
-                
-                # # fill the twist field of the message
-               
-                # if linear_x == old_accumulated_x_dist:
-                #     odom_msg.twist.twist.linear.x = 0.0
-                # else:
-                #     odom_msg.twist.twist.linear.x = linear_x /delta_t
-                
-                # if linear_y == old_accumulated_y_dist:
-                #     odom_msg.twist.twist.linear.y = 0.0
-                # else:
-                #     odom_msg.twist.twist.linear.y = linear_y/delta_t
-               
                 #transform broadcaster
                 # transform_msg = TransformStamped()
                 # transform_msg.header.stamp = self.get_clock().now().to_msg()
@@ -184,10 +167,9 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
                 # transform_msg.transform = Transform(translation = Vector3(x = odom_msg.pose.pose.position.x,
                 #                                                 y = odom_msg.pose.pose.position.y,
                 #                                                 z = odom_msg.pose.pose.position.z))
-                # #print(odom_msg.pose.pose)
-                self.odometry_publisher.publish(odom_msg)                                                 # publish the odometry data
+
                 # self.transform_br.sendTransform(transform_msg)                                            # broadcast the odom --> base_link transform
-                # self.old_time = time()
+            
         else:
             print('Serial Port Failed')
             self.ser.close()

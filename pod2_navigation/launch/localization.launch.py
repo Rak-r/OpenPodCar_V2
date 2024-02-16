@@ -1,8 +1,7 @@
-'''The localization launch file is adapted from official nav2 bringup package for ROS2 Humble
-(https://github.com/ros-planning/navigation2/tree/humble)'''
-
 import os
+
 from ament_index_python.packages import get_package_share_directory
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
 from launch.substitutions import LaunchConfiguration
@@ -52,7 +51,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'map',
-            default_value=os.path.join(bringup_dir, 'maps', 'Tight_env.yaml'),
+            default_value=os.path.join(bringup_dir, 'maps', 'empty_map.yaml'),
             description='Full path to map yaml file to load'),
 
         DeclareLaunchArgument(
