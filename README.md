@@ -82,10 +82,10 @@ To view active topics in gazebo, use `gz topic -l` in the terminal window.
 ### Scripts
 
 This directory in `pod2_description` package consists of intermediate nodes which are used to convert the incoming messages over te topics `/model/podcar/odometry`, `/lidar_scan`, `rgbd_camera/depth` to publish on Wall time. This approach is employed to avoid the time realetd issues, tf errors and with an assumption that the simulation and the physical vehicle should work on same time.
-1. `odometry_wall_timer.py` handles the ground truth odometry `/model/podcar/odometry` topic from GZ and publishes to ROS2 topic `/odom` with changing the time stamp to wall time.
+1. `odometry_wall_time.py` handles the ground truth odometry `/model/podcar/odometry` topic from GZ and publishes to ROS2 topic `/odom` with changing the time stamp to wall time.
 
 
-2. `laser_wall_timer.py` handles the `/lidar_scan` topic from GZ laser plugin and publishes to ROS2 topic `/scan` with changing the time stamp to wall time.
+2. `laser_wall_time.py` handles the `/lidar_scan` topic from GZ laser plugin and publishes to ROS2 topic `/scan` with changing the time stamp to wall time.
 
 3. `RGBD_wall_timer.py` handles the `/rgbd_camera/depth`, `/rgbd_camera/camera_info`, `/rgbd_camera/image`, `rgbd_camera/points` topic from GZ laser plugin and publishes to ROS2 topic `/depth`, `/depth_camera_info`, `/camera/color/image_raw` and `/cloud_in` with changing the time stamp to wall time.
 
