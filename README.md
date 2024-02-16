@@ -55,13 +55,13 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 
 This ROS2 package cosnists the robot's urdf files in the `xacro` directory, meshes of the robot model, sensors in the `meshes` and the `launch` directory contains the `description.launch.py` file which launches the robot model's URDF and the world file in the Gazebo garden with a condition to start along the rviz2 node.
 The launch file also consists the `ros_gz_bridge` package which is used to establish communication between Gazebo and ROS2. The parameter bridge is created for `/model/podcar/cmd_vel` topic from ROS -> GZ, on this topic the Ackermann system plugin publishes the twist messages.
-GZ -> ROS is created for `/clock`, `/lidar_scan` topic which is coming from gazebo sensor system plugin, `/model/podcar/odometry` topic consists of ground-truth odometry data from Gazebo.
+GZ -> ROS is created for  `LaserScan` and `RGBD` based simulated sensor data which is coming from gazebo sensor system plugin, `/model/podcar/odometry` topic consists of ground-truth odometry data from Gazebo.
 ### Usage
 
 #### If you want to launch the PodCar with Lidar enabled, run the below launch file:
-* Launch without Rviz : `ros2 launch pod2_decsription description.launch.py`
+* Launch without Rviz : `ros2 launch pod2_decsription pod2_description_Lidar.launch.py scan_node:=true rgbd_node:=false`
 
-* Launch along with Rviz: `ros2 launch pod2_description description.launch.py rviz:=true`
+* Launch along with Rviz: `ros2 launch pod2_description pod2_description.launch.py rviz:=true scan_node:=true rgbd_node:=false`
 
 
 This launch will launch the simulation in gazebo and don't forget to turn on the play pause button to run the simulation. 
@@ -69,9 +69,9 @@ To view the active topics in ros2, use `ros2 topic list -t` in the terminal wind
 To view active topics in gazebo, use `gz topic -l` in the terminal window.
 
 #### If you want to launch the PodCar with depth camera enabled, run the below launch file:
-* Launch without Rviz : `ros2 launch pod2_decsription pod2_description.launch.py scan_node:=false`
+* Launch without Rviz : `ros2 launch pod2_decsription pod2_description_Depth.launch.py scan_node:=false rgbd_node:=true`
 
-* Launch along with Rviz: `ros2 launch pod2_description description.launch.py rviz:=true scan_node:=false`
+* Launch along with Rviz: `ros2 launch pod2_description pod2_description_Depth.launch.py rviz:=true scan_node:=false rgbd_node:=true`
 
 
 This launch will launch the simulation in gazebo and don't forget to turn on the play pause button to run the simulation. 
@@ -87,20 +87,16 @@ This directory in `pod2_description` package consists of intermediate nodes whic
 
 2. `laser_wall_timer.py` handles the `/lidar_scan` topic from GZ laser plugin and publishes to ROS2 topic `/scan` with changing the time stamp to wall time.
 
-
-3. `transform_broadcaster.py` subcribes to the `/odom` topic published by the odometry_wall_timer node. The transform message field is made to publish wall time.
-
-
-4. `Depth_image_2_real.py` handles the `/rgbd_camera/depth`, `/rgbd_camera/camera_info`, `/rgbd_camera/image` topic from GZ laser plugin and publishes to ROS2 topic `/depth`, `/depth_camera_info`, `/rgbd_camera_real` with changing the time stamp to wall time.
+3. `RGBD_wall_timer.py` handles the `/rgbd_camera/depth`, `/rgbd_camera/camera_info`, `/rgbd_camera/image`, `rgbd_camera/points` topic from GZ laser plugin and publishes to ROS2 topic `/depth`, `/depth_camera_info`, `/camera/color/image_raw` and `/cloud_in` with changing the time stamp to wall time.
 
 ## Pod2_bringup
 
-This ROS2 package utilizes the ROS2 teleop-twist-joy pakcage, in orderto control the OpenPodcar using the joystick controller in the simulation. 
-Different joystick are tested namely; Logotech Extreme3dPro, standard linux usb joystick, PS2 and XBOX.
+This ROS2 package utilizes the ROS2 teleop-twist-joy pakcage, in order to control the OpenPodcar using the joystick controller in the simulation as well as in real world physical robot teleoperation. 
+Different joystick are tested namely; Logotech Extreme3dPro, generic linux usb joystick, PS2 and XBOX.
 To test the joystick is connected to the system run `ls /dev/input`.
 
 
-In order to use specific joystick you might hav to create the `.yaml` config file which can be referenced from (https://github.com/ros2/teleop_twist_joy/tree/humble/config) and the `launch` directory contains the `joy.launch.py` file which launches the `Joy node` and  `teleop_twist_joy_node`.
+In order to use specific joystick you might have to create the `.yaml` config file which can be referenced from (https://github.com/ros2/teleop_twist_joy/tree/humble/config) and the `launch` directory contains the `joy.launch.py` file which launches the `Joy node` and  `teleop_twist_joy_node`.
 **For using any custom joystick, you might need to check which buttons and axis does what** 
 
 I recommend using `https://flathub.org/apps/io.gitlab.jstest_gtk.jstest_gtk`. The tool also provide calibrataion for the joystick which mighht be helpful if deploying on the physical vehicle for teleoperation.
@@ -116,19 +112,21 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 2. `mapper_params_slam_sync.yaml` and `mapper_params_slam_async.yaml` are the params file which are used to launch the slam-toolbox either in synchronous/asynchronous mode.
 
 
-3. The launch directory consists of `nav_testing.launch.py` which uses the default `nav2_bringup` package for launching all the nodes and takes the `nav_params_test` from the config directory. It uses AMCL for localization which will also be started.
+3. The launch directory consists of `OpenPodCar_NAV2.launch.py` which uses the default `nav2_bringup` package for launching all the nodes and takes the `nav_params_test` from the config directory. It uses AMCL for localization which will also be started.
     
   * `cd <workspace>`
   * `source install/setup.bash`
-  * Start the loaclization using AMCL: `ros2 launch pod2_description localization.launch.py`.
-  * Launch the naviagtion launch file which starts the nodes; plannner serever, controller server, bt navigator, behavioir server.
+  * Start the localization using AMCL: `ros2 launch pod2_description localization.launch.py`.
+  * Launch the navigation launch file which starts the nodes; plannar serever, controller server, bt navigator, behavioir server.
 
 
-  `ros2 launch pod2_navigation nav_testing.launch.py`
+  `ros2 launch pod2_navigation OpenPodCar_NAV2.launch.py slam:=false rviz:=true amcl:=true`.
 
 
-  * To run the slam_toolbox for localization, do not run `localization.launch.py` and start the below launch file. 
-  `ros2 launch pod2_navigation async_slam.launch.py`.
+  * To run the slam_toolbox for localization, 
+
+
+  `ros2 launch pod2_navigation OpenPodCar_NAV2.launch.py slam:=true rviz:=true amcl:=false`.
 
 
 4. If want to build the map using slam_toolbox, then change the mode to mapping in `mapper_params_online_async.yaml`.
@@ -137,7 +135,7 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 5. The map can be saved either by command-line: ` ros2 run nav2_map_server map_saver_cli -f <name of the map>` or in rviz2 slam_toolbox plugin. More info could be found at: (https://github.com/SteveMacenski/slam_toolbox/tree/humble).
 
 
-6. In order to save the map with old format `(.yaml and .pgm)`, hit the save map button in rviz2 slam_toolbox plugin and to save in the other format (serilaised), write the name of the map without any extension and  click the serial map button in the rviz2 slamtoolbox_plugin.
+6. In order to save the map with old format `(.yaml and .pgm)`, hit the save map button in rviz2 slam_toolbox plugin and to save in the other format (serilaised), write the name of the map without any extension and  click the serial map button in the rviz2 slam_toolbox_plugin.
 
 
 7. The package has been tested with the `Tight_env.yaml`, `Tight_env.pgm`. It also features different map enviornments named `Warehouse.yaml`with corresponding `Warehouse.pgm` and also as rough test environment named as `test_map.yaml` with corresponding pgm file `test_map.pgm`.
@@ -154,23 +152,24 @@ The current repository features the ROS2 Humble with Gazebo garden. To use the R
 
 # Summary
 
-### After building and testing the individual packages for your choice, if want to visualize the robot in rviz, gazebo and running the NAV2 stack, follow the below commnads for ease of use;
+### After building and testing the individual packages for your choice, if want to visualize the robot in rviz, gazebo and running the NAV2 stack with AMCL, follow the below commnads for ease of use;
 
 
 1. Make sure to source the ros2 setp and workspace.
 
 
-2. Open terminal 1 and run: `ros2 launch pod2_description description.launch.py`.
+2. Open terminal 1 and run: `ros2 launch pod2_description pod2_description_Depth.launch.py`.
 
-3. In terminal 2, run: `ro2 launch pod2_navigation localization.launch.py`.
+3. In terminal 2, run: `ros2 launch pod2_navigation OpenPodCar_NAV2.launch.py slam:=false rviz:=true amcl:=true`.
+
+### NAV2 with Slam_toolbox:
 
 
-4. In terminal 3, start the navigation stack: `ros2 launch pod2_navigation nav_testing.launch.py`.
+1. Open terminal 1 and run: `ros2 launch pod2_description pod2_description_Depth.launch.py`.
 
 
-5. You can start rviz2 either in the same launch file for navigation by setting an argument, which I will be updating soon. For now, open terminal 4 and run:
+2. In terminal 2, run: `ros2 launch pod2_navigation OpenPodCar_NAV2.launch.py slam:=true rviz:=true amcl:=false`.
 
-`rviz2 -d /opt/ros/humble/share/nav2_bringup/rviz/nav2_default_rviz`.
 
 
 

@@ -17,7 +17,7 @@ find_package(sensor_msgs REQUIRED)
 
 
 # Add the package specific directories in the install directory
-install(DIRECTORY launch config scripts
+install(DIRECTORY launch config ROS2_R4_nodes
   DESTINATION share/${PROJECT_NAME}/
 )
 # Install Python modules.
@@ -26,43 +26,38 @@ ament_python_install_package(${PROJECT_NAME})
 
 # provide the paths of python scripts for install directory otherwise it will cause the error 'executable not found on libexec directory'
 
+
 ########### R4 specific Nodes to communicate with ROS2################################################################ 
 ###########and Low level motor control ROS2 nodes which takes in cmd_vel and converts to R4_Protocol messages ########
 
 install(PROGRAMS
-  scripts/Podcar_motor_driver.py
+ROS2_R4_nodes/Podcar_motor_driver.py
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/Podcar_Steer_node.py
+ROS2_R4_nodes/Podcar_Steer_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/R4_Publisher.py
+ROS2_R4_nodes/R4_Publisher.py
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/R4_Receiver.py
+ROS2_R4_nodes/R4_Receiver.py
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/R4-Websockets-Client.py
+ROS2_R4_nodes/R4-Websockets-Client.py
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/Config.py
+ROS2_R4_nodes/Config.py
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/supportFunctions.py
+ROS2_R4_nodes/supportFunctions.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
-
-##### NAV2 simple commander based waypoint follower ##########
-install(PROGRAMS
-  scripts/waypoint_follower.py
-  DESTINATION lib/${PROJECT_NAME}
-)
 
 ament_package()

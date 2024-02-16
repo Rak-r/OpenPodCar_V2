@@ -1,0 +1,6 @@
+image: '/home/computing/ws_gazebo/src/pod2_navigation/maps/empty_map.pgm'
+resolution: 0.5 #1.0            # https://robotics.stackexchange.com/questions/104215/gpsnavigation2-issues-navigating-with-an-empty-map-after-success-with-a-pre-b/104226#104226
+origin: [0.0, 0.0, 0.0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
