@@ -54,7 +54,7 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/Depth_image_2_real.py
+  scripts/RGBD_wall_timer.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
