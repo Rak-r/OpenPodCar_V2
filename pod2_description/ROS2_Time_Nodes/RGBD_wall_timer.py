@@ -10,14 +10,14 @@ with changing the time stamp to wall time.
 Usage:
 cd ros_ws
 source install/setup.bash
-ros2 run pod2_description Depth_image_2_real.py
+ros2 run pod2_description RGBD_wall_timer.py
 
 First time Errors:
 
 If terminal returns no executable found, it may be to provide permission to execute the file first time.
 Steps:
 cd ros_ws/src/pod2_description/ROS2_Time_Nodes
-chmod +x Depth_image_2_real.py
+chmod +x RGBD_wall_timer.py
 cd ../../..
 Try the run command again.
 

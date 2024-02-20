@@ -14,13 +14,13 @@ import math
 FOV_DEG = 42.0                                              # field of view in degrees
 FOV_RADIAN = np.radians(FOV_DEG)                            # field of view in degrees
 RES = 35                                                    # resolution in pixels
-scaler = 19.5 #15.0 #20.0 #9.4453 #7.5                                        # magic number from manjufacturer's data
-h =  0.150 #0.155 #0.083                                                   # sensor height above the surface in meters
+scaler = 19.5 #15.0 #20.0 #9.4453 #7.5                      # magic number from manufacturer's data
+h =  0.150 #0.155 #0.083                                    # sensor height above the surface in meters
 pixel_to_dist = 2*h*np.tan(FOV_RADIAN/2)/(RES*scaler)
 print(type(pixel_to_dist))
-old_accumulated_x_dist = 0                                              # intialize the variable to store the old calculated distance values in x direction
+old_accumulated_x_dist = 0                                  # intialize the variable to store the old calculated distance values in x direction
 old_accumulated_y_dist = 0 
-                                                                 # intialize the variable to store the old calculated distance values in y direction
+                                                            # intialize the variable to store the old calculated distance values in y direction
 
 
 class OpticalFlowPublisher(Node):
@@ -62,8 +62,8 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
         return (vx_ms, vy_ms)                                                       
 
 
-    '''Function to take the average of calcluated velocities. Used to make the values near to what the robot actually behaves using gamepad.
-    To do this, take the average of vx and vy and caliberate the sensor output to match the actual robot velocity. Could be done by tuning the scaling factor'''
+    '''Function to take the average of calculated velocities. Used to make the values near to what the robot actually behaves using gamepad.
+    To do this, take the average of vx and vy and calibrate the sensor output to match the actual robot velocity. Could be done by tuning the scaling factor'''
     
     def averager(self, new_vels: np.array):
         
@@ -158,17 +158,7 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
                
                 odom_msg.twist.covariance = list(covaraince.flatten())
                 self.odometry_publisher.publish(odom_msg)                                                 # publish the odometry data
-                
-                #transform broadcaster
-                # transform_msg = TransformStamped()
-                # transform_msg.header.stamp = self.get_clock().now().to_msg()
-                # transform_msg.header.frame_id = 'odom'
-                # transform_msg.child_frame_id = odom_msg.child_frame_id
-                # transform_msg.transform = Transform(translation = Vector3(x = odom_msg.pose.pose.position.x,
-                #                                                 y = odom_msg.pose.pose.position.y,
-                #                                                 z = odom_msg.pose.pose.position.z))
-
-                # self.transform_br.sendTransform(transform_msg)                                            # broadcast the odom --> base_link transform
+        
             
         else:
             print('Serial Port Failed')
