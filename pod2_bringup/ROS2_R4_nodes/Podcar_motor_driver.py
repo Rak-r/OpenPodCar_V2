@@ -12,6 +12,7 @@ R4Command = String()
 oldR4Command = String()
 R4_DHB_Channel = 1
 OSMC_range = 400 #512 #256 #128                                                         # To test the OSMC at lower speed. Can be set to high as well like 4095
+OSMC_scale_factor = 2
 class Podcar_Motor_Driver(Node):
 
     def __init__(self):
@@ -25,7 +26,7 @@ class Podcar_Motor_Driver(Node):
     
     def speed_callback(self, msg):
 
-        remapped_linear_x = msg.speed
+        remapped_linear_x = msg.speed*OSMC_scale_factor
         remapped_linear_x = int(abs(remapped_linear_x*OSMC_range))
         
         if remapped_linear_x < 1:
