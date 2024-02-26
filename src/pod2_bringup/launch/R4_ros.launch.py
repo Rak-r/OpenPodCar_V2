@@ -1,3 +1,5 @@
+'''Add chmod +x to run the executable using ros2 run command'''
+
 import os
 from launch import LaunchDescription
 from launch_ros.actions import Node
