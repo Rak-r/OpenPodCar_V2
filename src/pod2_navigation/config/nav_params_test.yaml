@@ -36,7 +36,7 @@ amcl:
     z_max: 0.05
     z_rand: 0.5
     z_short: 0.05
-    scan_topic: scan
+    scan_topic: /scan
     map_topic: map
     set_initial_pose: false
     always_reset_initial_pose: false
@@ -59,7 +59,7 @@ bt_navigator:
     use_sim_time: false
     global_frame: map
     robot_base_frame: base_link
-    odom_topic: /odom
+    odom_topic: /odometry/filtered #/odom
     bt_loop_duration: 10
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
@@ -153,7 +153,8 @@ controller_server:
       debug_trajectory_details: True
       min_vel_x: -0.5
       min_vel_y: 0.0
-      max_vel_x: 0.5
+      # max_vel_x: 1.0
+      max_vel_x: 0.5                                     # maximum velocity in the x-direction
       #max_vel_y: 0.26
       max_vel_theta: 1.0
       min_speed_xy: -0.5
@@ -206,19 +207,18 @@ local_costmap:
       robot_base_frame: base_link
       use_sim_time: False
       rolling_window: true
-      track_unknown_space: true
-      unknown_cost_value: 250
       lethal_cost_threshold: 150
       width: 3
       height: 3
       resolution: 0.25
-      footprint: "[[-0.76, -0.4], [0.76, -0.4], [0.76, 0.4], [-0.76, 0.4]]"  # [right bottom, right top , left top ,left bottom]
+      footprint: "[[-0.76, -0.4], [0.76, -0.4], [0.76, 0.4], [-0.76, 0.4]]"
+      #footprint: "[[-0.01, 0.01], [-0.01, -0.01], [0.01, 0.01], [0.01, -0.01]]"
       #robot_radius: 0.5
       plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 2.1 #3.0 #1.0
-        inflation_radius: 1.8 #1.2 #0.55
+        cost_scaling_factor: 5.0 #2.0
+        inflation_radius: 0.0 #0.3 #0.55
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -229,10 +229,10 @@ local_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          raytrace_max_range: 12.0
-          raytrace_min_range: 0.3
-          obstacle_max_range: 10.0
-          obstacle_min_range: 0.3
+          raytrace_max_range: 10.0 #5.0 
+          raytrace_min_range: 0.3 #1.0
+          obstacle_max_range: 10.0 #5.0
+          obstacle_min_range: 0.3 #1.0
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       always_send_full_costmap: True
@@ -251,12 +251,14 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: false
-      footprint: "[[-0.76, -0.4], [0.76, -0.4], [0.76, 0.4], [-0.76, 0.4]]"  # [right bottom, right top , left top ,left bottom]
+      footprint: "[[-0.76, -0.4], [0.76, -0.4], [0.76, 0.4], [-0.76, 0.4]]"
+      lethal_cost_threshold: 150
       #robot_radius: 0.5
       resolution: 0.05
+      width: 5
+      height: 5
       track_unknown_space: true
-      unknown_cost_value: 250 #120
-      lethal_cost_threshold: 150
+      unknown_cost_value: 0                               # behave as free space
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -268,17 +270,17 @@ global_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          raytrace_max_range: 12.0 #6.0
-          raytrace_min_range: 0.3 #0.0
-          obstacle_max_range: 10.0 #3.0
-          obstacle_min_range: 0.3 #0.0
+          raytrace_max_range: 10.0 #5.0 
+          raytrace_min_range: 0.3 #1.0
+          obstacle_max_range: 10.0 #5.0
+          obstacle_min_range: 0.3 #1.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 4.58 #1.5 #1.0
-        inflation_radius: 1.6 #0.66 #0.55
+        cost_scaling_factor: 5.0 #2.0
+        inflation_radius:   0.0 #0.4 #0.55
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -300,8 +302,7 @@ planner_server:
       downsampling_factor: 1              # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
       tolerance: 1.0 # 0.25                     # dist-to-goal heuristic cost (distance) for valid tolerance endpoints if exact goal cannot be found.
       allow_unknown: true
-      cost_scaling_factor: 0.9
-     
+      cost_scaling_factor: 0.9            # allow traveling in unknown space
       max_iterations: 1000000             # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
       max_on_approach_iterations: 1000    # Maximum number of iterations after within tolerances to continue to try to find exact solution
       max_planning_time: 10.0              # max time in s for planner to plan, smooth
@@ -309,11 +310,11 @@ planner_server:
       angle_quantization_bins: 72         # Number of angle bins for search
       analytic_expansion_ratio: 3.5       # The ratio to attempt analytic expansions during search for final approach.
       analytic_expansion_max_length: 3.0  # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting
-      minimum_turning_radius: 3.78 #0.5       # minimum turning radius in m of path / vehicle
+      minimum_turning_radius: 3.78 #0.8 #0.5       # minimum turning radius in m of path / vehicle
       reverse_penalty: 1.4                # Penalty to apply if motion is reversing, must be => 1
       change_penalty: 0.3 # 0.1                 # Penalty to apply if motion is changing directions (L to R), must be >= 0
       non_straight_penalty: 1.2           # Penalty to apply if motion is non-straight, must be => 1
-      cost_penalty: 1.3                   # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
+      cost_penalty: 1.2                   # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
       retrospective_penalty: 0.015
       lookup_table_size: 20.0             # Size of the dubin/reeds-sheep distance window to cache, in meters.
       cache_obstacle_heuristic: false     # Cache the obstacle map dynamic programming distance expansion heuristic between subsiquent replannings of the same goal location. Dramatically speeds up replanning performance (40x) if costmap is largely static.
@@ -321,9 +322,9 @@ planner_server:
       viz_expansions: True                   
 
       smoother:
-        max_iterations: 1000
-        w_smooth: 0.3
-        w_data: 0.2
+        max_iterations: 2000 #1000
+        w_smooth: 1.0 #0.3
+        w_data: 1.0 #0.2
         tolerance: 1.0e-10
         do_refinement: true
         refinement_num: 2
@@ -338,14 +339,14 @@ planner_server_rclcpp_node:
 map_server:
   ros__parameters:
     use_sim_time: False
-    yaml_filename: "maps/empty_map.yaml"
+    yaml_filename: "maps/Fablab.yaml"
 
 map_saver:
   ros__parameters:
     use_sim_time: False
     save_map_timeout: 5.0
-    free_thresh_default: 0.0
-    occupied_thresh_default: 0.0
+    free_thresh_default: 0.25
+    occupied_thresh_default: 0.65
     map_subscribe_transient_local: True
 
 ##behavior server configurations
@@ -375,16 +376,16 @@ behavior_server:
     rotational_acc_lim: 3.2
 robot_state_publisher:
   ros__parameters:
-    use_sim_time: False  
+    use_sim_time: False
 
-#add waypoint following parameters
+#add the waypoint follower params
 waypoint_follower:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: false
     loop_rate: 20
-    stop_on_failure: false
+    stop_on_failure: False
     waypoint_task_executor_plugin: "wait_at_waypoint"
     wait_at_waypoint:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
-      enabled: True
+      enabled: true
       waypoint_pause_duration: 200
