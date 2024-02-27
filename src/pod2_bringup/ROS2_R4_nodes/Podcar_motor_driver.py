@@ -11,8 +11,8 @@ Bkd_speed_limit = 0.0
 R4Command = String()
 oldR4Command = String()
 R4_DHB_Channel = 1
-OSMC_range = 400 #512 #256 #128                                                         # To test the OSMC at lower speed. Can be set to high as well like 4095
-OSMC_scale_factor = 2
+OSMC_range = 400 #512 #256 #128                             # To test the OSMC at lower speed. Can be set to high as well like 4095
+OSMC_scale_factor = 2                                       # Scale factor to apply to make the incoming cmd_vel output nearly same linear.x as the ground-truth sensor
 class Podcar_Motor_Driver(Node):
 
     def __init__(self):
@@ -29,8 +29,8 @@ class Podcar_Motor_Driver(Node):
         remapped_linear_x = msg.speed*OSMC_scale_factor
         remapped_linear_x = int(abs(remapped_linear_x*OSMC_range))
         
-        if remapped_linear_x < 1:
-         remapped_linear_x = 1
+        # if remapped_linear_x < 1:
+        #  remapped_linear_x = 1
               
         if msg.speed >= 0.0:
          direction = 0       
