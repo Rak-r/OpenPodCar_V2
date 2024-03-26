@@ -14,7 +14,7 @@ import math
 FOV_DEG = 42.0                                              # field of view in degrees
 FOV_RADIAN = np.radians(FOV_DEG)                            # field of view in degrees
 RES = 35                                                    # resolution in pixels
-scaler = 19.5 #15.0 #20.0 #9.4453 #7.5                                        # magic number from manjufacturer's data
+scaler = 9.0 #15.0 #20.0 #9.4453 #7.5                                        # scaling used for distance values not velocities
 h =  0.150 #0.155 #0.083                                                   # sensor height above the surface in meters
 pixel_to_dist = 2*h*np.tan(FOV_RADIAN/2)/(RES*scaler)
 print(type(pixel_to_dist))

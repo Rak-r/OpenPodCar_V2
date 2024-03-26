@@ -14,7 +14,7 @@ import numpy as np
 import math
 
 wheel_track = 0.70                                                              # seperation between front left and front right wheels (in meters)
-wheelbase = 1.6                                                                 # the distance between the centre point of front wheels and centre point of rear wheels (in meters)
+wheelbase = 1.05                                                                 # the distance between the centre point of front wheels and centre point of rear wheels (in meters)
 steering_limit = 0.436                                                          # Limit the steer angle turning for left and right (radians) to represent 25 degrees as measured for our vehicle
 min_turning_radius = wheelbase/math.sin(steering_limit)                         # Calculate the minimum turning radius (returns result in meters)
 AINSTEER_centre_voltage = 1.25                                                  # steering caliberation based on placemnet of Linear actuator
