@@ -17,7 +17,6 @@ find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
-find_package(ros2_laser_scan_matcher REQUIRED)	
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
