@@ -79,7 +79,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument('autostart', default_value='true', description='Automatically startup the nav2 stack'),
 
-        DeclareLaunchArgument('params_file', default_value=os.path.join(bringup_dir, 'config', 'nav_params_test.yaml'), description='Full path to the ROS2 parameters file to use'),
+        DeclareLaunchArgument('params_file', default_value=os.path.join(bringup_dir, 'config', 'nav2_dwb_smac.yaml'), description='Full path to the ROS2 parameters file to use'),
 
         
         DeclareLaunchArgument('map_subscribe_transient_local', default_value='true', description='Whether to set the map subscriber QoS to transient local'),

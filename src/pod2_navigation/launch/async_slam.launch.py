@@ -7,7 +7,7 @@ from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 '''This launch file starts the slam_toolbox for creating the map the enviorment.
-This launches the slam_toolbox in asynchoronised mode meaning when sensor data is filled with noise and robot motion is chalenging to predict, 
+This launches the slam_toolbox in asynchoronised mode meaning when sensor data is not timely synchronised and robot motion is chalenging to predict, 
 suitable for dynamically changing envriorment/real-wrold. '''
 
 def generate_launch_description():
