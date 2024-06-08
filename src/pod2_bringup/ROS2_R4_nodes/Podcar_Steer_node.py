@@ -16,7 +16,11 @@ import math
 wheel_track = 0.70                                                              # seperation between front left and front right wheels (in meters)
 wheelbase = 1.05                                                                 # the distance between the centre point of front wheels and centre point of rear wheels (in meters)
 steering_limit = 0.436                                                          # Limit the steer angle turning for left and right (radians) to represent 25 degrees as measured for our vehicle
-min_turning_radius = wheelbase/math.sin(steering_limit)                         # Calculate the minimum turning radius (returns result in meters)
+min_turning_radius = wheelbase/math.tan(steering_limit)                         # Calculate the minimum turning radius (returns result in meters)
+slope = 0.406652563002354
+intercept = 0.508426291436033
+
+
 AINSTEER_centre_voltage = 1.25                                                  # steering caliberation based on placemnet of Linear actuator
 desired_AISTEER_feedback_voltage = AINSTEER_centre_voltage                      # desired value for the steering motor in volts, 1.25v represents nearly centre position
 AINSTEER_right_limit = 2.5                                                      # Max AINSTEER voltage limit when turning full right (in volts)
@@ -42,7 +46,7 @@ class Podcar(Node):
 
         self.Ackermann_pub = self.create_publisher(AckermannDrive, 'ackermann_cmd', 10)
         self.Steer_pub = self.create_publisher(String, 'R4_Command', 10)
-        self.twist_sub = self.create_subscription(Twist, 'cmd_vel', self.ackermann_callback, 10)
+        self.twist_sub = self.create_subscription(Twist, '/cmd_vel_chicken_modulated', self.ackermann_callback, 10)
         self.AINSTEER_sub = self.create_subscription(String, 'R4_AINSTEER', self.AINSTEER_callback, 10)
         self.linear_velocity = 0.0
         self.angular_velocity = 0.0
@@ -59,20 +63,25 @@ class Podcar(Node):
             desired_turning_radius = 1000000000.0
         else:
             if abs(lin_v)< 0.01: 
-                lin_v=0.1
+                lin_v=0.01
                                                                                  # Deals with the case where vehicle is moving and turning
             desired_turning_radius = abs(lin_v)/ang_v
-            # print('Desired_turning_Radius:', desired_turning_radius)
+            
         
         # if abs(desired_turning_radius) >= min_turning_radius:
         #     desired_turning_radius_limit = min_turning_radius
-        #     if desired_turning_radius <=  -min_turning_radius:
-        #         desired_turning_radius = desired_turning_radius_limit
+        #     if desired_turning_radius <=  0:
+        #         desired_turning_radius = -desired_turning_radius_limit
+        #     desired_turning_radius = desired_turning_radius_limit
         #     # if debug:
         #     print('gazebo case:', desired_turning_radius)
-        
+        # right_wheel_pos = (desired_turning_radius + (wheel_track/2))
+        # left_wheel_pos = (desired_turning_radius - (wheel_track/2))
+        # right_wheel_angle = math.atan2(wheelbase, right_wheel_pos) 
+        # left_wheel_angle = math.atan2(wheelbase, left_wheel_pos)
+       
         desired_virtual_angle = math.atan(wheelbase/desired_turning_radius)
-
+        # print(f'Left_wheel_angle :{left_wheel_angle}, Right wheel angle :{right_wheel_angle}, Centre wheel angle: {desired_virtual_angle}')
         if abs(desired_virtual_angle) > steering_limit:
             desired_virtual_angle_limit = steering_limit
             if desired_virtual_angle < 0:
@@ -89,8 +98,9 @@ class Podcar(Node):
         self.angular_velocity = msg.angular.z
         self.desired_angle = self.virtual_steering_angle(wheelbase, self.linear_velocity, self.angular_velocity)
 
-        desired_AISTEER_feedback_voltage = (self.desired_angle)*scaling_factor + AINSTEER_centre_voltage
-         
+        # desired_AISTEER_feedback_voltage = (self.desired_angle)*scaling_factor + AINSTEER_centre_voltage
+        desired_AISTEER_feedback_voltage =(self.desired_angle + intercept)/slope            # from linear regression
+       
         # if debug:
         # print('desired_angle:', self.desired_angle)
         # print('Desired Feedback:', desired_AISTEER_feedback_voltage )
@@ -106,7 +116,7 @@ class Podcar(Node):
             if index == max_messages:
                 #avg_AINSTEER = np.mean(ain_steer)
                 avg_AINSTEER = (ain_steer.sum())/max_messages
-                
+                # print(avg_AINSTEER)
                 index = 0
             '''print('messages in the array :',ain_steer)'''
         else:

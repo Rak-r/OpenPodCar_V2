@@ -266,30 +266,7 @@
     <!-- <limit effort="10" lower="-0.82393858467" upper="0.82393858467" velocity="1.0"/> -->
   </joint>
 
-  <!-- Adding velodyne VLP-16 sensor -->
-  <!-- <joint name="velodyne_base_mount_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.34 0 1.75"/>
-    <parent link="base_link"/>
-    <child link="velodyne_base_link"/>
-  </joint>
-  <link name="velodyne_base_link">
-    <inertial>
-      <mass value="0.83"/>
-      <origin xyz="-0.34 0.26 1.75"/>
-      <inertia ixx="0.000908059425" ixy="0" ixz="0" iyy="0.000908059425" iyz="0" izz="0.0011049624"/>
-    </inertial>
-    <visual>
-      <geometry>
-        <mesh filename="file://$(find pod2_description)/meshes/VLP16_base_1.dae"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.03"/>
-      <geometry>
-        <cylinder length="0.0717" radius="0.0516"/>
-      </geometry>
-    </collision>
-  </link> -->
+  
   <joint name="velodyne_joint" type="fixed">
     <origin rpy="0 0 0" xyz="-0.34 0 1.75"/>
     <parent link="base_link"/>
@@ -310,7 +287,7 @@
   </link> 
   <gazebo reference="velodyne_link">
     <sensor name="velodyne" type="gpu_lidar">
-      <gz_frame_id>velodyne_link</gz_frame_id>
+      <ignition_frame_id>velodyne_link</ignition_frame_id>
       <!-- <pose>0 0 0 0 0 0</pose> -->
       <topic>lidar_scan</topic>
       <always_on>true</always_on>
@@ -337,14 +314,14 @@
           <resolution>0.08</resolution>
         </range>
       </ray>
-      <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
         <render_engine>ogre2</render_engine>
       </plugin>
     </sensor>
   </gazebo> 
   <gazebo>
     <plugin
-      filename="gz-sim-ackermann-steering-system"
+      filename="ignition-gazebo-ackermann-steering-system"
       name="gz::sim::systems::AckermannSteering">
       <left_joint>front_left_wheel_joint</left_joint>
       <left_joint>back_left_wheel_joint</left_joint>
@@ -370,8 +347,8 @@
   </gazebo>
   <gazebo>
     <plugin
-      filename="gz-sim-odometry-publisher-system"
-      name="gz::sim::systems::OdometryPublisher">
+      filename="ignition-gazebo-odometry-publisher-system"
+      name="ignition::gazebo::systems::OdometryPublisher">
       <xyz_offset>0 0 0</xyz_offset>
       <rpy_offset>0 0 0</rpy_offset>
       <gaussian_noise>0</gaussian_noise>

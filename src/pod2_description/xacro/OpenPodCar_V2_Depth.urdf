@@ -26,7 +26,7 @@
       </geometry>
     </collision>
     <visual>
-      <origin rpy="0 0 1.57079" xyz="0 0 0"/>
+      <origin rpy="0 0 1.57" xyz="0 0 0"/>
       <geometry>
         <mesh filename="file://$(find pod2_description)/meshes/podcarv3.dae" scale="1 1 1"/>
         <!-- <scale>65 69 69</scale> -->
@@ -266,13 +266,13 @@
     <!-- <limit effort="10" lower="-0.82393858467" upper="0.82393858467" velocity="1.0"/> -->
   </joint>
 
-  <!--Add the rgbd depth camera-->
-  <joint name="camera_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="-0.34 0 1.75"/>
+  <!-- optical flow sensor mounted on base link-->
+  <joint name="optical_flow_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="+0.0 +0.4 0.155"/>
     <parent link="base_link"/>
-    <child link="camera_link"/>
+    <child link="optical_flow_link"/>
   </joint>
-  <link name="camera_link">
+  <link name="optical_flow_link">
     <inertial>
       <mass value="0.01"/>
       <origin xyz="0 0 0"/>
@@ -285,34 +285,71 @@
       </geometry>
     </visual>
   </link> 
+  
+  <!-- <link name="camera_optical_frame"/> -->
+  <link name="camera_link">
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0" rpy="0.0 0. 0.0"/>
+      <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.02 0.02"/>
+      </geometry>
+    </visual>
+  </link> 
+  <!-- <joint name="camera_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
+    <parent link="camera_link"/>
+    <child link="camera_optical_frame"/>
+  </joint> -->
+  
+  <!-- <joint name="camera_joint" type="fixed">
+    <origin rpy="0.0 0. 0" xyz="+0.845 0 +0.64"/>                           
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint> -->
+
+  <!-- The below joint is for Game theory experiment to just see the right side tilted -45 degrees (in ROS cordinates) becuause of limit FOV of the camera
+  
+  This camera setup is mounted at approximately 4.5 cm behind the original camera joint setup -->
+  <joint name="camera_joint" type="fixed">
+    <origin rpy="0 0 -0.7854" xyz="+0.8 0 0.68"/>                           
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+  </joint>
+  
   <gazebo reference="camera_link">
-    <sensor name="depth_camera" type="rgbd_camera">
+    <sensor name="rgbd" type="rgbd_camera">
       <gz_frame_id>camera_link</gz_frame_id>
-      <!-- <pose>0 0 0 0 0 0</pose> -->
+      <pose>0. 0. 0. 0. 0. 0.</pose>
       <topic>rgbd_camera</topic>
       <always_on>true</always_on>
       <visualize>true</visualize>
       <update_rate>20</update_rate>
       <camera>
-        <horizontal_fov>1.05</horizontal_fov>
+        <horizontal_fov>1.21</horizontal_fov>
         <image>
-          <width>256</width>
-          <height>256</height>
+          <width>640</width>
+          <height>480</height>
           <format>R_FLOAT32</format>
         </image>
         <clip>
-          <near>0.1</near>
+          <near>0.3</near>
           <far>10.0</far>
         </clip>
       </camera>
-      <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
         <render_engine>ogre2</render_engine>
       </plugin>
     </sensor>
   </gazebo> 
+  
   <gazebo>
     <plugin
-      filename="gz-sim-ackermann-steering-system"
+       filename="ignition-gazebo-ackermann-steering-system"
       name="gz::sim::systems::AckermannSteering">
       <left_joint>front_left_wheel_joint</left_joint>
       <left_joint>back_left_wheel_joint</left_joint>
@@ -338,8 +375,8 @@
   </gazebo>
   <gazebo>
     <plugin
-      filename="gz-sim-odometry-publisher-system"
-      name="gz::sim::systems::OdometryPublisher">
+      filename="ignition-gazebo-odometry-publisher-system"
+      name="ignition::gazebo::systems::OdometryPublisher">
       <xyz_offset>0 0 0</xyz_offset>
       <rpy_offset>0 0 0</rpy_offset>
       <gaussian_noise>0</gaussian_noise>

@@ -11,8 +11,13 @@ Bkd_speed_limit = 0.0
 R4Command = String()
 oldR4Command = String()
 R4_DHB_Channel = 1
+<<<<<<< HEAD:src/pod2_bringup/ROS2_R4_nodes/Podcar_motor_driver.py
 OSMC_range = 400 #512 #256 #128                             # To test the OSMC at lower speed. Can be set to high as well like 4095
 OSMC_scale_factor = 2                                       # Scale factor to apply to make the incoming cmd_vel output nearly same linear.x as the ground-truth sensor
+=======
+OSMC_range = 400 #512 #256 #128                                                         # To test the OSMC at lower speed. Can be set to high as well like 4095
+OSMC_scale_factor = 5
+>>>>>>> Fortress:pod2_bringup/ROS2_R4_nodes/Podcar_motor_driver.py
 class Podcar_Motor_Driver(Node):
 
     def __init__(self):

@@ -39,10 +39,10 @@ slam_toolbox:
     # General Parameters
     use_scan_matching: true
     use_scan_barycenter: true
-    
-    minimum_travel_distance: 0.01 #0.01 #0.2            # Minimum Distance the robot must cover before scan processing (in meters)
-    minimum_travel_heading: 0.2 #0.2 #0.0 #0.5         # Minimum change in heading/orientation required before processing other scan
-    scan_buffer_size: 20 #20
+    minimum_travel_distance: 0.5
+    #minimum_travel_distance: 0.01 #0.2            # Minimum Distance the robot must cover before scan processing (in meters)
+    minimum_travel_heading: 0.5 #0.2 #0.0 #0.5         # Minimum change in heading/orientation required before processing other scan
+    scan_buffer_size: 10
     scan_buffer_maximum_scan_distance: 10.0
     link_match_minimum_response_fine: 0.1  
     link_scan_maximum_distance: 1.5
@@ -64,8 +64,8 @@ slam_toolbox:
     loop_search_space_smear_deviation: 0.03
 
     # Scan Matcher Parameters
-    distance_variance_penalty: 0.25      
-    angle_variance_penalty: 0.5   
+    distance_variance_penalty: 0.5      
+    angle_variance_penalty: 1.0    
 
     fine_search_angle_offset: 0.00349     
     coarse_search_angle_offset: 0.349   

@@ -4,7 +4,7 @@ teleop_twist_joy_node:
     axis_linear:
       x: 4
     scale_linear:
-      x: 0.5 #1.0
+      x: 0.2 #1.0
 
     axis_angular:
       yaw: 3

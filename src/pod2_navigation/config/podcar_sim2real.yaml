@@ -59,8 +59,35 @@ bt_navigator:
     use_sim_time: false
     global_frame: map
     robot_base_frame: base_link
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
     odom_topic: /odometry/filtered                                 # for real podcar change the topic name to /odometry/filtered published by EKF
+========
+    odom_topic: /rtabmap_odom                                 # for real podcar change the topic name to /odometry/filtered if using EKF
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
     bt_loop_duration: 10
+    # default_server_timeout: 20 # ms
+    # wait_for_server_timeout: 1000 # ms
+    transform_tolerance: 0.1 # s
+=======
+    odom_topic: /rtabmap_odom                                 # for real podcar change the topic name to /odometry/filtered if using EKF
+    bt_loop_duration: 10
+    # default_server_timeout: 20 # ms
+    # wait_for_server_timeout: 1000 # ms
+    transform_tolerance: 0.5 # s
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
+    
+    # # # custom behavior tree definition
+    # default_nav_to_pose_bt_xml: "/home/rakshit/podcar/src/pod2_navigation/behavior_trees/default.xml"
+
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+=======
+    navigators: ["navigate_to_pose", "navigate_through_poses"]
+    navigate_to_pose:
+        plugin: "nav2_bt_navigator/NavigateToPoseNavigator"
+    navigate_through_poses:
+        plugin: "nav2_bt_navigator/NavigateThroughPosesNavigator"
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_compute_path_through_poses_action_bt_node
@@ -104,7 +131,7 @@ bt_navigator:
       - nav2_controller_cancel_bt_node
       - nav2_path_longer_on_approach_bt_node
       - nav2_wait_cancel_bt_node
-      - nav2_spin_cancel_bt_node
+     
       - nav2_back_up_cancel_bt_node
       - nav2_assisted_teleop_cancel_bt_node
       - nav2_drive_on_heading_cancel_bt_node
@@ -124,24 +151,50 @@ controller_server:
   ros__parameters:
     # controller server parameters (see Controller Server for more info)
     use_sim_time: False
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
     controller_frequency: 5.0
+========
+    # odom_topic: /odometry/filtered
+    controller_frequency: 20.0 #5.0
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
+=======
+    # odom_topic: /odometry/filtered
+    controller_frequency: 20.0 #20.0 #5.0
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
     min_x_velocity_threshold:  0.07 #0.001
     min_y_velocity_threshold: 0.5
-    min_theta_velocity_threshold: 0.01 #0.001
+    min_theta_velocity_threshold: 0.001 #0.001
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"]
     controller_plugins: ["FollowPath"]
     #progress checker parameters
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
       required_movement_radius: 2.05 #0.5
       movement_time_allowance: 10.0
+========
+      required_movement_radius: 1.8 #2.05 #0.5                              # if less value means tight turns which makes the path deviate from the global plan (give acc. to the mechanical constraint)
+      movement_time_allowance: 20.0
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
+=======
+      required_movement_radius: 0.5 #2.05 #0.5                              # if less value means tight turns which makes the path deviate from the global plan (give acc. to the mechanical constraint)
+      movement_time_allowance: 30.0
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
   
     general_goal_checker:
-      stateful: True
+      # stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.6
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
       yaw_goal_tolerance: 6.28 #3.14                 # do not care much about the orientation
+========
+      yaw_goal_tolerance: 0.5 #6.28 #3.14                              # means the controller should try to achive the orientaion to match the global plan orinetaion. 
+                                                                       # Large value means to less consider the orientation
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
@@ -153,6 +206,7 @@ controller_server:
       max_vel_theta: 1.0
       min_speed_xy: -0.2
       max_speed_xy: 0.2
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
       min_speed_theta: -1.0     # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
       acc_lim_x: 0.02 #2.5
@@ -162,6 +216,20 @@ controller_server:
       # decel_lim_y: -2.5
       decel_lim_theta: -0.015 #-3.2
       vx_samples: 15 #20
+========
+      min_speed_theta: -1.0
+      forward_prune_distance: 2.0
+      prune_distance: 1.5
+      # Add high threshold velocity for turtlebot 3 issue.
+      # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
+      acc_lim_x: 0.28 # -0.15 #0.3 #2.5 #0.02
+      # acc_lim_y: 2.5
+      acc_lim_theta:  0.28 #0.12 #3.2
+      decel_lim_x: -0.25 # -0.15 #-0.3 #-2.5 # -0.02
+      # decel_lim_y: -2.5
+      decel_lim_theta:  -0.28 #-0.12 #-3.2
+      vx_samples: 20
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
       vy_samples: 0
       vtheta_samples: 20
       sim_time: 1.7
@@ -169,6 +237,7 @@ controller_server:
       angular_granularity: 0.025
       transform_tolerance: 0.2
       xy_goal_tolerance: 0.6
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
       trans_stopped_velocity: 0.1
       short_circuit_trajectory_evaluation: True
       stateful: True
@@ -178,6 +247,22 @@ controller_server:
       PathAlign.forward_point_distance: 0.1
       GoalAlign.scale: 24.0
       GoalAlign.forward_point_distance: 0.1
+========
+      # trans_stopped_velocity: 0.1
+      short_circuit_trajectory_evaluation: True
+      stateful: True
+      critics: ["Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      BaseObstacle.scale: 0.05
+      Oscillation.scale: 1.5                                 # if high value given, controller will choose paths that will minimize oscillation movements.
+      Oscillation.oscillation_reset_angle: 0.01                # minimum anglular movement to trigger oscillation reset. Default was 0.2 radians = 11 degrees, 
+                                                               # might make controller to move robot first by 11 degrees even for straight path.
+      Oscillation.oscillation_reset_dist: 0.05   
+      PathAlign.scale: 70.0 #32.0
+      PathAlign.forward_point_distance: 0.5 #0.2
+      GoalAlign.scale: 72.0 #24.0
+      GoalAlign.forward_point_distance: 0.5 #0.2                    # if larger dist. given, means controller will try to align the path gradually while shorter means quick turnings
+                                                               # tune by testing diff. values
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
       PathDist.scale: 32.0
       GoalDist.scale: 24.0
       # RotateToGoal.scale: 32.0
@@ -186,6 +271,105 @@ controller_server:
       publish_trajectories: true
       publish_local_plan: true
 
+=======
+      yaw_goal_tolerance: 0.5 #6.28 #3.14                              # means the controller should try to achive the orientaion to match the global plan orinetaion. 
+                                                                       # Large value means to less consider the orientation
+    FollowPath:
+      plugin: "nav2_mppi_controller::MPPIController"
+      # inceased time_steps, prune_distance and reduced batch_size to attempt to drive vehicle at 1m/s
+      # vx_std increase was required to make the vehicle actually drive faster
+      # as you decrease wz_std it makes the vehile drive better in a straight line but makes it not want to turn around when given goals behind its current pose
+      # unknown why vy_max and vy_std are set for a diff drive vehicle
+      time_steps: 65
+      model_dt: 0.05
+      batch_size: 1800
+      vx_std: 0.4                       # variability in forward trajectory velocities, allows the control to more trajectories velocitties in forward
+      # vy_std: 0.0
+      wz_std: 0.2
+      vx_max: 0.2
+      vx_min: -0.2
+      # vy_max: 0.5
+      wz_max: 1.0 #1.9
+      ax_max: 2.5
+      ax_min: -2.5
+      iteration_count: 1
+      prune_distance: 2.0
+      transform_tolerance: 0.1
+      temperature: 0.3
+      gamma: 0.015 
+      visualize: false
+      reset_period: 1.0 # (only in Humble)
+      regenerate_noises: false
+      enforce_path_inversion: true                              # to have car like behaviour (three point goals)
+      inversion_xy_tolerance: 0.5
+      inversion_yaw_tolerance: 3.14
+
+      motion_model: "Ackermann"
+      AckermannConstraints:
+        min_turning_r: 2.05
+      TrajectoryVisualizer:
+        trajectory_step: 5
+        time_step: 3
+      
+      critics: ["ConstraintCritic", "ObstaclesCritic", "GoalCritic", "GoalAngleCritic", "PathAlignCritic", "PathFollowCritic", "PathAngleCritic"]
+      ConstraintCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 4.0
+      GoalCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        threshold_to_consider: 1.4
+      GoalAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 3.0
+        threshold_to_consider: 0.5
+      # PreferForwardCritic:
+      #   # increased cost_power to 2 to force vehicle to drive forwards along long paths after increasing max speed
+      #   #  - this causes failures when operating in a narrow workspace and would crash the vehicle by forcing it to turn around when it can't!
+      #   # increased threshold_to_consider to allow vehicle to back up over short distances
+      #   enabled: true
+      #   cost_power: 2
+      #   cost_weight: 4.0
+      #   threshold_to_consider: 2.0
+      ObstaclesCritic:
+        enabled: true
+        cost_power: 1
+        repulsion_weight: 1.5
+        critical_weight: 20.0
+        consider_footprint: false
+        collision_cost: 10000.0
+        collision_margin_distance: 0.1
+        near_goal_distance: 0.5
+        # inflation_radius: 0.55 # (only in Humble)
+        # cost_scaling_factor: 10.0 # (only in Humble)
+      PathAlignCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 14.0
+        max_path_occupancy_ratio: 0.05
+        trajectory_point_step: 3
+        threshold_to_consider: 0.5
+        offset_from_furthest: 20
+        use_path_orientations: true
+      PathFollowCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 40.0
+        offset_from_furthest: 5
+        threshold_to_consider: 1.4
+      PathAngleCritic:
+        # increased offset_from_furthest to default value to help reduce the vehicle oscillating along the path
+        enabled: true
+        cost_power: 1
+        cost_weight: 30.0 #2.0
+        offset_from_furthest: 20
+        threshold_to_consider: 0.5
+        max_angle_to_furthest: 1.0
+        mode: 0
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
       
 controller_server_rclcpp_node:
   ros__parameters:
@@ -203,9 +387,21 @@ local_costmap:
       track_unknown_space: true
       # unknown_cost_value: 250
       # lethal_cost_threshold: 150
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
       width: 2
       height: 2
       resolution: 0.25
+========
+      width: 3
+      height: 3
+      resolution: 0.08 #0.25
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
+=======
+      width: 3
+      height: 3
+      resolution: 0.08 #0.25
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
       footprint: "[[-0.76, -0.4], [0.76, -0.4], [0.76, 0.4], [-0.76, 0.4]]"  # [right bottom, right top , left top ,left bottom]
       #robot_radius: 0.5
       plugins: ["obstacle_layer", "inflation_layer"]
@@ -223,9 +419,17 @@ local_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
           raytrace_max_range: 10.0
+========
+          raytrace_max_range: 6.0
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
+=======
+          raytrace_max_range: 6.0
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
           raytrace_min_range: 0.3
-          obstacle_max_range: 10.0
+          obstacle_max_range: 5.0
           obstacle_min_range: 0.3
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -240,18 +444,29 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 5.0
-      publish_frequency: 2.0
+      update_frequency: 1.0
+      publish_frequency: 1.0
+      width: 50
+      height: 50
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: false
       footprint: "[[-0.76, -0.4], [0.76, -0.4], [0.76, 0.4], [-0.76, 0.4]]"  # [right bottom, right top , left top ,left bottom]
       #robot_radius: 0.5
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+      rolling_window: true
+=======
+      rolling_window: false
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
       resolution: 0.05
       track_unknown_space: true
       # unknown_cost_value: 250 #120
       # lethal_cost_threshold: 150
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+=======
+      # plugins: ["static_layer"]
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -262,17 +477,34 @@ global_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
           raytrace_max_range: 10.0 #6.0
+========
+          raytrace_max_range: 6.0 #6.0
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
+=======
+          raytrace_max_range: 6.0 #6.0
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
           raytrace_min_range: 0.3 #0.0
-          obstacle_max_range: 10.0 #3.0
+          obstacle_max_range: 5.0 #3.0
           obstacle_min_range: 0.3 #0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
+        subscribe_to_updates: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 0.8 #4.58 #1.5 #1.0
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
         inflation_radius: 0.25 #1.6 #0.66 #0.55
+========
+        inflation_radius: 0.38 #0.25 #1.6 #0.66 #0.55
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
+=======
+        inflation_radius: 0.38 #0.25 #1.6 #0.66 #0.55
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -280,8 +512,6 @@ global_costmap:
   global_costmap_rclcpp_node:
     ros__parameters:
       use_sim_time: False
-#Planner server in ROS1 were Trajectory Rollout Planner and Dynamic Window Approach(DWA). Time elastic band plannar (TEB) implements a plugin to base_local_plannar in the 2D nav stack.
-# A global plannar generates a trajectroy which is optimized during runtime while reducing the trajectroy execution time.
 
 planner_server:
   ros__parameters:
@@ -292,32 +522,64 @@ planner_server:
       plugin: "nav2_smac_planner/SmacPlannerHybrid"
       downsample_costmap: false           # whether or not to downsample the map
       downsampling_factor: 1              # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
-      tolerance: 1.0 # 0.25                     # dist-to-goal heuristic cost (distance) for valid tolerance endpoints if exact goal cannot be found.
+      tolerance: 0.3 # 0.25                     # dist-to-goal heuristic cost (distance) for valid tolerance endpoints if exact goal cannot be found.
       allow_unknown: true
       cost_scaling_factor: 0.9
      
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+      max_iterations: 100000            # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
+=======
       max_iterations: 1000000             # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
       max_on_approach_iterations: 1000    # Maximum number of iterations after within tolerances to continue to try to find exact solution
       max_planning_time: 10.0              # max time in s for planner to plan, smooth
-      motion_model_for_search: "REEDS_SHEPP" #"DUBIN"    # Hybrid-A* DUBIN, REEDS_SHEPP
+      motion_model_for_search: "DUBIN" #"DUBIN"    # Hybrid-A* DUBIN, REEDS_SHEPP
       angle_quantization_bins: 72         # Number of angle bins for search
       analytic_expansion_ratio: 3.5       # The ratio to attempt analytic expansions during search for final approach.
       analytic_expansion_max_length: 3.0  # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
       minimum_turning_radius: 2.25 #0.5       # minimum turning radius in m of path / vehicle
       reverse_penalty: 1.4                # Penalty to apply if motion is reversing, must be => 1
       change_penalty: 0.3 # 0.1                 # Penalty to apply if motion is changing directions (L to R), must be >= 0
       non_straight_penalty: 1.5           # Penalty to apply if motion is non-straight, must be => 1
       cost_penalty: 1.3                   # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
+========
+      minimum_turning_radius: 2.05 #0.5       # minimum turning radius in m of path / vehicle
+      reverse_penalty: 1.4                # Penalty to apply if motion is reversing, must be => 1
+      change_penalty: 0.1 # 0.8                 # Penalty to apply if motion is changing directions (L to R), must be >= 0
+      non_straight_penalty: 2.0           # Penalty to apply if motion is non-straight, must be => 1
+      cost_penalty: 1.8 #1.3                   # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
+=======
+      minimum_turning_radius: 2.05 #0.5       # minimum turning radius in m of path / vehicle
+      reverse_penalty: 1.0                # Penalty to apply if motion is reversing, must be => 1
+      change_penalty: 0.1 # 0.8                 # Penalty to apply if motion is changing directions (L to R), must be >= 0
+      non_straight_penalty: 2.0           # Penalty to apply if motion is non-straight, must be => 1
+      cost_penalty: 1.8 #1.3                   # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
       retrospective_penalty: 0.015
       lookup_table_size: 20.0             # Size of the dubin/reeds-sheep distance window to cache, in meters.
       cache_obstacle_heuristic: false     # Cache the obstacle map dynamic programming distance expansion heuristic between subsiquent replannings of the same goal location. Dramatically speeds up replanning performance (40x) if costmap is largely static.
       smooth_path: True                   # If true, does a simple and quick smoothing post-processing to the path
-      viz_expansions: True                   
+      viz_expansions: False                   
 
       smoother:
+<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
+<<<<<<<< HEAD:src/pod2_navigation/config/podcar_sim2real.yaml
         max_iterations: 1000
         w_smooth: 1.0 #0.3
         w_data: 1.0 #0.2
+========
+        max_iterations: 100
+        w_smooth: 0.2 #1.0 #0.3
+        w_data: 0.5 #1.0 #0.2
+>>>>>>>> Fortress:src/pod2_navigation/config/nav2_dwb_smac.yaml
+=======
+        max_iterations: 1000
+        w_smooth: 0.2 #1.0 #0.3
+        w_data: 0.5 #1.0 #0.2
+>>>>>>> Fortress:pod2_navigation/config/podcar_sim2real.yaml
         tolerance: 1.0e-10
         do_refinement: true
         refinement_num: 2
@@ -332,7 +594,7 @@ planner_server_rclcpp_node:
 map_server:
   ros__parameters:
     use_sim_time: False
-    yaml_filename: "maps/empty_map.yaml"
+    yaml_filename: "maps/Sim_1.yaml"
 
 map_saver:
   ros__parameters:

@@ -38,8 +38,8 @@ def generate_launch_description():
             name='teleop_twist_joy_node',
             output='screen',
             parameters=[joy_params],
-            #condition = IfCondition(LaunchConfiguration("teleop_node")),
-            # remappings=[('cmd_vel', '/model/podcar/cmd_vel')]
+            condition = IfCondition(LaunchConfiguration("teleop_node")),
+            # remappings=[('cmd_vel', '/cmd_vel_chicken_modulated')]
         )
 
         
