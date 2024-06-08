@@ -59,16 +59,15 @@ bt_navigator:
     use_sim_time: false
     global_frame: map
     robot_base_frame: base_link
-    odom_topic: /optical_flow_odom                                 # for real podcar change the topic name to /odometry/filtered if using EKF
+    odom_topic: /rtabmap_odom                                 # for real podcar change the topic name to /odometry/filtered if using EKF
     bt_loop_duration: 10
     # default_server_timeout: 20 # ms
     # wait_for_server_timeout: 1000 # ms
     transform_tolerance: 0.1 # s
     
-    # # custom behavior tree definition
-    # default_nav_to_pose_bt_xml: $(find-pkg-share pod2_navigation)/behaviour_trees/default.xml
+    # # # custom behavior tree definition
+    # default_nav_to_pose_bt_xml: "/home/rakshit/podcar/src/pod2_navigation/behavior_trees/default.xml"
 
-   
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_compute_path_through_poses_action_bt_node
@@ -143,8 +142,8 @@ controller_server:
     #progress checker parameters
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 2.05 #0.5                              # if less value means tight turns which makes the path deviate from the global plan (give acc. to the mechanical constraint)
-      movement_time_allowance: 10.0
+      required_movement_radius: 1.8 #2.05 #0.5                              # if less value means tight turns which makes the path deviate from the global plan (give acc. to the mechanical constraint)
+      movement_time_allowance: 20.0
   
     general_goal_checker:
       # stateful: True
@@ -164,14 +163,16 @@ controller_server:
       min_speed_xy: -0.2
       max_speed_xy: 0.2
       min_speed_theta: -1.0
+      forward_prune_distance: 2.0
+      prune_distance: 1.5
       # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
-      acc_lim_x: 0.15 #0.3 #2.5 #0.02
+      acc_lim_x: 0.28 # -0.15 #0.3 #2.5 #0.02
       # acc_lim_y: 2.5
-      acc_lim_theta: 0.12 #3.2
-      decel_lim_x: -0.15 #-0.3 #-2.5 # -0.02
+      acc_lim_theta:  0.28 #0.12 #3.2
+      decel_lim_x: -0.25 # -0.15 #-0.3 #-2.5 # -0.02
       # decel_lim_y: -2.5
-      decel_lim_theta: -0.12 #-3.2
+      decel_lim_theta:  -0.28 #-0.12 #-3.2
       vx_samples: 20
       vy_samples: 0
       vtheta_samples: 20
@@ -188,10 +189,11 @@ controller_server:
       Oscillation.scale: 1.5                                 # if high value given, controller will choose paths that will minimize oscillation movements.
       Oscillation.oscillation_reset_angle: 0.01                # minimum anglular movement to trigger oscillation reset. Default was 0.2 radians = 11 degrees, 
                                                                # might make controller to move robot first by 11 degrees even for straight path.
-      PathAlign.scale: 80.0 #32.0
-      PathAlign.forward_point_distance: 0.2
+      Oscillation.oscillation_reset_dist: 0.05   
+      PathAlign.scale: 70.0 #32.0
+      PathAlign.forward_point_distance: 0.5 #0.2
       GoalAlign.scale: 72.0 #24.0
-      GoalAlign.forward_point_distance: 0.2                    # if larger dist. given, means controller will try to align the path gradually while shorter means quick turnings
+      GoalAlign.forward_point_distance: 0.5 #0.2                    # if larger dist. given, means controller will try to align the path gradually while shorter means quick turnings
                                                                # tune by testing diff. values
       PathDist.scale: 32.0
       GoalDist.scale: 24.0
@@ -257,6 +259,8 @@ global_costmap:
     ros__parameters:
       update_frequency: 1.0
       publish_frequency: 1.0
+      width: 50
+      height: 50
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: false
@@ -285,10 +289,11 @@ global_costmap:
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
+        subscribe_to_updates: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 0.8 #4.58 #1.5 #1.0
-        inflation_radius: 0.25 #1.6 #0.66 #0.55
+        inflation_radius: 0.38 #0.25 #1.6 #0.66 #0.55
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -306,20 +311,20 @@ planner_server:
       plugin: "nav2_smac_planner/SmacPlannerHybrid"
       downsample_costmap: false           # whether or not to downsample the map
       downsampling_factor: 1              # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
-      tolerance: 0.2 # 0.25                     # dist-to-goal heuristic cost (distance) for valid tolerance endpoints if exact goal cannot be found.
+      tolerance: 0.3 # 0.25                     # dist-to-goal heuristic cost (distance) for valid tolerance endpoints if exact goal cannot be found.
       allow_unknown: true
       cost_scaling_factor: 0.9
      
-      max_iterations: 1000000             # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
+      max_iterations: 100000            # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
       max_on_approach_iterations: 1000    # Maximum number of iterations after within tolerances to continue to try to find exact solution
       max_planning_time: 10.0              # max time in s for planner to plan, smooth
-      motion_model_for_search: "REEDS_SHEPP" #"DUBIN"    # Hybrid-A* DUBIN, REEDS_SHEPP
+      motion_model_for_search: "DUBIN" #"DUBIN"    # Hybrid-A* DUBIN, REEDS_SHEPP
       angle_quantization_bins: 72         # Number of angle bins for search
       analytic_expansion_ratio: 3.5       # The ratio to attempt analytic expansions during search for final approach.
       analytic_expansion_max_length: 3.0  # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting
       minimum_turning_radius: 2.05 #0.5       # minimum turning radius in m of path / vehicle
       reverse_penalty: 1.4                # Penalty to apply if motion is reversing, must be => 1
-      change_penalty: 0.8 # 0.1                 # Penalty to apply if motion is changing directions (L to R), must be >= 0
+      change_penalty: 0.1 # 0.8                 # Penalty to apply if motion is changing directions (L to R), must be >= 0
       non_straight_penalty: 2.0           # Penalty to apply if motion is non-straight, must be => 1
       cost_penalty: 1.8 #1.3                   # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
       retrospective_penalty: 0.015
@@ -329,7 +334,7 @@ planner_server:
       viz_expansions: False                   
 
       smoother:
-        max_iterations: 1000
+        max_iterations: 100
         w_smooth: 0.2 #1.0 #0.3
         w_data: 0.5 #1.0 #0.2
         tolerance: 1.0e-10
@@ -346,7 +351,7 @@ planner_server_rclcpp_node:
 map_server:
   ros__parameters:
     use_sim_time: False
-    yaml_filename: "maps/empty_map.yaml"
+    yaml_filename: "maps/Sim_1.yaml"
 
 map_saver:
   ros__parameters:

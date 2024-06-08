@@ -39,7 +39,7 @@ def generate_launch_description():
             output='screen',
             parameters=[joy_params],
             #condition = IfCondition(LaunchConfiguration("teleop_node")),
-            # remappings=[('cmd_vel', '/model/podcar/cmd_vel')]
+            # remappings=[('cmd_vel', '/cmd_vel_chicken_modulated')]
         )
 
         

@@ -243,7 +243,10 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
                     (dx_pix, dy_pix) = self.extract_data(self.input_data)                           # Extract x and y values from input_data
                     (self.dx, self.dy) = self.pix2speed(dx_pix, dy_pix, dt_sec)                     # call the function for pixel to distance                                          
                     
-                    self.abs_x += self.dx
+                    # NOTE This may not be appropiate because the pose should be trasnformed to global frame before passing into message
+                    #https://github.com/introlab/rtabmap_ros/issues/1149
+                    
+                    self.abs_x += self.dx                                                           
                     self.abs_y += self.dy
                     # print(f' Absolute X : {self.abs_x}, Absolute Y : {self.abs_y} ', '\n')
                     self.vx_ms = self.dx/dt_sec
@@ -263,17 +266,16 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
                         odom_msg.header.stamp = self.get_clock().now().to_msg()                 # This is synced to time the data is received, but actually it should use time stamp
                                                                                                 # coming from Teensy board
                         odom_msg.header.frame_id = 'odom'
-                        odom_msg.child_frame_id = 'base_link'
-                        
+                        odom_msg.child_frame_id = 'base_link'                                   # NOTE if feeding velocity data, try to pass the velocity in x as input to EKF                        
                         # fill in the pose field of odometry message
                         
-                        odom_msg.pose.pose.position.x = self.abs_x
-                        odom_msg.pose.pose.position.y = -(self.abs_y)
-                        odom_msg.pose.pose.position.z = h
-                        odom_msg.pose.pose.orientation.z = math.sin(self.abs_theta/2.0)
-                        odom_msg.pose.pose.orientation.w = math.cos(self.abs_theta/2.0)
+                        # odom_msg.pose.pose.position.x = self.abs_x
+                        # odom_msg.pose.pose.position.y = self.abs_y
+                        # odom_msg.pose.pose.position.z = h
+                        # odom_msg.pose.pose.orientation.z = math.sin(self.abs_theta/2.0)
+                        # odom_msg.pose.pose.orientation.w = math.cos(self.abs_theta/2.0)
                         odom_msg.twist.twist.linear.x = self.vx_ms
-                        odom_msg.twist.twist.linear.y = self.vy_ms
+                        # odom_msg.twist.twist.linear.y = self.vy_ms
                         
                         # covariance_matrix = np.array([0.04, 0.02, 0.0, 0.0, 0.0, 0.1])
                         # odom_msg.twist.covariance = covariance_matrix.flatten()
@@ -283,6 +285,7 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
                         self.delta_theta = self.v_angular*dt_sec
                         self.abs_theta += self.delta_theta
                         print(f'Vyaw : {self.v_angular},  Yaw : {self.abs_theta}')
+                        print(f'X : {self.abs_x}')
                         print('\n')
 
                         #  generate the odometry message
@@ -290,16 +293,15 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
                         odom_msg.header.frame_id = 'odom'
                         odom_msg.child_frame_id = 'base_link'
 
-                        odom_msg.pose.pose.position.x = self.abs_x
-                        odom_msg.pose.pose.position.y = self.abs_y
-                        odom_msg.pose.pose.position.z = h
+                        # odom_msg.pose.pose.position.x = self.abs_x
+                        # odom_msg.pose.pose.position.y = self.abs_y
+                        # odom_msg.pose.pose.position.z = h
                         
-                        odom_msg.pose.pose.orientation.z = math.sin(self.abs_theta/2.0)
-                        odom_msg.pose.pose.orientation.w = math.cos(self.abs_theta/2.0)
-                        odom_msg.pose.covariance[35] = 10000.0                                               # make EKF to no belive this measurement fully
+                        # odom_msg.pose.covariance[7] = 0.005  
+                        # odom_msg.pose.covariance[35] = 10000.0                                               # make EKF to not believe this measurement fully
                         # fill the twist field of the message
                         
-                        # odom_msg.twist.twist.linear.x = self.vx_ms
+                        odom_msg.twist.twist.linear.x = self.vx_ms
                         # odom_msg.twist.twist.linear.y = self.vy_ms
                         # odom_msg.twist.twist.angular.z = self.v_angular
                         
@@ -314,12 +316,12 @@ the FOV is equals to the arc tangent horizontal FOV in meters or mm and the heig
                     t.transform.translation.x = odom_msg.pose.pose.position.x
                     t.transform.translation.y = odom_msg.pose.pose.position.y
                     t.transform.translation.z = odom_msg.pose.pose.position.z 
-                    t.transform.rotation.z = odom_msg.pose.pose.orientation.z
-                    t.transform.rotation.w = odom_msg.pose.pose.orientation.w
+                    # t.transform.rotation.z = odom_msg.pose.pose.orientation.z
+                    # t.transform.rotation.w = odom_msg.pose.pose.orientation.w
                     
                     self.odometry_publisher.publish(odom_msg)                                                  # publish the odometry data
-                    if self.publish_tf:
-                        self.tf_broadcaster.sendTransform(t)                                                   # Send the transformation
+                    # if self.publish_tf:
+                    #     self.tf_broadcaster.sendTransform(t)                                                 # Send the transformation
                 except ValueError as e:
                     print("Invalid input - closing the serial port")
                     self.ser.close()

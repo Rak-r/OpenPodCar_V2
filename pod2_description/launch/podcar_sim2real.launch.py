@@ -29,21 +29,22 @@ def generate_launch_description():
     camera_node = Node(
         package='pod2_description',
         name='camera_node',
-        executable='Depth_image_2_real.py',
+        executable='RGBD_wall_timer.py',
         output = 'screen',
         condition = IfCondition(LaunchConfiguration("rgbd_node")),
     )
-    
-    tf_broadcaster = Node(
-        package='pod2_description',
-        name='transform_broadcaster',
-        executable='transform_broadcaster.py',
-        output= 'screen'
-    )
+
+    # fixed_twist_node = Node(
+    #     package='pod2_description',
+    #     name='fixed_twist_node',
+    #     executable='fixed_sim_twist.py',
+    #     output = 'screen',
+        
+    # )
 
     ld.add_action(odometry_node)
     ld.add_action(laser_scan_node)
-    ld.add_action(tf_broadcaster)
     ld.add_action(camera_node)
+    # ld.add_action(fixed_twist_node)
 
     return ld

@@ -51,7 +51,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'map',
-            default_value=os.path.join(bringup_dir, 'maps', 'empty_map.yaml'),
+            default_value=os.path.join(bringup_dir, 'maps', 'Sim_1.yaml'),
             description='Full path to map yaml file to load'),
 
         DeclareLaunchArgument(
@@ -64,7 +64,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'params_file',
-            default_value=os.path.join(bringup_dir, 'config', 'nav2_params.yaml'),
+            default_value=os.path.join(bringup_dir, 'config', 'nav2_dwb_smac.yaml'),
             description='Full path to the ROS2 parameters file to use'),
 
         Node(

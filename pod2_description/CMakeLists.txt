@@ -28,7 +28,7 @@ if(BUILD_TESTING)
 endif()
 
 # Add the package specific directories in the install directory
-install(DIRECTORY models gui launch meshes xacro rviz2 ROS2_Time_Nodes
+install(DIRECTORY launch meshes xacro rviz2 ROS2_Sim_Nodes
   DESTINATION share/${PROJECT_NAME}/
 )
 
@@ -37,24 +37,26 @@ install(DIRECTORY models gui launch meshes xacro rviz2 ROS2_Time_Nodes
 ament_python_install_package(${PROJECT_NAME})
 
 # provide the paths of python scripts for install directory otherwise it will cause the error 'executable not found on libexec directory'
+
 install(PROGRAMS
-  scripts/real_time.py
+  ROS2_Sim_Nodes/laser_sim2real.py
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/laser_sim2real.py
+  ROS2_Sim_Nodes/fixed_sim_twist.py
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/odometry_wall_time.py
+  ROS2_Sim_Nodes/odometry_wall_time.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(PROGRAMS
+  ROS2_Sim_Nodes/RGBD_wall_timer.py
   DESTINATION lib/${PROJECT_NAME}
 )
 install(PROGRAMS
-  scripts/transform_broadcaster.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-install(PROGRAMS
-  scripts/RGBD_wall_timer.py
+  ROS2_Sim_Nodes/camera_info_modifier.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

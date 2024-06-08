@@ -26,6 +26,7 @@ def generate_launch_description():
 	path_to_urdf = PathJoinSubstitution([FindPackageShare("pod2_description"), "xacro", "OpenPodCar_V2_Depth.urdf"])
 	path_to_realtime_nodes = get_package_share_directory('pod2_description')
 	rviz_config_path = PathJoinSubstitution([FindPackageShare("pod2_navigation"), "rviz2", "OpenPodCar.rviz"])
+	path_to_lidar_urdf = PathJoinSubstitution([FindPackageShare("pod2_description"), "xacro", "OpenPodcar_V2_Lidar.urdf"])
 	
 	robot_description = ParameterValue(
         Command(['xacro ', str(get_package_share_path('pod2_description') / 'xacro/OpenPodCar_V2_Depth.urdf')]),
@@ -40,14 +41,19 @@ def generate_launch_description():
 	launch_arguments={'gz_args': PathJoinSubstitution([
 		world_path, 'xacro', 'empty.sdf'
     ]), 'use_sim_time':'false'}.items(),)
-	
-    # Stop the scan publisher node while launching to avoid topic hindrence between depthimage_to_laserscan and scan_publisher_node
+	# Conditional path selection for URDF based on launch argument
+   
+     
+    # Stop the scan publisher/rgbd publisher node while launching to avoid topic hindrence between depthimage_to_laserscan and scan_publisher_node
 	exclude_scan_node = DeclareLaunchArgument('scan_node', default_value='false', description='Do not start the scan publisher node')
+	urdf_path = DeclareLaunchArgument('urdf_type', default_value='depth', description='which urdf to use')
+	exclude_rgbd_node = DeclareLaunchArgument('rgbd_node', default_value='false', description='Do not start the rgbd publisher node')
 	sim_2_real = IncludeLaunchDescription(
 		PythonLaunchDescriptionSource(os.path.join(path_to_realtime_nodes, 'launch', 'podcar_sim2real.launch.py')),
-		launch_arguments={'scan_node':LaunchConfiguration('scan_node')}.items())
+		launch_arguments={'scan_node':LaunchConfiguration('scan_node'),'rgbd_node': LaunchConfiguration('rgbd_node')}.items())
+	
     
-    
+
     #define the required nodes for simulation and rviz2
 	spawn = Node(
 		package='ros_gz_sim',
@@ -55,6 +61,7 @@ def generate_launch_description():
 		arguments=['-name', 'podcar',
 	     '-topic', '/robot_description',
 	    '-x', '0', '-y', '0', '-z', '0.5'],
+		# '-x', '1.3050', '-y', '-4.7250', '-z', '0.2228', '-R', '0.0', '-P', '0.0', '-Y', '1.0220'],
 	     output='screen',
 	    parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
     )
@@ -71,17 +78,19 @@ def generate_launch_description():
 	    '/model/podcar/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
 		 '/model/podcar/pose@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
 	 '/rgbd_camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
+	 '/rgbd_camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
 	 '/rgbd_camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
 	 'rgbd_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo'
 	 
      ],
      parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
-     remappings=[('/model/podcar/cmd_vel', 'cmd_vel'),
+     remappings=[('/model/podcar/cmd_vel', '/sim_cmd_vel'),
 				  
 				 ] 
     )
 	return LaunchDescription([
 	exclude_scan_node,
+	exclude_rgbd_node,
 	
 	DeclareLaunchArgument(
             name='urdf', 
