@@ -172,9 +172,9 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 
 ### Note that slam_toolbox is best suited for LiDAR based robots and struggles with RGBD sensor. The OpenPodCar2 features a single RGBD sensor is tested with slam_toolbox with rigorous parametr tuning both in simulation and real physical vehicle. However, due to less angular FOV, the laser scan matching results in sudden jumps of robot. This has been discussed in SteveMacenski/slam_toolbox#662. To handle this RGBD based slam method RTABMAP is adopted.
 
-### Usage
+## Usage
 
-## Simulation
+### Simulation
 The new Gazebo Garden is used for the simulation of OpenPodCar_v2. The new gazebo features more functionalities with enhanced inetrface. As our robot behaves as car-like robot and features Ackermann-Steering kinematics. To maintain this behaviour in simulation the new gazebo now has an Ackermann system plugin which could be used according the robot configuartions. The plugin outputs standard `Twist` messages of field `linear.x` and `angular.z`. This also outputs the odometry information which might not be the correct odometry for the whole robot instead it is the odometry information for steering.
 
 The current repository features the ROS2 Humble with Gazebo garden. To use the ROS2 Humble packages with Gazebo Fortress, switch to the Fortress branch https://github.com/Rak-r/OpenPodCar_V2/tree/Fortress.
@@ -225,6 +225,11 @@ ros2 launch pod2_bringup R4_ros.launch.py teleop_node:=true
   5.  Launch NAV2 stack: ros2 launch pod2_navigation OpenPodCar_NAV2.launch.py slam:=false amcl:=false
 
 After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be started in localization mode. In order to autonomous drive while mapping the above could be just followed.
+
+## Videos
+
+
+### Tight Indoor drive Navigation2 Stack
 
 
 
