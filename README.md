@@ -234,6 +234,11 @@ After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be 
 https://github.com/Rak-r/OpenPodCar_V2/assets/85680564/4f9face5-6ff2-46be-a14b-81163c77bf20
 
 
+### Reverse sharp turning with not hitting the walls ( like parking )
+
+<iframe src="https://drive.google.com/file/d/1Q1LSEgTHDSF6UCiJEsC1fTG83TBQZhnc/view?usp=drive_link" width="640" height="480"></iframe>
+
+
 
 [videos/Tight_indoor_Navigation.mp4]
 
