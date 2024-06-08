@@ -226,8 +226,15 @@ ros2 launch pod2_bringup R4_ros.launch.py teleop_node:=true
 
 After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be started in localization mode. In order to autonomous drive while mapping the above could be just followed.
 
-## Videos
+## Node graphs
 
+
+
+## Images & Videos
+
+### OpenPodcar2 for outdoor operation
+
+[Images_videos/Podcar2_outdoor.jpg]
 
 ### Tight Indoor drive Navigation2 Stack
 
