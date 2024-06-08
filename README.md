@@ -6,9 +6,9 @@ System (ROS) with the added support of newly released ROS2. The vehilce used for
 
 
 
-# ROS2 Humble & Gazebo Fortress
+# ROS2 Humble & Gazebo Garden
 This project is the complete new port from ROS1 of OpenPodCar1 to ROS2. The full software features the ROS2 Humble version and for simulation is done with new Gazebo.
-The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `pod2_bringup`, `pod2_navigation`, `pod2_sensor_tools`, `pod2_yolo`, `pod2_msgs`.
+The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `pod2_bringup`, `pod2_navigation`, `pod2_sensor_tools`, `pod2_rtabmap`, `pod2_msgs`.
 
 ## System Requirements
 
@@ -18,7 +18,7 @@ The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `p
 2. ROS2 Humble full desktop install: https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
 
 
-3. Gazebo Fortress (Install): https://gazebosim.org/docs/fortress/install
+3. Gazebo Garden (Install): https://gazebosim.org/docs/garden/install_ubuntu
 
 
 4. The only difference between the Gazebo Fortress and Gazebo Garden is the ros-gz integration package is to build from source for Gazebo Garden while if you are using Gazebo Fortress, the ros_gz package will be installed by binary installation.
