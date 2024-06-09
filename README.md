@@ -229,13 +229,23 @@ After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be 
 ## Node graphs
 
 
+### Full NAV2 stack with low-level hardware nodes and ROS2 on Physical vehicle
+
+![Podcar_Nav2_node_graph](https://github.com/Rak-r/OpenPodCar_V2/assets/85680564/423534b6-b491-46bf-8d37-8af7f39bb623)
+
+
 
 ## Images & Videos
 
 ### OpenPodcar2 for outdoor operation
 
-[Images_videos/Podcar2_outdoor.jpg]
+![Podcar2_outdoor](https://github.com/Rak-r/OpenPodCar_V2/assets/85680564/36b9ad93-4df8-4b74-8477-a95e82b17212)
+
 
 ### Tight Indoor drive Navigation2 Stack
 
  
+
+https://github.com/Rak-r/OpenPodCar_V2/assets/85680564/c05b5af3-1316-4407-bb80-9b6b9504561f
+
+
