@@ -170,7 +170,7 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 
 8. To use the localization with `slam_toolbox`, you have to provide the right path to the map which you are going to use.  When using slam_toolbox for localization, you do not have to provide the map file extension in the `mapper_params_onlie_async.yaml` and just the name.
 
-### Note that slam_toolbox is best suited for LiDAR based robots and struggles with RGBD sensor. The OpenPodCar2 features a single RGBD sensor is tested with slam_toolbox with rigorous parametr tuning both in simulation and real physical vehicle. However, due to less angular FOV, the laser scan matching results in sudden jumps of robot. This has been discussed in SteveMacenski/slam_toolbox#662. To handle this RGBD based slam method RTABMAP is adopted.
+#### Note that slam_toolbox is best suited for LiDAR based robots and struggles with RGBD sensor. The OpenPodCar2 features a single RGBD sensor is tested with slam_toolbox with rigorous parametr tuning both in simulation and real physical vehicle. However, due to less angular FOV, the laser scan matching results in sudden jumps of robot. This has been discussed in SteveMacenski/slam_toolbox#662. To handle this RGBD based slam method RTABMAP is adopted.
 
 ## Usage
 
@@ -183,26 +183,26 @@ The current repository features the ROS2 Humble with Gazebo garden. To use the R
 
 #### If you want to launch the PodCar with Lidar enabled, run the below launch file:
 
-  * Launch without Rviz : ros2 launch pod2_decsription pod2_description_Lidar.launch.py scan_node:=true rgbd_node:=false
+  * Launch without Rviz : `ros2 launch pod2_decsription pod2_description_Lidar.launch.py scan_node:=true rgbd_node:=false`
 
-  * Launch along with Rviz: ros2 launch pod2_description pod2_description.launch.py rviz:=true scan_node:=true rgbd_node:=false
+  * Launch along with Rviz: `ros2 launch pod2_description pod2_description.launch.py rviz:=true scan_node:=true rgbd_node:=false`
 
 #### If you want to launch the PodCar with depth camera enabled, run the below launch file:
 
-  *  Launch without Rviz : ros2 launch pod2_decsription pod2_description_Depth.launch.py scan_node:=false rgbd_node:=true
+  *  Launch without Rviz : `ros2 launch pod2_decsription pod2_description_Depth.launch.py scan_node:=false rgbd_node:=true`
 
-  *  Launch along with Rviz: ros2 launch pod2_description pod2_description_Depth.launch.py rviz:=true scan_node:=false rgbd_node:=true
+  *  Launch along with Rviz: `ros2 launch pod2_description pod2_description_Depth.launch.py rviz:=true scan_node:=false rgbd_node:=true`
 
 
 This above will launch the simulation in gazebo and don't forget to turn on the play pause button to run the simulation. To view the active topics in ros2, use ros2 topic list -t in the terminal window. To view active topics in gazebo, use gz topic -l in the terminal window. Podcar_V2_GZ_garden.webm
 
 ### Simulation Teleoperation and Autonomous operation
 
-  *  Start gamepad to publish twist to gazebo: ros2 launch pod2_bringup generic_gamepad.launch.py
+  *  Start gamepad to publish twist to gazebo: `ros2 launch pod2_bringup generic_gamepad.launch.py`
 
-  *  Start the rtabmap rgbd odometry and slam:  ros2 launch pod2_rtabmap rtabmap.launch.py
+  *  Start the rtabmap rgbd odometry and slam:  `ros2 launch pod2_rtabmap rtabmap.launch.py`
 
-  *  Launch NAV2 stack: ros2 launch pod2_navigation OpenPodCar_NAV2.launch.py slam:=false amcl:=false
+  *  Launch NAV2 stack: `ros2 launch pod2_navigation OpenPodCar_NAV2.launch.py slam:=false amcl:=false`
 
 After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be started in localization mode. In order to autonomous drive while mapping the above could be just followed.
 
@@ -214,15 +214,15 @@ To start the physical vehicle for tele-operation, after building the OpenPodCar2
 
   1. Start the R4-ROS2 communication nodes using the launch file:
 
-ros2 launch pod2_bringup R4_ros.launch.py teleop_node:=true
+`ros2 launch pod2_bringup R4_ros.launch.py teleop_node:=true`
 
-  2. Launch the robot model: ros2 launch pod2_description pod2_description.launch.py
+  2. Launch the robot model: `ros2 launch pod2_description pod2_description.launch.py`
 
-  3.  Start the camera sensor along with point to laserscan node: ros2 launch pod2_sensor_tools point_to_scan.launch.py
+  3.  Start the camera sensor along with point to laserscan node: `ros2 launch pod2_sensor_tools point_to_scan.launch.py`
 
-  4.  Start the rtabmap rgbd odometry and slam:  ros2 launch pod2_rtabmap rtabmap.launch.py
+  4.  Start the rtabmap rgbd odometry and slam: ` ros2 launch pod2_rtabmap rtabmap.launch.py`
 
-  5.  Launch NAV2 stack: ros2 launch pod2_navigation OpenPodCar_NAV2.launch.py slam:=false amcl:=false
+  5.  Launch NAV2 stack: `ros2 launch pod2_navigation OpenPodCar_NAV2.launch.py slam:=false amcl:=false`
 
 After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be started in localization mode. In order to autonomous drive while mapping the above could be just followed.
 
