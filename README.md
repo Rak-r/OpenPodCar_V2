@@ -252,7 +252,6 @@ After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be 
 ### Tight Indoor drive Navigation2 Stack
 
  
-
 https://github.com/Rak-r/OpenPodCar_V2/assets/85680564/c05b5af3-1316-4407-bb80-9b6b9504561f
 
 
