@@ -234,6 +234,13 @@ After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be 
 ![Podcar_Nav2_node_graph](https://github.com/Rak-r/OpenPodCar_V2/assets/85680564/423534b6-b491-46bf-8d37-8af7f39bb623)
 
 
+### Large Indoor map built while autonomous drive
+
+![Podcar2_indoor]
+
+### 3D map using RTABMAP of the same above 2D occupancy grid map
+
+
 
 ## Images & Videos
 
