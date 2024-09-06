@@ -26,7 +26,6 @@ def generate_launch_description():
 	path_to_urdf = PathJoinSubstitution([FindPackageShare("pod2_description"), "xacro", "OpenPodCar_V2_Depth.urdf"])
 	path_to_realtime_nodes = get_package_share_directory('pod2_description')
 	rviz_config_path = PathJoinSubstitution([FindPackageShare("pod2_navigation"), "rviz2", "OpenPodCar.rviz"])
-	path_to_lidar_urdf = PathJoinSubstitution([FindPackageShare("pod2_description"), "xacro", "OpenPodcar_V2_Lidar.urdf"])
 	
 	robot_description = ParameterValue(
         Command(['xacro ', str(get_package_share_path('pod2_description') / 'xacro/OpenPodCar_V2_Depth.urdf')]),
