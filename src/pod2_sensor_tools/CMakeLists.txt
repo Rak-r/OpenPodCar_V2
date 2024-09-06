@@ -39,10 +39,14 @@ install(DIRECTORY launch config scripts
 # This is important to provide in order to use python executables
 ament_python_install_package(${PROJECT_NAME})
 
-# provide the paths of python scripts for install directory otherwise it will cause the error 'executable not found on libexec directory'
-install(PROGRAMS
-  scripts/Optical_Flow_node.py
-  DESTINATION lib/${PROJECT_NAME}
-)
+############ NOT USING OPTICAL FLOW SENSOR AT THE MOMENT ###########
+########### IT IS WORKING THOUGH ###################################
+####################################################################
+
+# # provide the paths of python scripts for install directory otherwise it will cause the error 'executable not found on libexec directory'
+# install(PROGRAMS
+#   scripts/Optical_Flow_node.py
+#   DESTINATION lib/${PROJECT_NAME}
+# )
 
 ament_package()
