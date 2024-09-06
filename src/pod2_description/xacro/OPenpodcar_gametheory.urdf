@@ -266,6 +266,9 @@
     <!-- <limit effort="10" lower="-0.82393858467" upper="0.82393858467" velocity="1.0"/> -->
   </joint>
 
+ <!-- The optical flow sensor is mounted on the podcar, and has been tested for odometry estimation for translational movements.
+      This is solely for physical vehicle not simualtion but can be viewed in sim and rviz2 as well -->
+
   <!-- optical flow sensor mounted on base link-->
   <joint name="optical_flow_joint" type="fixed">
     <origin rpy="0 0 0" xyz="+0.0 +0.4 0.155"/>
