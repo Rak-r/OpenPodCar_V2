@@ -1,3 +1,8 @@
+'''
+This launches the URDF model of real physical vehicle with onlky a single rgbd depth sensor. 
+The same URDF can be used with running gazebo simulation with depth sensor. No need to remove gazebo plugins added in URDF
+'''
+
 import os
 from launch import LaunchDescription
 from launch_ros.actions import Node
