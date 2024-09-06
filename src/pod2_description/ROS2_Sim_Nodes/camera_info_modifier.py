@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+'''
+Node to publish the exact RGBD depth camera intrinsic parmaeters for gazebo rgbd plugin due to irregualrity in mapping in simulation
+published to /camera_info topic
+'''
+
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import CameraInfo
