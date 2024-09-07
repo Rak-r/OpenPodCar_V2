@@ -7,8 +7,8 @@
   which can be viewed in rviz2. The package alspo contains world files to load the PodCar in gazebo garden. In ordrer to avoid the time synchronization, custom nodes has
   been provided to publish incoming messages form gazebo at ros2/wall-time.
   The package features ros_gz_bridge, (built form source) to communicate between gazebo and ROS2 humble</description>
-  <maintainer email="27339244@students.lincoln.ac.uk"></maintainer>
-  <license>TODO: License declaration</license>
+  <maintainer email="rakshitnar12@gmail.com">rakshit</maintainer>
+  <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <!-- add this for using bothh python and cpp files -->
