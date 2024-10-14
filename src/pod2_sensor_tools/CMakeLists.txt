@@ -31,7 +31,7 @@ if(BUILD_TESTING)
 endif()
 
 # install
-install(DIRECTORY launch config scripts
+install(DIRECTORY launch config 
   DESTINATION share/${PROJECT_NAME}/
 )
 
