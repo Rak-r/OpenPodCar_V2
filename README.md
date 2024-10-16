@@ -26,6 +26,8 @@ The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `p
 
 5. Gazebo Fortress uses the ignition namepsace when dealing with plugins and setting frame ids for the robot in URDFs or SDFs.
 
+6. Docker installation: https://docs.docker.com/engine/install/ubuntu/ 
+
 
 ## Testing Installations
 
@@ -44,7 +46,6 @@ The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `p
 
 
 * `ros2 run ros_gz_bridge parameter_bridge /chatter@std_msgs/msg/String@gz.msgs.StringMsg` and view the topic in other terminal using: `ros2 topic list -t`
-
 
 
 
@@ -84,10 +85,40 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 5. In case of Step 4, try running: `rosdep update && rosdep install --from-paths src --ignore-src -y`.
 
 
-
 6. Once the package is build successfully, open bashrc and add : `source <your workspace path>/install/setup.bash`
 * **For example** : `source /home/ros2_ws/install/setup.bash` 
 
+## Docker image Building for ROS2 Humble and Gazebo Fortress
+
+The docker version is supported for ROS2 humble and gazebo Fortress due to LTS version of gazebo at the time project development. In future more version suppport will be added.
+
+Follow the below instructions for using docker version of OpenPodCar2 with simulation.
+
+1.  After cloning the repository from same above instructions, make sure docker is installed correctly.
+
+2. Install rocker in the local machine to run GUI applications without any hastle inside the container.
+
+
+
+` pip3 install rocker`
+
+3. Build the image:     `docker build -t openpodcar2_docker .`
+
+4. Run the container with rocker: `rocker --x11 openpodcar2_docker`.
+
+
+#### The above will build the conatiner with custom ros2 packages for all tele-operation, mapping and navigation. If want to build the perception stack as well, then build the image with argument in below command.
+
+
+5. `docker build --build-arg INCLUDE_YOLO=true -t openpodcar2_docker .`
+
+6. Source ros2 and the workspace before running any ros2 nodes or launch files as done in normal local machine setup.
+
+7.  Test the setup by running the below:
+
+
+
+`ros2 launch pod2_description pod2_description.launch.py scan_node:=false rgbd_node:=true`
 
 
 ## Pod2_description
