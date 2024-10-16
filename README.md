@@ -4,7 +4,11 @@ OpenPodCar is a donor scooter vehicle which is transformed into autonomous vehic
 System (ROS) with the added support of newly released ROS2. The vehilce used for the implementation of our research and experiments can be found at Pihsiang TE-889XLSN hard-canopy scooter (branded in UK as ShopriderTraverso) (found here: https://www.smartscooters.co.uk/Traveso-Mobility-Scooter).
 ![IMG_6667](https://github.com/Rak-r/OpenPodCar_V2/assets/85680564/d19d6d02-5144-453d-9e30-7fc675c42a9b)
 
+This is an Open Source Hardware and Software platform for Autonomous driivng research applications.
 
+
+
+#### Full credit for development and testing of hardware platform named R4 board is given to Mr. Chris Waltham (University of Lincoln,UK) and Dr. Charles Fox (University of Lincoln,UK).
 
 # ROS2 Humble & Gazebo Fortress
 This project is the complete new port from ROS1 of OpenPodCar1 to ROS2. The full software features the ROS2 Humble version and for simulation is done with new Gazebo.
@@ -56,7 +60,7 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 
 
 
-1. If using Gazebo Fortress, clone this repo fololowing below commands. 
+1. If using Gazebo Fortress, clone this repo following below commands. 
 
 
 
@@ -162,6 +166,13 @@ In order to use specific joystick you might have to create the `.yaml` config fi
 
 I recommend using `https://flathub.org/apps/io.gitlab.jstest_gtk.jstest_gtk`. The tool also provide calibrataion for the joystick which mighht be helpful if deploying on the physical vehicle for teleoperation.
 
+#### Note:
+
+The package also consists physical vehicle control nodes which communicates with low level hardware stack (R4) of OpenPodCar_v2. The credit for developing and testing the hardware stack is given to Mr. Chris Waltham and Dr Charles Fox.
+If interested in utilizing the work for Open source hardware project, we strongly recommend to cite  R4 with the paper:
+
+
+R4: rapid reproducible robotics research open hardware control system https://arxiv.org/abs/2402.09833
 
 
 ## Pod2_navigation
