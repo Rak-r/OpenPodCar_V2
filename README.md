@@ -107,7 +107,7 @@ Follow the below instructions for using docker version of OpenPodCar2 with simul
 4. Run the container with rocker: `rocker --x11 openpodcar2_docker`.
 
 
-#### The above will build the conatiner with custom ros2 packages for all tele-operation, mapping and navigation. If want to build the perception stack as well, then build the image with argument in below command.
+#### The above will build the container with custom ros2 packages for all tele-operation, mapping and navigation. If want to build the perception stack as well, then build the image with argument in below command.
 
 
 5. `docker build --build-arg INCLUDE_YOLO=true -t openpodcar2_docker .`
@@ -119,6 +119,9 @@ Follow the below instructions for using docker version of OpenPodCar2 with simul
 
 
 `ros2 launch pod2_description pod2_description.launch.py scan_node:=false rgbd_node:=true`
+
+# Packages
+
 
 
 ## Pod2_description
