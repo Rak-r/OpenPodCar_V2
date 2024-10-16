@@ -280,8 +280,22 @@ To start the physical vehicle for tele-operation, after building the OpenPodCar2
 After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be started in localization mode. In order to autonomous drive while mapping the above  could be just followed.
 
 
+## Images and Videos
+
+### OpenPodCar_2 on outdoor operation
+
+<p align="center">
+  <img src="./Images and videos/Podcar2_outdoor.png" width="100%" />
+</p>
 
 
+
+
+### Outdoor 3D map built using RTABMAP and single rgbd sensor (intel realsense D435)
+
+<p align="center">
+  <img src="./Images and videos/3D_outdoor.png" width="100%" />
+</p>
 
 
 
