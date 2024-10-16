@@ -74,45 +74,7 @@ class OdometryPublisher(Node):
             self.get_logger().info('No incoming odometry messages', {e})
             
             exit()
-
-    def test_vehicle_callback(self, msg):
-
-        odom_msg = Odometry()
-        transform = TransformStamped()
-        timestamp = self.get_clock().now().nanoseconds / 1e9
-        callback_period = timestamp - self.old_time
-        self.old_time = timestamp
-        # print('timestamp', timestamp)
-        # print('old', self.old_time)
-        # print('callback_period', callback_period)
-        # print('**************')
-        
-        try:
-            odom_msg.header.stamp = self.get_clock().now().to_msg()
-            odom_msg.header.frame_id = msg.header.frame_id
-            odom_msg.child_frame_id = msg.child_frame_id
-            # self.get_logger().info('publishing the odometry message')
-            self.pub.publish(odom_msg)
-
-            # transform.header = odom_msg.header
-            # transform.child_frame_id = odom_msg.child_frame_id
-            # # transform.transform.translation = Vector3(x=odom_msg.pose.pose.position.x, y=odom_msg.pose.pose.position.y,z=odom_msg.pose.pose.position.z)
-            # transform.transform.translation.x = msg.pose.pose.position.x
-            # transform.transform.translation.y = msg.pose.pose.position.y
-            # transform.transform.translation.z = msg.pose.pose.position.z
-            # transform.transform.rotation.x = msg.pose.pose.orientation.x
-            # transform.transform.rotation.y = msg.pose.pose.orientation.y
-            # transform.transform.rotation.z = msg.pose.pose.orientation.z
-            # transform.transform.rotation.w = msg.pose.pose.orientation.w
-            # self.br.sendTransform(transform)
-            self.get_logger().info('Sending the transform')
-        
-        except ValueError as e:
-            self.get_logger().info('No incoming odometry messages', {e})
-            
-            exit()
-
-            
+         
 def main(args=None):
     rclpy.init(args=args)
     odometry_publisher = OdometryPublisher()
