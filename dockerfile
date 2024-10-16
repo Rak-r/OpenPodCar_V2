@@ -1,6 +1,7 @@
 # Use ARG for flexibility to choose ROS2 distribution
 # Choose between Humble or Iron
 ARG FROM_IMAGE=ros:humble
+ARG INCLUDE_YOLO=false
 FROM $FROM_IMAGE
 
 # Set the workspace path as an argument
@@ -27,8 +28,9 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-teleop-twist-keyboard \
     ros-${ROS_DISTRO}-desktop \
     emacs htop byobu python3-pip less \
-    && rm -rf /var/lib/apt/lists/* \
-    ros-${ROS_DISTRO}-realsense2*
+    ros-${ROS_DISTRO}-realsense2-* \
+    && rm -rf /var/lib/apt/lists/*
+
 
 # Install specific setuptools version for colcon
 RUN pip install --default-timeout=100 setuptools==58.2.0
@@ -39,6 +41,18 @@ WORKDIR $OVERLAY_WS/src
 # Clone your ROS2 workspace (from your GitHub repo)
 # RUN git clone https://github.com/Rak-r/OpenPodCar_V2.git .
 COPY src/ .
+
+# IF want to use YOLOV8 and Game theory inside docker env, comment out above and uncomment below
+# Conditionally copy yolov8_ros2_OpenPodCarV2 and Game_Theory
+# Conditionally copy yolov8_ros2_OpenPodCarV2 and Game_Theory
+COPY Game_Theory /OpenPodCar_V2/Game_Theory
+COPY yolov8_ros2_OpenPodCarV2 /OpenPodCar_V2/yolov8_ros2_OpenPodCarV2
+
+# Use a conditional build argument to control copying
+RUN if [ "$INCLUDE_YOLOV8" != "true" ]; then \
+      rm -rf /OpenPodCar_V2/Game_Theory /OpenPodCar_V2/yolov8_ros2_OpenPodCarV2; \
+    fi
+
 # Move up to the workspace directory and install dependencies using rosdep
 WORKDIR $OVERLAY_WS
 RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
