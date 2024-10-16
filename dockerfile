@@ -27,7 +27,8 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-teleop-twist-keyboard \
     ros-${ROS_DISTRO}-desktop \
     emacs htop byobu python3-pip less \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    ros-${ROS_DISTRO}-realsense2*
 
 # Install specific setuptools version for colcon
 RUN pip install --default-timeout=100 setuptools==58.2.0
