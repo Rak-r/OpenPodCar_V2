@@ -285,7 +285,7 @@ After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be 
 ### OpenPodCar_2 on outdoor operation
 
 <p align="center">
-  <img src="./Images and videos/Podcar2_outdoor.png" width="100%" />
+  <img src="./Images and videos/Podcar2_outdoor.jpg" width="100%" />
 </p>
 
 
@@ -298,6 +298,8 @@ After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be 
 </p>
 
 
+
+### Autonomous drive tight indoor
 
 
    
