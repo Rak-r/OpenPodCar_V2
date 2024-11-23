@@ -75,7 +75,7 @@ OpenPodcar2 uses a single depthcam mounted on the front of the vehicle. This  ou
 
 
 <p align="center">
-  <img src="./Images and videos/3d_outdoor.png" width="100%" />
+  <img src="./Images and videos/3D_outdoor.png" width="100%" />
 </p>
 
 
@@ -365,6 +365,12 @@ The docker version is supported for ROS2 humble and gazebo Fortress due to LTS v
 ### Depthcam calibration
 
 
+<p align="center">
+  <img src="./Images and videos/Depthcam_calib.jpg" width="100%" />
+</p>
+
+
+
 * The depthcam needs physical calibration in order to achieve reliable SLAM and mapping operation. For this,  place an object 10m away at the same height as the camera from the ground. 
 
 
@@ -378,6 +384,10 @@ The docker version is supported for ROS2 humble and gazebo Fortress due to LTS v
 
 
 * The mapping between steering angle and desired linear actuator voltage then could be computed using linear regression fit.
+
+<p align="center">
+  <img src="./Images and videos/Steering_readings.png" width="100%" />
+</p>
 
 
 ## IX. <a name="operator-instructions"></a> Operator intructions
