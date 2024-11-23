@@ -1,7 +1,7 @@
 # OpenPodCar_V2
 
 OpenPodCar is a donor scooter vehicle which is transformed into autonomous vehicle with the integration of Robot Operating
-System (ROS) with the added support of newly released ROS2. The vehilce used for the implementation of our research and experiments can be found at Pihsiang TE-889XLSN hard-canopy scooter (branded in UK as ShopriderTraverso) (found here: https://www.smartscooters.co.uk/Traveso-Mobility-Scooter).
+System (ROS) with the added support of newly released ROS2. The vehicle used for the implementation of our research and experiments named as Pihsiang TE-889XLSN hard-canopy scooter (branded in UK as ShopriderTraverso) (found here: https://www.smartscooters.co.uk/Traveso-Mobility-Scooter).
 ![IMG_6667](https://github.com/Rak-r/OpenPodCar_V2/assets/85680564/d19d6d02-5144-453d-9e30-7fc675c42a9b)
 
 This is an Open Source Hardware and Software platform for Autonomous driivng research applications.
@@ -13,6 +13,33 @@ This is an Open Source Hardware and Software platform for Autonomous driivng res
 # ROS2 Humble & Gazebo Fortress
 This project is the complete new port from ROS1 of OpenPodCar1 to ROS2. The full software features the ROS2 Humble version and for simulation is done with new Gazebo.
 The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `pod2_bringup`, `pod2_navigation`, `pod2_sensor_tools`, `pod2_yolo`, `pod2_msgs`.
+
+## Bill of materials
+
+| **Name**         | **Component**                                | **USD** | **Source**                                                                                     | **Interface**                     | **Implementation**        |
+|-------------------|---------------------------------------------|---------|-------------------------------------------------------------------------------------------------|-----------------------------------|---------------------------|
+| Donor vehicle    | Phiseng TE-889XLSN mobility scooter (Branded as Shoprider Traverso) | 6000    | [Shoprider Traverso](https://romamedical.co.uk/shoprider-traveso/)                             | Generic (motor and brake control voltages; mechanical steering linkage) | Patented                 |
+| R4               | R4 OSH PCB robot control board              | 300     | [GitHub Repository](https://github.com/orgs/Open-Source-R4-Robotics-Platform/repositories)    | CERN-OHL-W                        | CERN-OHL-W                |
+| DepthCam         | Intel RealSense D435                        | 300     | [Intel RealSense D435](https://store.intelrealsense.com/buy-intel-realsense-depth-camera-d435.html) | ROS2 standard                     | Closed                    |
+| OSMC             | OSMC motor driver with 24V fan kit          | 230     | [OSMC Motor Driver](https://www.robotpower.com/catalog/)                                     | Generic                           | Public domain             |
+| Linear actuator  | Gimson Robotics GLA750-P 12V DC (100mm stroke, 240mm install) | 100     | [Gimson Robotics Actuator](https://gimsonrobotics.co.uk/products/gla-q40-12v-250n-compact-fast-travel-linear-actuator-with-encoder?variant=47116053905684) | Generic                           | Generic                   |
+| Laptop stand     | Pyle                                        | 60      | [Laptop Stand](https://uk.redbrain.shop/p/00132017804903)                                     | Generic                           | Generic                   |
+| Motor relay      | Ripca 12V, 200A REL-1/H-DUTY/200A/12V       | 40      | [Ripca Relay](https://parts.easycabin.co.uk/products/relay-200a-12volt-heavy-duty)            | Generic                           | Generic                   |
+| DBH12            | Dual h-bridge 12V motor driver             | 25      | [Amazon Listing](https://www.amazon.co.uk/Akozon-DC5-12V-0A-30A-Dual-channel-Arduino/dp/B07H2MDXMN) | Generic                           | Closed                    |
+| DMH              | Philmore 30-825 SPST Hand Held Push Button Switch | 10      | [Amazon Listing](https://www.amazon.com/Hand-Held-Button-Switch-30-825/dp/B00T6RCGNC)         | Generic                           | Generic                   |
+| Fuse20A, Fuse10A | Blade fuses and holders                    | 40      | [RS Components](https://uk.rs-online.com/web/p/fuse-kits/2199556)                            | DIN 72581 standard                | Generic                   |
+| 24/19DCDC        | 5A                                         | 20      | [Amazon Listing](https://www.amazon.co.uk/Converter-Waterproof-Regulator-Printers-Surveillance/dp/B087WWTSC4) | Generic                           | Generic                   |
+| 24/12DCDC        | 20A                                        | 40      | [Sure Marine Service](https://www.suremarineservice.com/Heat/Converters/DC2412-20C_2.html)   | Generic                           | Generic                   |
+| 12/5DCDC         | 10A                                        | 5       | [Amazon Listing](https://www.amazon.co.uk/BuxiuGK-Channel-Optocoupler-Trigger-Expansion/dp/B0BNL4JCKK) | Generic                           | Generic                   |
+| DMH relay        | SRD-05VDC-SL-C                             | 13      | [Amazon Listing](https://www.amazon.co.uk/HUAREW-1-channle-optocoupler-isolation-triggering/dp/B0B52RPY43/) | Generic                           | Generic                   |
+| Circuit breaker  | DZ47-63 C10                                | 10      | [Amazon Listing](https://www.amazon.co.uk/RKURCK-DZ47-63-Low-voltage-Miniature-Circuit/dp/B0C3CQVWTS) | ISO standard                      | Generic                   |
+| Battery charger  | Nexpeak, 10A 12V/24V car battery charger   | 25      | [Amazon Listing](https://www.amazon.co.uk/Automatic-Temperature-Compensation-Motorcycle-Batteries-Red/dp/B094VQ88X2) | Generic                           | Closed                    |
+| Perspex board    | 400x200x5mm                                | 10      | [Amazon Listing](https://www.amazon.co.uk/Perspex-Black-Acrylic-Plastic-Choose/dp/B09PRDRGXS/) | Generic                           | Generic                   |
+| Nuts, bolts, standoffs | M2-M6 metal and plastic              | ...     | ...                                                                                           | ISO standard                      | Generic                   |
+| Wifi router      | Any, 12V powered                          | ...     | ...                                                                                           | IEEE Wifi standard                | Closed                    |
+| Connectors       | XT60, 12 pin IDC, 10 pin IDC headers, ribbon cables, Wago connectors, insulated wire, velcro strip, cable ties, heatshrink | ... | ...                                                                                           | Generic                           | Generic                   |
+
+
 
 ## System Requirements
 
