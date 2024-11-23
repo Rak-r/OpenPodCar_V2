@@ -44,6 +44,10 @@ OpenPodcar2 uses a new software stack based on Robot Operating System version 2 
 
 OpenPodcar2 is as an Ackermann-steered vehicle.   The ROS2 community uses `Twist` as the standard for sending mobile robot motion commands (ROS REP-119), so OpenPodcar2 takes `cmd_vel:Twist` commands as inputs.    ROS2 also provides an Ackermann drive message `ackermann_msgs/msg/AckermannDrive` which contains fields for speed and steering angle.
 
+<p align="center">
+  <img src="./Images and videos/Ackermann Steering.png" width="100%" />
+</p>
+
 ### Manaul Teleoperation
 
 * An Xbox controller is used as the manual controller.  `joy` is a standard ROS2 package which consists of node to interface this controller (or many others) to send messages of type `joy` on the topic `/joy`.
@@ -53,6 +57,11 @@ OpenPodcar2 is as an Ackermann-steered vehicle.   The ROS2 community uses `Twist
 ### Sensors
 
 OpenPodcar2 uses a single depthcam mounted on the front of the vehicle. This  outputs RGB and depth image data as standard ROS2 `Image` messages, along with pointcloud data over `PointCloud2` messages. `PointCloud2` messages are produced directly by the RGBD camera, as for lidar sensors.
+
+<p align="center">
+  <img src="./Images and videos/d435.png" width="100%" />
+</p>
+
 
 ### Localization and mapping
 
@@ -64,9 +73,20 @@ OpenPodcar2 uses a single depthcam mounted on the front of the vehicle. This  ou
 
 * The Intel Realsense D435 mounted on the vehicle has range of 10m but offers good accuracy for 5m range. The system checked with both ranges and default is set to 5m.
 
+
+<p align="center">
+  <img src="./Images and videos/3d_outdoor.png" width="100%" />
+</p>
+
+
 ### Navigation
 
 The ROS2 ecosystem includes a navigation stack,  Navigation2 (nav2), designed to facilitate the smooth navigation of a vehicle from one point to another (from point A to B) while avoiding obstacles along the path.  OpenPodcar2 utilizes A* hybrid as global path planner, DWB controller server, specific behaviour servers (wait, back).
+
+
+<p align="center">
+  <img src="./Images and videos/Podcar_Nav2_node_graph.png" width="100%" />
+</p>
 
 
 ### Pedestrian detection and tracking
@@ -77,6 +97,12 @@ The ROS2 ecosystem includes a navigation stack,  Navigation2 (nav2), designed to
 * YOLOv8 2D detection reports bounding box co-ordinates as ($x$ center, $y$ center, width of the box, height of the box); class name, class ID, confidence score are also extracted. YOLOv8 includes 2D tracking on these detection with BotSORT and ByteTrack which provides acceptable real-time performance but suffers from false re-id errors.  ByteTrack is used as default here. 
 
 * An Intel depth camera ROS2 wrapper is provided by the Intel Realsense SDK (https://www.intelrealsense.com/sdk-2/) which publishes the data over `/camera_image_raw` for RGB image, `/depth` for the depth image, and `/depth_camera_info` reporting the  intrinsic cameras parameters.
+
+
+<p align="center">
+  <img src="./Images and videos/Masked_pedestrian.png" width="100%" />
+</p>
+
 
 
 ### Physical R4 interface
@@ -90,6 +116,11 @@ The ROS2 ecosystem includes a navigation stack,  Navigation2 (nav2), designed to
 * Following this, these topics are subscribed by ROS2 nodes to control the steering and speed of the vehicle via gamepad for manual teleoperation and via \lstinline{nav2} for autonomous driving tasks.
 
 * The output of either manual teleoperation or `nav2` is same and published over the standard ROS2 message type `Twist` over `/cmd_vel` topic and this information is then subscribed by the third node named as `/R4_Receiver` .
+
+
+<p align="center">
+  <img src="./Images and videos/R4onperspex.png" width="100%" />
+</p>
 
 
 ### Simulation
