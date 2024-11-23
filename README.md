@@ -178,12 +178,11 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 
 * To use the localization with `slam_toolbox`, you have to provide the right path to the map which you are going to use.  When using slam_toolbox for localization, you do not have to provide the map file extension in the `mapper_params_onlie_async.yaml` and just the name.
 
-#### Note that slam_toolbox is best suited for LiDAR based robots and struggles with RGBD sensor. The OpenPodCar2 features a single RGBD sensor is tested with slam_toolbox with rigorous parametr tuning both in simulation and real physical vehicle. However, due to less angular FOV, the laser scan matching results in sudden jumps of robot. This has been discussed in https://github.com/SteveMacenski/slam_toolbox/issues/662.  To handle this RGBD based slam method RTABMAP is adopted. 
-
-
 
 * The launch directory consists of `OpenPodCar_NAV2.launch.py` which uses the default `nav2_bringup` package for launching all the nodes and takes the `parameters from the config directory. It uses AMCL for localization which will also be started.
 
+
+#### Note that slam_toolbox is best suited for LiDAR based robots and struggles with RGBD sensor. The OpenPodCar2 features a single RGBD sensor is tested with slam_toolbox with rigorous parametr tuning both in simulation and real physical vehicle. However, due to less angular FOV, the laser scan matching results in sudden jumps of robot. This has been discussed in https://github.com/SteveMacenski/slam_toolbox/issues/662.  To handle this RGBD based slam method RTABMAP is adopted. 
 
 ## III. <a name="bom"></a> Bill of Materials 
 
