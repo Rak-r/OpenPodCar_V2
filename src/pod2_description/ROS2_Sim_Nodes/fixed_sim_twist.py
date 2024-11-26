@@ -32,7 +32,6 @@ class CmdVelPublisher(Node):
     def __init__(self):
         super().__init__('fixed_sim_twist')
 
-
         #Parameters
 
         self.declare_parameters(
@@ -68,10 +67,10 @@ class CmdVelPublisher(Node):
         
         if self.chicken_game_twist:
             final_msg = self.chicken_game_twist
-            print('Using chicken game cmd_vel_modulated')
+            
         elif self.cmd_vel:
             final_msg = self.cmd_vel
-            print('Using cmd_vel from joy or NAV2')
+            
         else:
             return  # No message to publish
 
