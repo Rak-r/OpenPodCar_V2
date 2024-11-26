@@ -52,7 +52,6 @@ def generate_launch_description():
 		PythonLaunchDescriptionSource(os.path.join(path_to_realtime_nodes, 'launch', 'podcar_sim2real.launch.py')),
 		launch_arguments={'scan_node':LaunchConfiguration('scan_node'),'rgbd_node': LaunchConfiguration('rgbd_node')}.items())
 	
-    
 
     #define the required nodes for simulation and rviz2
 	spawn = Node(
