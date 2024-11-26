@@ -3,15 +3,24 @@ from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.conditions import IfCondition
 from ament_index_python.packages import get_package_share_path, get_package_share_directory
 import os
 
 def generate_launch_description():
     
+
+    # Define a boolean launch argument
+    realsense_enable_arg = DeclareLaunchArgument(
+        'realsense_enable',
+        default_value='true',
+        description='Enable Realsense camera node'
+    )
+
     intel_camera_node_path = get_package_share_directory('realsense2_camera')
     
     realsense_camera_launch = IncludeLaunchDescription(
-		PythonLaunchDescriptionSource(os.path.join(intel_camera_node_path, 'launch', 'rs_launch.py')))
+		PythonLaunchDescriptionSource(os.path.join(intel_camera_node_path, 'launch', 'rs_launch.py')),condition=IfCondition(LaunchConfiguration('realsense_enable')))
     
     return LaunchDescription([
         
