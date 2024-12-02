@@ -1,0 +1,6 @@
+[submodule "yolov8_ros2_OpenPodCarV2"]
+	path = yolov8_ros2_OpenPodCarV2
+	url = https://github.com/Rak-r/yolov8_ros2_OpenPodCarV2.git
+[submodule "Game_Theory"]
+	path = Game_Theory
+	url = https://github.com/Rak-r/Game_Theory.git
