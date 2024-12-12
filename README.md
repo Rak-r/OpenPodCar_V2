@@ -296,7 +296,7 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 
 
 
-* Make the new workspace, with src directory. `mkdir -p ros2_gz_ws/src`.
+* Select the directory where you want to clone the project (by default is /home).
 
 
 * Clone the repository using: `git clone https://github.com/Rak-r/OpenPodCar_V2.git`
@@ -307,13 +307,11 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 
 
 
-3. Now, build the packages from the root of the workspace directory using ROS2 package building tool colcon.
+3. Now, build the packages:  `colcon build --symlink-install`
 
 
-* Assuming you are in /src directory: run `cd ..`
 
-
-* `colcon build --symlink-install`. This will build the packages and the `--symlink-install` is used to make changes in the packages in src directory and also changes in the install dircetory without re-building the package.
+* This will build the packages and the `--symlink-install` is used to make changes in the packages in src directory and also changes in the install dircetory without re-building the package.
 
 
 
