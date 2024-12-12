@@ -306,20 +306,12 @@
     <child link="camera_optical_frame"/>
   </joint> -->
   
-  <!-- <joint name="camera_joint" type="fixed">
+  <joint name="camera_joint" type="fixed">
     <origin rpy="0.0 0. 0" xyz="+0.845 0 +0.64"/>                           
     <parent link="base_link"/>
     <child link="camera_link"/>
-  </joint> -->
+  </joint> 
 
-  <!-- The below joint is for Game theory experiment to just see the right side tilted -45 degrees (in ROS cordinates) becuause of limit FOV of the camera
-  
-  This camera setup is mounted at approximately 4.5 cm behind the original camera joint setup -->
-  <joint name="camera_joint" type="fixed">
-    <origin rpy="0 0 -0.7854" xyz="+0.8 0 0.68"/>                           
-    <parent link="base_link"/>
-    <child link="camera_link"/>
-  </joint>
   
   <gazebo reference="camera_link">
     <sensor name="rgbd" type="rgbd_camera">
