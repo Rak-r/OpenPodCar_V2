@@ -34,7 +34,7 @@ IX. [Operator instructions](#operator-instructions)
 
 ### ROS2 Humble & Gazebo Fortress
 This project is the complete new port from ROS1 of OpenPodCar1 to ROS2. The full software features the ROS2 Humble version and for simulation is done with new Gazebo.
-The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `pod2_bringup`, `pod2_navigation`, `pod2_sensor_tools`, `pod2_yolo`, `pod2_msgs`.
+The OpenPodcar_2 package consists of sub-packages namely; `pod2_description`, `pod2_bringup`, `pod2_navigation`, `pod2_sensor_tools`, `pod2_rtabmap`, `pod2_msgs`.
 
 ## II. <a name="software-description"></a> Software description
 
@@ -130,7 +130,7 @@ A ROS2 simulation of OpenPodcar2, is provided, using the newly released Gazebo s
 
 ### Packages
 
-1. Pod2_description
+#### 1. Pod2_description
 
 This ROS2 package consists the robot's urdf files in the `xacro` directory, meshes of the robot model, sensors in the `meshes` and the `launch` directory contains the `description.launch.py` and  `pod2_description` file which launches the robot model's URDF and the world file in the Gazebo with a condition to start along the rviz2 node.
 
@@ -139,7 +139,7 @@ The launch file also consists the `ros_gz_bridge` package which is used to estab
 GZ -> ROS is created for  `LaserScan` and `RGBD` based simulated sensor data which is coming from gazebo sensor system plugin, `/model/podcar/odometry` topic consists of ground-truth odometry data from Gazebo.
 
 
-#### Scripts
+##### Scripts
 
 This directory in `pod2_description` package consists of intermediate nodes which are used to convert the incoming messages over te topics `/model/podcar/odometry` , LiDAR and RGBD sensor based topics to publish on Wall time. This approach is employed to avoid the time realetd issues, tf errors and with an assumption that the simulation and the physical vehicle should work on same time.
 
@@ -153,7 +153,7 @@ This directory in `pod2_description` package consists of intermediate nodes whic
 * `RGBD_wall_timer.py` handles the `/rgbd_camera/depth`, `/rgbd_camera/camera_info`, `/rgbd_camera/image`, `rgbd_camera/points` topic from GZ laser plugin and publishes to ROS2 topic `/depth`, `/depth_camera_info`, `/camera/color/image_raw` and `/cloud_in` with changing the time stamp to wall time.
 
 
-2. Pod2_bringup
+#### 2. Pod2_bringup
 
 * This ROS2 package utilizes the ROS2 teleop-twist-joy pakcage, in order to control the OpenPodcar using the joystick controller in the simulation as well as in real world physical robot teleoperation. 
 
@@ -169,16 +169,9 @@ To test the joystick is connected to the system run `ls /dev/input`.
 
 I recommend using `https://flathub.org/apps/io.gitlab.jstest_gtk.jstest_gtk`. The tool also provide calibrataion for the joystick which mighht be helpful if deploying on the physical vehicle for teleoperation.
 
-#### Note:
-
-The package also consists physical vehicle control nodes which communicates with low level hardware stack (R4) of OpenPodCar_v2. The credit for developing and testing the hardware stack is given to Mr. Chris Waltham and Dr Charles Fox.
-If interested in utilizing the work for Open source hardware project, we strongly recommend to cite  R4 with the paper:
 
 
-R4: rapid reproducible robotics research open hardware control system https://arxiv.org/abs/2402.09833
-
-
-3.  Pod2_navigation
+#### 3.  Pod2_navigation
 
 Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` directories. 
 
@@ -212,7 +205,7 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 * The launch directory consists of `OpenPodCar_NAV2.launch.py` which uses the default `nav2_bringup` package for launching all the nodes and takes the `parameters from the config directory. It uses AMCL for localization which will also be started.
 
 
-#### Note that slam_toolbox is best suited for LiDAR based robots and struggles with RGBD sensor. The OpenPodCar2 features a single RGBD sensor is tested with slam_toolbox with rigorous parametr tuning both in simulation and real physical vehicle. However, due to less angular FOV, the laser scan matching results in sudden jumps of robot. This has been discussed in https://github.com/SteveMacenski/slam_toolbox/issues/662.  To handle this RGBD based slam method RTABMAP is adopted. 
+#### Note that slam_toolbox is best suited for LiDAR based robots and struggles with RGBD sensor. The OpenPodCar2 features a single RGBD sensor is tested with slam_toolbox with rigorous parameter tuning both in simulation and real physical vehicle. However, due to less angular FOV, the laser scan matching results in sudden jumps of robot. This has been discussed in https://github.com/SteveMacenski/slam_toolbox/issues/662.  To handle this RGBD based slam method RTABMAP is adopted. 
 
 ## III. <a name="bom"></a> Bill of Materials 
 
@@ -322,10 +315,10 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 5. In case of Step 4, try running: `rosdep update && rosdep install --from-paths src --ignore-src -y`.
 
 
-6. Once the package is build successfully, open bashrc and add : `source <your workspace path>/install/setup.bash`
+6. Once the package is build successfully, open bashrc and add : `source /home/<usr_name>/OpenPodCar_V2/install/setup.bash`
 
 
-* **For example** : `source /home/ros2_ws/install/setup.bash` 
+* **For example** : `source /home/<usr_name>/ros2_ws/install/setup.bash`. Replace `<usr_name>` with your user name, get using `pwd` command.
 
 ## VII. <a name="docker-support-for-OpenPodcar2"></a> Docker support for OpenPodcar2
 
