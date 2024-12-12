@@ -15,7 +15,7 @@ def generate_launch_description():
 	rviz_config_path = PathJoinSubstitution([FindPackageShare("pod2_navigation"), "rviz2", "OpenPodCar.rviz"])
 	
 	robot_description = ParameterValue(
-        Command(['xacro ', str(get_package_share_path('pod2_description') / 'xacro/Openpodcar.urdf')]),
+        Command(['xacro ', str(get_package_share_path('pod2_description') / 'xacro/Openpodcar_V2_Depth.urdf')]),
         value_type=str)
 
 	
