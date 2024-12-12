@@ -75,7 +75,7 @@ OpenPodcar2 uses a single depthcam mounted on the front of the vehicle. This  ou
 
 
 <p align="center">
-  <img src="./Images and videos/3D_outdoor.png" width="100%" />
+  <img src="./Images and videos/Large_Indoor_map.png" width="100%" />
 </p>
 
 
