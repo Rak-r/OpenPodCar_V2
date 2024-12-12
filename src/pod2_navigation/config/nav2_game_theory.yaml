@@ -274,7 +274,7 @@ global_costmap:
       # unknown_cost_value: 250 #120
       # lethal_cost_threshold: 150
       # plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
-      plugins: ["static_layer"]                                                           # this setup is for Game Theory model, where the experiment involves just path planning irrespective of obstacles
+      plugins: ["static_layer"]                                              # this setup is for Game Theory model, where the experiment involves just path planning irrespective of obstacles
       # obstacle_layer:
       #   plugin: "nav2_costmap_2d::ObstacleLayer"
       #   enabled: True

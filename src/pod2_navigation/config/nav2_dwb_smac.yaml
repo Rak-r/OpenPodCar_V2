@@ -59,7 +59,7 @@ bt_navigator:
     use_sim_time: false
     global_frame: map
     robot_base_frame: base_link
-    odom_topic: /rtabmap_odom                                 # for real podcar change the topic name to /odometry/filtered if using EKF
+    odom_topic: /rtabmap_odom                                 # for real/sim podcar. (in future) If using EKF, change the topic name to /odometry/filtered 
     bt_loop_duration: 10
     # default_server_timeout: 20 # ms
     # wait_for_server_timeout: 1000 # ms
@@ -193,11 +193,11 @@ controller_server:
       PathAlign.scale: 70.0 #32.0
       PathAlign.forward_point_distance: 0.5 #0.2
       GoalAlign.scale: 72.0 #24.0
-      GoalAlign.forward_point_distance: 0.5 #0.2                    # if larger dist. given, means controller will try to align the path gradually while shorter means quick turnings
+      GoalAlign.forward_point_distance: 0.5 #0.2               # if larger dist. given, means controller will try to align the path gradually while shorter means quick turnings
                                                                # tune by testing diff. values
       PathDist.scale: 32.0
       GoalDist.scale: 24.0
-      # RotateToGoal.scale: 32.0
+      # RotateToGoal.scale: 32.0                               # no need as podcar is ackermann steered and cannot rotate in-place like holonomic
       # RotateToGoal.slowing_factor: 5.0
       # RotateToGoal.lookahead_time: -1.0
       publish_trajectories: true
