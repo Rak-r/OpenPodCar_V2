@@ -80,7 +80,7 @@ def generate_launch_description():
         DeclareLaunchArgument('use_sim_time', default_value='false', description='Use simulation (Gazebo) clock if true'),
 
         DeclareLaunchArgument('autostart', default_value='true', description='Automatically startup the nav2 stack'),
-        # nav2_dwb_smac nav2_game_theory
+       
         DeclareLaunchArgument('params_file', default_value=os.path.join(bringup_dir, 'config', 'nav2_dwb_smac.yaml'), description='Full path to the ROS2 parameters file to use'),
 
     
