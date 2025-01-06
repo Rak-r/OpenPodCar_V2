@@ -41,7 +41,7 @@ def generate_launch_description():
     # launch the RTABMAP stack for both rgbd odometry and SLAM
     pod2_rtabmap = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(path_to_rtabmap, 'launch', 'rtabmap_sim.launch.py')),)
 
-    pod2_navigation = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(path_to_navigation, 'launch', 'OpenPodCar_NAV2.launch.py')),)
+    pod2_navigation = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(path_to_navigation, 'launch', 'nav2_sim.launch.py')),)
     
 
 
