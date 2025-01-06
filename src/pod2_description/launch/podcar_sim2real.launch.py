@@ -45,6 +45,6 @@ def generate_launch_description():
     ld.add_action(odometry_node)
     ld.add_action(laser_scan_node)
     ld.add_action(camera_node)
-    ld.add_action(fixed_twist_node)
+    #ld.add_action(fixed_twist_node)
 
     return ld
