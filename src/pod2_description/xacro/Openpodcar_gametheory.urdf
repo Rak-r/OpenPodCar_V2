@@ -301,7 +301,7 @@
   </link> 
   
 
-  <!-- The below joint is for Game theory experiment to just see the right side tilted -60 degrees (in ROS cordinates) becuause of limit FOV of the camera
+  <!-- The below joint is for Game theory experiment to just see the right side tilted -60 degrees (in ROS cordinates) becuause of limited FOV of the camera
   This camera setup is mounted at approximately 4.5 cm behind the original camera joint setup -->
   
   <joint name="camera_joint" type="fixed">
