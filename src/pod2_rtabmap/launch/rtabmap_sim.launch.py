@@ -38,7 +38,7 @@ def generate_launch_description():
     param = {
           'frame_id': 'base_link',
           'use_sim_time':use_sim_time,
-          'subscribe_depth':True,
+          'subscribe_depth':False,
           'subscribe_scan':True,
         #   'subscribe_scan_cloud': True,
           'approx_sync': True,
@@ -57,6 +57,7 @@ def generate_launch_description():
         #   'use_action_for_goal':True,
         #   'qos_image':qos,
         #   'qos_imu':qos,
+          'qos_scan':qos,
           'Optimizer/GravitySigma':'0',                                                  # Disable imu constraints (we are already in 2D)
           'Rtabmap/DetectionRate': '10.0',
     }
@@ -79,7 +80,7 @@ def generate_launch_description():
             description='Use simulation (Gazebo) clock if true'),
         
         DeclareLaunchArgument(
-            'qos', default_value='2',
+            'qos', default_value='1',
             description='QoS used for input sensor topics'),
             
         DeclareLaunchArgument(
