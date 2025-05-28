@@ -7,7 +7,7 @@ System (ROS) with the added support of newly released ROS2. The vehicle used for
 This is an Open Source Hardware and Software platform for Autonomous driivng research applications.
 
 
-#### Full credit for development and testing of hardware platform named R4 board (R4: rapid reproducible robotics research open hardware control system https://arxiv.org/abs/2402.09833) is given to Mr. Chris Waltham (University of Lincoln,UK) and Dr. Charles Fox (https://staff.lincoln.ac.uk/4311dbb7-1b10-4844-bba9-20f527168e7b)  (University of Lincoln,UK).
+#### Development and testing credit of hardware platform named R4 board (R4: rapid reproducible robotics research open hardware control system https://arxiv.org/abs/2402.09833) is given to Mr. Chris Waltham (University of Lincoln,UK) and Dr. Charles Fox (https://staff.lincoln.ac.uk/4311dbb7-1b10-4844-bba9-20f527168e7b)  (University of Lincoln,UK).
 
 
 ## Table of Contents
