@@ -23,11 +23,13 @@ V. [Testing installation](#testing-installation)
 
 VI. [Installation for Openpodcar_v2](#installation-for-openpodcar_v2)
 
-VII. [Docker support for OpenPodcar2](#docker-support-for-OpenPodcar2)
+VII. [Docker support for OpenPodcar_v2](#docker-support-for-OpenPodcar2)
 
 VIII. [Calibration](#calibration)
 
 IX. [Operator instructions](#operator-instructions)
+
+X. [Simulation guide](#simulation-guide)
 
 
 ## I. <a name="general-info"></a> General Info
@@ -132,7 +134,7 @@ A ROS2 simulation of OpenPodcar2, is provided, using the newly released Gazebo s
 
 #### 1. Pod2_description
 
-This ROS2 package consists the robot's urdf files in the `xacro` directory, meshes of the robot model, sensors in the `meshes` and the `launch` directory contains the `description.launch.py` and  `pod2_description` file which launches the robot model's URDF and the world file in the Gazebo with a condition to start along the rviz2 node.
+This ROS2 package consists the robot's urdf files in the `xacro` directory, meshes of the robot model, sensors in the `meshes` and the `launch` directory contains the `pod2_description.launch.py` and  `pod2_description` file which launches the robot model's URDF and the world file in the Gazebo with a condition to start along the rviz2 node.
 
 
 The launch file also consists the `ros_gz_bridge` package which is used to establish communication between Gazebo and ROS2. The parameter bridge is created for `/model/podcar/cmd_vel` topic from ROS -> GZ, on this topic the Ackermann system plugin publishes the twist messages.
@@ -383,18 +385,18 @@ The docker version is supported for ROS2 humble and gazebo Fortress due to LTS v
 
 ## IX. <a name="operator-instructions"></a> Operator intructions
 
-### Simulation
-The new Gazebo Garden is used for the simulation of OpenPodCar_v2. The new gazebo features more functionalities with enhanced inetrface. As our robot behaves as car-like robot and features Ackermann-Steering kinematics. To maintain this behaviour in simulation the new gazebo now has an Ackermann system plugin which could be used according the robot configuartions. The plugin outputs standard `Twist` messages of field `linear.x` and `angular.z`. This also outputs the odometry information which might not be the correct odometry for the whole robot instead it is the odometry information for steering.
+Openpodcar_v2 has been tested in both gazebo simulation and real physical envrionment (indoor/outdoor). Follow the below sections for running the vehicle in simulation and real physical world.
+
+## X. <a name="simulation-guide"></a> Simulation guide
+
+
+Gazebo Fortress is used for the simulation of OpenPodCar_v2. The new gazebo features more functionalities with enhanced inetrface. As our robot behaves as car-like robot and features Ackermann-Steering kinematics. To maintain this behaviour in simulation the new gazebo now has an Ackermann system plugin which could be used according the robot configuartions. The plugin outputs standard `Twist` messages of field `linear.x` and `angular.z`. This also outputs the odometry information which might not be the correct odometry for the whole robot instead it is the odometry information for steering.
 
 
 The current repository features the ROS2 Humble with Gazebo garden. To use the ROS2 Humble packages with Gazebo Fortress, switch to the Fortress branch `https://github.com/Rak-r/OpenPodCar_V2/tree/Fortress`.
 
 
 #### If you want to launch the PodCar with Lidar enabled, run the below launch file:
-
-
-* Launch without Rviz : `ros2 launch pod2_decsription pod2_description_Lidar.launch.py scan_node:=true rgbd_node:=false`
-
 
 * Launch along with Rviz: `ros2 launch pod2_description pod2_description.launch.py rviz:=true scan_node:=true rgbd_node:=false`
 
@@ -403,10 +405,7 @@ The current repository features the ROS2 Humble with Gazebo garden. To use the R
 #### If you want to launch the PodCar with depth camera enabled, run the below launch file:
 
 
-* Launch without Rviz : `ros2 launch pod2_decsription pod2_description_Depth.launch.py scan_node:=false rgbd_node:=true`
-
-
-* Launch along with Rviz: `ros2 launch pod2_description pod2_description_Depth.launch.py rviz:=true scan_node:=false rgbd_node:=true`
+* Launch along with Rviz: `ros2 launch pod2_description pod2_description.launch.py rviz:=true scan_node:=false rgbd_node:=true`
 
 
 This above will launch the simulation in gazebo and don't forget to turn on the play pause button to run the simulation. 
@@ -420,13 +419,14 @@ To view active topics in gazebo, use `gz topic -l` in the terminal window.
 
 1. Start gamepad to publish twist to gazebo: `ros2 launch pod2_bringup generic_gamepad.launch.py`
 
-2. Start the rtabmap rgbd odometry and slam: ` ros2 launch pod2_rtabmap rtabmap.launch.py`
+2. Start the rtabmap rgbd odometry and slam: ` ros2 launch pod2_rtabmap rtabmap_sim.launch.py`
 
-3. Launch NAV2 stack: `ros2 launch pod2_navigation OpenPodCar_NAV2.launch.py slam:=false amcl:=false`
+3. Launch NAV2 stack: `ros2 launch pod2_navigation OpenPodCar_NAV2_sim.launch.py slam:=false amcl:=false`
 
 After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be started in localization mode. In order to autonomous drive while mapping the above  could be just followed.
 
 
+## X. <a name="physical-vehicle-operation"></a> Physical vehicle operation
 
 ### Physical vehicle Tele-operation & Autonomous operation
 
@@ -438,7 +438,7 @@ To start the physical vehicle for tele-operation, after building the OpenPodCar2
 
 `ros2 launch pod2_bringup R4_ros.launch.py teleop_node:=true`
 
-2. Launch the robot model: `ros2 launch pod2_description pod2_description.launch.py`
+2. Launch the robot model: `ros2 launch pod2_description pod2_description.launch.py rviz:=true`
 
 3. Start the camera sensor along with point to laserscan node: `ros2 launch pod2_sensor_tools point_to_scan.launch.py`
 
