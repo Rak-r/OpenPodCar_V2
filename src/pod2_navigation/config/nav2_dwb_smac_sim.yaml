@@ -318,7 +318,7 @@ planner_server:
       max_iterations: 100000            # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
       max_on_approach_iterations: 1000    # Maximum number of iterations after within tolerances to continue to try to find exact solution
       max_planning_time: 10.0              # max time in s for planner to plan, smooth
-      motion_model_for_search: "DUBIN" #"DUBIN"    # Hybrid-A* DUBIN, REEDS_SHEPP
+      motion_model_for_search: "REEDS_SHEPP" #"DUBIN"    # Hybrid-A* DUBIN, REEDS_SHEPP
       angle_quantization_bins: 72         # Number of angle bins for search
       analytic_expansion_ratio: 3.5       # The ratio to attempt analytic expansions during search for final approach.
       analytic_expansion_max_length: 3.0  # For Hybrid/Lattice nodes: The maximum length of the analytic expansion to be considered valid to prevent unsafe shortcutting
