@@ -426,7 +426,7 @@ To view active topics in gazebo, use `gz topic -l` in the terminal window.
 After mapping, if want to start the NAV2 stack in pre-build map, rtabmap can be started in localization mode. In order to autonomous drive while mapping the above  could be just followed.
 
 
-## X. <a name="physical-vehicle-operation"></a> Physical vehicle operation
+## XI. <a name="physical-vehicle-operation"></a> Physical vehicle operation
 
 ### Physical vehicle Tele-operation & Autonomous operation
 
