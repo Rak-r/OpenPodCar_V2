@@ -31,6 +31,8 @@ IX. [Operator instructions](#operator-instructions)
 
 X. [Simulation guide](#simulation-guide)
 
+XI. [Physical vehicle operation](#physical-vehicle-operation)
+
 
 ## I. <a name="general-info"></a> General Info
 
