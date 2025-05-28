@@ -39,8 +39,8 @@ def generate_launch_description():
           'frame_id': 'base_link',
           'use_sim_time':use_sim_time,
           'subscribe_depth':False,
-          'subscribe_scan':True,
-        #   'subscribe_scan_cloud': True,
+          # 'subscribe_scan':True,
+          'subscribe_scan_cloud': True,
           'approx_sync': True,
         #   'approx_sync_max_interval': 0.01,
           'publish_tf': True,
@@ -68,7 +68,7 @@ def generate_launch_description():
           # ('/odom', '/rtabmap_odom'),
           
                                                          # odmetry topic to subscribe to
-        #   ('scan_cloud', '/cloud_in')                                                 # if want to use pointcloud2 message from the camera
+          ('scan_cloud', '/cloud_in')                                                 # if want to use pointcloud2 message from the camera
           ]                                                
 
     return LaunchDescription([
