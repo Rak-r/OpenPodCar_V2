@@ -298,7 +298,7 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 * Select the directory where you want to clone the project (by default is /home).
 
 
-* Clone the repository using: `git clone https://github.com/Rak-r/OpenPodCar_V2.git`
+* Clone the repository using: `git clone --recurse-submodules -b Fortress https://github.com/Rak-r/OpenPodCar_V2.git`
 
 
 
