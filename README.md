@@ -34,6 +34,7 @@ X. [Simulation guide](#simulation-guide)
 XI. [Physical vehicle operation](#physical-vehicle-operation)
 
 
+## To run or test the stack in simulation jump to [Testing installation](#testing-installation)
 
 
 ## I. <a name="general-info"></a> General Info
@@ -249,7 +250,7 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 2. ROS2 Humble full desktop install: https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
 
 ### NOTE:
-Openpodcar_v2 stack uses RMW cycloneDDS, this might be missed by rosdep  command. It is recommended to verify or to install seperately from below command.
+Openpodcar_v2 stack uses RMW cycloneDDS, this might be missed by rosdep  command. It is recommended to verify or to install seperately using command.
 `sudo apt install ros-humble-rmw-cyclonedds-cpp`
 
 3. Gazebo Fortress binary install: https://gazebosim.org/docs/fortress/install
