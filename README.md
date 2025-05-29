@@ -248,8 +248,11 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 
 2. ROS2 Humble full desktop install: https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
 
+### NOTE:
+Openpodcar_v2 stack uses RMW cycloneDDS, this might be missed by rosdep  command. It is recommended to verify or to install seperately from below command.
+`sudo apt install ros-humble-rmw-cyclonedds-cpp`
 
-3. Gazebo Fortress (Install): https://gazebosim.org/docs/fortress/install
+3. Gazebo Fortress binary install: https://gazebosim.org/docs/fortress/install
 
 
 4. The only difference between the Gazebo Fortress and Gazebo Garden is the ros-gz integration package is to build from source for Gazebo Garden while if you are using Gazebo Fortress, the ros_gz package will be installed by binary installation.
@@ -306,19 +309,16 @@ To use this package for testing and running simulations using gazebo and ROS2 fo
 
 
 
-3. Now, build the packages:  `colcon build --symlink-install`
+3. To avoid package dependencies error, try running: `rosdep update && rosdep install --from-paths src --ignore-src -y`. 
 
+
+
+4.  Now, build the packages:  `colcon build --symlink-install`. 
 
 
 * This will build the packages and the `--symlink-install` is used to make changes in the packages in src directory and also changes in the install dircetory without re-building the package.
 
-
-
-4. If everything works well, you will have three directories alomg with `src` named `install`, `build` ad `log`. If colcon build fails to build any packages and shows `stderr` in terminal console, make sure all the dependencies are install correctly.
-
-
-
-5. In case of Step 4, try running: `rosdep update && rosdep install --from-paths src --ignore-src -y`.
+5. If everything works well, you will have three directories alomg with `src` named `install`, `build` ad `log`.
 
 
 6. Once the package is build successfully, open bashrc and add : `source /home/<usr_name>/OpenPodCar_V2/install/setup.bash`
