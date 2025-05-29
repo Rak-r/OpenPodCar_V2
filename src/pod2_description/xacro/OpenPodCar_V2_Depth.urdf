@@ -316,7 +316,7 @@
   <gazebo reference="camera_link">
     <sensor name="rgbd" type="rgbd_camera">
       <gz_frame_id>camera_link</gz_frame_id>
-      <pose>0. 0. 0. 0. 0. 0.</pose>
+      <!--<pose>0. 0. 0. 0. 0. 0.</pose> -->
       <topic>rgbd_camera</topic>
       <always_on>true</always_on>
       <visualize>true</visualize>
