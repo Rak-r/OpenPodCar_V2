@@ -34,7 +34,7 @@ X. [Simulation guide](#simulation-guide)
 XI. [Physical vehicle operation](#physical-vehicle-operation)
 
 
-## To run or test the stack in simulation jump to [Testing installation](#testing-installation)
+## To run or test the stack in simulation jump to section [Software setup](#software-requirement)
 
 
 ## I. <a name="general-info"></a> General Info
