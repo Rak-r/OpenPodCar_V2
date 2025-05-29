@@ -17,7 +17,7 @@ II. [Software descritpion](#software-description)
 
 III. [Bill of Materials](#bom)
 
-IV. [Software setup](#software-requirement)
+IV. [Software setup](#software-setup)
 
 V. [Testing installation](#testing-installation)
 
@@ -241,7 +241,7 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 
 
 
-## IV. <a name="software-requirement"></a> Software requirements 
+## IV. <a name="software-setup"></a> Software setup 
 
 
 1. Ubuntu 22.04
