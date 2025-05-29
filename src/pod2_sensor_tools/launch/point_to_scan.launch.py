@@ -44,7 +44,7 @@ def generate_launch_description():
         ########### Link -> https://github.com/issaiass/realsense2_description/blob/master/urdf/_d435.gazebo.xacro ########
         Node(
             package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
-            remappings=[('scan', '/scan_raw')],
+            # remappings=[('scan', '/scan_raw')],
             
             parameters=[{
                 'target_frame': 'camera_link',
