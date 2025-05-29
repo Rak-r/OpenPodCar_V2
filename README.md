@@ -246,6 +246,10 @@ Pod2_navigation package consists of the `launch`, `rviz`, `maps`, `config` direc
 
 2. ROS2 Humble full desktop install: https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
 
+3. Install colcon for package building: `sudo apt install python3-colcon-common-extensions`
+
+4. Install rosdep for resolving package dependencies: `sudo apt-get install python3-rosdep`
+
 ### NOTE:
 Openpodcar_v2 stack uses RMW cycloneDDS, this might be missed by rosdep  command. It is recommended to verify or to install seperately using command.
 `sudo apt install ros-humble-rmw-cyclonedds-cpp`
