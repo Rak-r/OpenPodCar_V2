@@ -29,9 +29,6 @@ VIII. [Calibration](#calibration)
 
 IX. [Operator instructions](#operator-instructions)
 
-X. [Simulation guide](#simulation-guide)
-
-XI. [Physical vehicle operation](#physical-vehicle-operation)
 
 
 ## To run or test the stack in simulation / real physical vehicle jump to section [Software setup](#software-setup) and then [Operator instructions](#operator-instructions)
