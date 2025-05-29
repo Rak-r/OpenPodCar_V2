@@ -34,6 +34,8 @@ X. [Simulation guide](#simulation-guide)
 XI. [Physical vehicle operation](#physical-vehicle-operation)
 
 
+
+
 ## I. <a name="general-info"></a> General Info
 
 ### ROS2 Humble & Gazebo Fortress
